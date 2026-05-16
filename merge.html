@@ -102,6 +102,12 @@
       font-size: 22px;
     }
 
+    .customers-title span {
+      color: #8b5e34;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
     .customers-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -241,35 +247,24 @@
       align-items: center;
       font-size: 40px;
       cursor: pointer;
-      transition: 0.2s;
+      transition: background 0.2s, border 0.2s;
       position: relative;
       text-align: center;
       overflow: visible;
     }
 
     .cell:hover {
-      transform: scale(1.04);
       background: #fff8ed;
     }
 
     .cell.drag-over {
       border: 4px solid #2a9d8f;
       background: #e0fff7;
-      transform: scale(1.08);
     }
 
     .cell.invalid-drop {
       border: 4px solid #e63946;
       background: #ffe0e0;
-      animation: wrongShake 0.25s ease;
-    }
-
-    @keyframes wrongShake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-4px); }
-      50% { transform: translateX(4px); }
-      75% { transform: translateX(-3px); }
-      100% { transform: translateX(0); }
     }
 
     .generator {
@@ -278,11 +273,11 @@
       color: white;
       font-size: 34px;
       box-shadow: 0 5px 12px rgba(0,0,0,0.23);
+      transition: 0.2s;
     }
 
     .generator:hover {
       background: linear-gradient(145deg, #ffc83d, #ff8c00);
-      transform: scale(1.07);
     }
 
     .generator.machine-cooldown {
@@ -296,9 +291,9 @@
 
     @keyframes machineShake {
       0% { transform: rotate(0deg) scale(1); }
-      25% { transform: rotate(-4deg) scale(1.05); }
-      50% { transform: rotate(4deg) scale(1.05); }
-      75% { transform: rotate(-3deg) scale(1.05); }
+      25% { transform: rotate(-4deg) scale(1.03); }
+      50% { transform: rotate(4deg) scale(1.03); }
+      75% { transform: rotate(-3deg) scale(1.03); }
       100% { transform: rotate(0deg) scale(1); }
     }
 
@@ -349,11 +344,11 @@
 
     @keyframes mergePop {
       0% { transform: scale(0.7); opacity: 0.5; }
-      60% { transform: scale(1.3); opacity: 1; }
+      60% { transform: scale(1.18); opacity: 1; }
       100% { transform: scale(1); }
     }
 
-    .merge-check {
+    .order-check {
       position: absolute;
       top: -8px;
       right: -8px;
@@ -368,23 +363,8 @@
       font-size: 18px;
       font-weight: bold;
       box-shadow: 0 5px 12px rgba(0,0,0,0.2);
-      animation: checkPop 0.75s ease-out;
       z-index: 5;
-    }
-
-    @keyframes checkPop {
-      0% {
-        opacity: 0;
-        transform: scale(0.2) rotate(-25deg);
-      }
-      55% {
-        opacity: 1;
-        transform: scale(1.25) rotate(8deg);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(1) rotate(0deg);
-      }
+      border: 2px solid white;
     }
 
     .item-name {
@@ -804,7 +784,6 @@
     let draggedIndex = null;
     let newItemIndex = null;
     let mergedItemIndex = null;
-    let mergeCheckIndex = null;
     let customers = [];
 
     const generatorIndex = 0;
@@ -896,9 +875,9 @@
             `;
           }
 
-          if (index === mergeCheckIndex) {
+          if (item !== null && isItemNeededForOrder(item)) {
             const check = document.createElement("div");
-            check.classList.add("merge-check");
+            check.classList.add("order-check");
             check.textContent = "✓";
             cell.appendChild(check);
           }
@@ -911,11 +890,6 @@
         newItemIndex = null;
         mergedItemIndex = null;
       }, 500);
-
-      setTimeout(() => {
-        mergeCheckIndex = null;
-        createBoard();
-      }, 800);
     }
 
     function dragStart(event, index) {
@@ -993,6 +967,10 @@
       return a === b && mergeMap[a] !== undefined;
     }
 
+    function isItemNeededForOrder(item) {
+      return customers.some(customer => customer.order === item);
+    }
+
     function mergeItems(firstIndex, secondIndex) {
       const currentItem = board[firstIndex];
 
@@ -1000,15 +978,18 @@
       board[firstIndex] = null;
 
       mergedItemIndex = secondIndex;
-      mergeCheckIndex = secondIndex;
 
       const reward = items[board[secondIndex]].level * 5;
       coins += reward;
       dayCoins += reward;
 
-      message.textContent = "Nice merge! +" + reward + " 🪙";
-      playSound("merge");
+      if (isItemNeededForOrder(board[secondIndex])) {
+        message.textContent = "Order item ready! +" + reward + " 🪙";
+      } else {
+        message.textContent = "Nice merge! +" + reward + " 🪙";
+      }
 
+      playSound("merge");
       updateStats();
     }
 
@@ -1042,7 +1023,12 @@
       board[randomCell] = randomItem;
       newItemIndex = randomCell;
 
-      message.textContent = "Cafe Machine created a new item!";
+      if (isItemNeededForOrder(randomItem)) {
+        message.textContent = "Order item created!";
+      } else {
+        message.textContent = "Cafe Machine created a new item!";
+      }
+
       playSound("generate");
 
       updateStats();
@@ -1144,8 +1130,8 @@
 
         playSound("order");
         updateStats();
-        createBoard();
         createCustomers();
+        createBoard();
         checkDayGoal();
       } else {
         message.textContent = "You don't have this item for " + customer.name + " yet.";
@@ -1214,6 +1200,7 @@
       playSound("order");
 
       updateStats();
+      createBoard();
     }
 
     function getUpgradeCost() {
@@ -1326,7 +1313,6 @@
       draggedIndex = null;
       newItemIndex = null;
       mergedItemIndex = null;
-      mergeCheckIndex = null;
 
       machineInfoButton.classList.remove("show");
 
