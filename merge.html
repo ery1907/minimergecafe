@@ -260,6 +260,7 @@
       position: relative;
       text-align: center;
       overflow: visible;
+      touch-action: manipulation;
     }
 
     .cell:hover {
@@ -275,6 +276,12 @@
     .cell.invalid-drop {
       border: 4px solid #e63946;
       background: #ffe0e0;
+    }
+
+    .cell.mobile-selected {
+      border: 4px solid #ffb703;
+      background: #fff1c7;
+      box-shadow: 0 0 15px rgba(255, 183, 3, 0.85);
     }
 
     .machine {
@@ -335,6 +342,8 @@
       cursor: grab;
       animation: itemIdle 2s infinite ease-in-out;
       transition: transform 0.18s, filter 0.18s;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
     }
 
     .item:hover {
@@ -493,6 +502,7 @@
       font-weight: bold;
       cursor: pointer;
       transition: 0.2s;
+      touch-action: manipulation;
     }
 
     button:hover {
@@ -650,6 +660,15 @@
     }
 
     @media (max-width: 980px) {
+      body {
+        align-items: flex-start;
+      }
+
+      .game-container {
+        margin: 10px 0;
+        padding: 14px;
+      }
+
       .main {
         flex-direction: column;
         align-items: center;
@@ -685,8 +704,18 @@
         font-size: 28px;
       }
 
+      header p {
+        font-size: 13px;
+      }
+
       .item-name, .machine-label {
         font-size: 7px;
+      }
+
+      .customers-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
       }
     }
   </style>
@@ -853,6 +882,7 @@
     let combo = 1;
     let lastOrderTime = 0;
     let draggedIndex = null;
+    let selectedIndex = null;
     let newItemIndex = null;
     let mergedItemIndex = null;
     let lastChangedCustomerIndex = null;
@@ -912,6 +942,10 @@
         cell.classList.add("cell");
         cell.dataset.index = index;
 
+        if (index === selectedIndex) {
+          cell.classList.add("mobile-selected");
+        }
+
         cell.ondragover = allowDrop;
         cell.ondragleave = dragLeave;
         cell.ondrop = dropItem;
@@ -921,6 +955,8 @@
         } else if (index === dessertMachineIndex) {
           createMachineCell(cell, "dessert");
         } else {
+          cell.onclick = () => handleMobileTap(index);
+
           if (index === newItemIndex) {
             cell.classList.add("new-item");
           }
@@ -986,7 +1022,10 @@
         <div class="machine-label">${label}</div>
       `;
 
-      cell.onclick = () => generateItem(type);
+      cell.onclick = () => {
+        selectedIndex = null;
+        generateItem(type);
+      };
     }
 
     function getMachineLevel(type) {
@@ -1011,6 +1050,7 @@
 
     function dragStart(event, index) {
       draggedIndex = index;
+      selectedIndex = null;
       event.dataTransfer.setData("text/plain", index);
       message.textContent = "";
     }
@@ -1078,6 +1118,58 @@
       }
 
       draggedIndex = null;
+      createBoard();
+    }
+
+    function handleMobileTap(index) {
+      if (index === drinkMachineIndex || index === dessertMachineIndex) {
+        return;
+      }
+
+      if (selectedIndex === null) {
+        if (board[index] !== null) {
+          selectedIndex = index;
+          message.textContent = "Item selected. Tap another item to merge or an empty cell to move.";
+          createBoard();
+        }
+        return;
+      }
+
+      if (selectedIndex === index) {
+        selectedIndex = null;
+        message.textContent = "Selection cancelled.";
+        createBoard();
+        return;
+      }
+
+      const selectedItem = board[selectedIndex];
+      const targetItem = board[index];
+
+      if (selectedItem === null) {
+        selectedIndex = null;
+        createBoard();
+        return;
+      }
+
+      if (targetItem === null) {
+        board[index] = selectedItem;
+        board[selectedIndex] = null;
+        selectedIndex = null;
+        message.textContent = "Item moved!";
+        createBoard();
+        return;
+      }
+
+      if (canMerge(selectedItem, targetItem)) {
+        mergeItems(selectedIndex, index);
+        selectedIndex = null;
+        createBoard();
+        return;
+      }
+
+      message.textContent = "Only same items can be merged!";
+      playSound("error");
+      selectedIndex = null;
       createBoard();
     }
 
@@ -1444,6 +1536,7 @@
       combo = 1;
       lastOrderTime = 0;
       lastChangedCustomerIndex = null;
+      selectedIndex = null;
 
       setupCustomers();
 
@@ -1468,6 +1561,7 @@
       combo = 1;
       lastOrderTime = 0;
       draggedIndex = null;
+      selectedIndex = null;
       newItemIndex = null;
       mergedItemIndex = null;
       lastChangedCustomerIndex = null;
