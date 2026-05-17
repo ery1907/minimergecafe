@@ -506,6 +506,12 @@
       transform: scale(1.03);
     }
 
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .upgrade-btn {
       background: #577590;
       margin-top: 8px;
@@ -530,17 +536,6 @@
 
     .task-btn:hover, .renovation-btn:hover {
       background: #d96e00;
-    }
-
-    .reset-btn {
-      background: #b56576;
-      margin-top: 8px;
-      padding: 12px;
-      font-size: 15px;
-    }
-
-    .reset-btn:hover {
-      background: #944d5e;
     }
 
     .message-line {
@@ -1141,7 +1136,7 @@
 
       <div class="stat-card">
         <div class="stat-title">Energy</div>
-        <div class="stat-value" id="energyText">⚡ 20/20</div>
+        <div class="stat-value" id="energyText">⚡ 30/75</div>
       </div>
     </div>
 
@@ -1201,7 +1196,20 @@
           </div>
         </div>
 
-        <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+        <div class="panel-box">
+          <h2>Energy Boost</h2>
+          <div class="level-list">
+            Watch a short ad break to get extra energy.
+          </div>
+
+          <button class="task-btn" onclick="watchAdForEnergy()" id="adEnergyBtn">
+            Watch Ad +15 ⚡
+          </button>
+
+          <div class="upgrade-message" id="adMessage">
+            Ad reward received!
+          </div>
+        </div>
 
         <div class="panel-box">
           <h2>Merge Levels</h2>
@@ -1325,8 +1333,12 @@
     let board = Array(20).fill(null);
     let coins = 0;
     let parts = 0;
-    let energy = 20;
-    let maxEnergy = 20;
+    let energy = 30;
+    let maxEnergy = 75;
+    let adCooldown = false;
+    let adCooldownSeconds = 0;
+    let adTimer = null;
+
     let drinkMachineLevel = 1;
     let dessertMachineLevel = 1;
     let cafeLevel = 1;
@@ -1381,6 +1393,8 @@
     const renovationTaskDescription = document.getElementById("renovationTaskDescription");
     const renovationRequirements = document.getElementById("renovationRequirements");
     const renovationActionArea = document.getElementById("renovationActionArea");
+    const adEnergyBtn = document.getElementById("adEnergyBtn");
+    const adMessage = document.getElementById("adMessage");
 
     function playSound(type) {
       try {
@@ -1672,7 +1686,7 @@
       machineInfoButton.classList.add("show");
 
       if (energy <= 0) {
-        message.textContent = "No energy left! Complete cafe tasks to get more energy.";
+        message.textContent = "No energy left! Use Energy Boost or complete cafe tasks.";
         playSound("error");
         return;
       }
@@ -2267,15 +2281,15 @@
 
       if (type === "drink") {
         drinkMachineLevel++;
-        message.textContent = "Drink Machine upgraded to Level " + drinkMachineLevel + "!";
-        upgradeMessage.textContent = "Drink Machine upgraded to Level " + drinkMachineLevel + ".";
+        message.textContent = "Drink Machine upgraded to Level " + drinkMachineLevel + "! +10 ⚡";
+        upgradeMessage.textContent = "Drink Machine upgraded to Level " + drinkMachineLevel + ". +10 energy added.";
       } else {
         dessertMachineLevel++;
-        message.textContent = "Dessert Machine upgraded to Level " + dessertMachineLevel + "!";
-        upgradeMessage.textContent = "Dessert Machine upgraded to Level " + dessertMachineLevel + ".";
+        message.textContent = "Dessert Machine upgraded to Level " + dessertMachineLevel + "! +10 ⚡";
+        upgradeMessage.textContent = "Dessert Machine upgraded to Level " + dessertMachineLevel + ". +10 energy added.";
       }
 
-      maxEnergy += 2;
+      energy = Math.min(maxEnergy, energy + 10);
       machineInfoButton.classList.add("show");
 
       upgradeMessage.classList.add("show");
@@ -2297,6 +2311,63 @@
       if (level === 3) return 10;
 
       return 999;
+    }
+
+    function watchAdForEnergy() {
+      if (adCooldown) {
+        message.textContent = "Energy ad is on cooldown. Please wait " + adCooldownSeconds + "s.";
+        playSound("error");
+        return;
+      }
+
+      adEnergyBtn.disabled = true;
+      adEnergyBtn.textContent = "Watching Ad... 5s";
+      message.textContent = "Ad break started. Please wait 5 seconds...";
+
+      let adSeconds = 5;
+
+      const adCountdown = setInterval(() => {
+        adSeconds--;
+        adEnergyBtn.textContent = "Watching Ad... " + adSeconds + "s";
+
+        if (adSeconds <= 0) {
+          clearInterval(adCountdown);
+
+          energy = Math.min(maxEnergy, energy + 15);
+
+          message.textContent = "Ad reward received! +15 ⚡";
+          adMessage.textContent = "Ad completed! +15 energy added.";
+          adMessage.classList.add("show");
+
+          setTimeout(() => {
+            adMessage.classList.remove("show");
+          }, 2500);
+
+          playSound("upgrade");
+          updateStats();
+          startAdCooldown();
+        }
+      }, 1000);
+    }
+
+    function startAdCooldown() {
+      adCooldown = true;
+      adCooldownSeconds = 60;
+
+      adEnergyBtn.disabled = true;
+      adEnergyBtn.textContent = "Available in " + adCooldownSeconds + "s";
+
+      adTimer = setInterval(() => {
+        adCooldownSeconds--;
+        adEnergyBtn.textContent = "Available in " + adCooldownSeconds + "s";
+
+        if (adCooldownSeconds <= 0) {
+          clearInterval(adTimer);
+          adCooldown = false;
+          adEnergyBtn.disabled = false;
+          adEnergyBtn.textContent = "Watch Ad +15 ⚡";
+        }
+      }, 1000);
     }
 
     function updateStats() {
@@ -2360,55 +2431,6 @@
 
         machineLevels.appendChild(div);
       });
-    }
-
-    function resetGame() {
-      board = Array(20).fill(null);
-      coins = 0;
-      parts = 0;
-      energy = 20;
-      maxEnergy = 20;
-      drinkMachineLevel = 1;
-      dessertMachineLevel = 1;
-      cafeLevel = 1;
-      completedTasks = 0;
-      draggedIndex = null;
-      selectedIndex = null;
-      newItemIndex = null;
-      mergedItemIndex = null;
-      lastChangedCustomerIndex = null;
-      cleanClicks = 0;
-      repairClicks = 0;
-      generalActionClicks = 0;
-
-      cafeState = {
-        counterClean: false,
-        signFixed: false,
-        chairs: null,
-        display: false,
-        decor: null,
-        plant: false,
-        vip: false,
-        floor: false
-      };
-
-      machineInfoButton.classList.remove("show");
-      upgradeMessage.classList.remove("show");
-      levelUpModal.style.display = "none";
-      renovationModal.style.display = "none";
-
-      setupCustomers();
-
-      message.textContent = "Game restarted!";
-
-      updateStats();
-      createTaskSummary();
-      createCustomers();
-      createBoard();
-
-      generateItem("drink");
-      generateItem("dessert");
-      generateItem("drink");
     }
 
     setupCustomers();
