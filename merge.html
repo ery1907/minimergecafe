@@ -16,41 +16,52 @@
       margin: 0;
       min-height: 100vh;
       background:
-        radial-gradient(circle at top left, #fff7d7 0, transparent 35%),
-        radial-gradient(circle at bottom right, #ffd2dc 0, transparent 35%),
-        linear-gradient(180deg, #fff3e8, #ffe2c7);
+        radial-gradient(circle at top left, #fff8d9 0, transparent 34%),
+        radial-gradient(circle at bottom right, #ffd2dc 0, transparent 36%),
+        linear-gradient(180deg, #fff3e8, #ffdcbf);
       color: #5a3825;
       display: flex;
       justify-content: center;
       align-items: flex-start;
     }
 
+    button {
+      font-weight: 900;
+      border: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
     .app {
       width: 100%;
       max-width: 480px;
       min-height: 100vh;
+      padding: 12px 12px 94px;
       background:
         linear-gradient(rgba(255, 243, 232, 0.88), rgba(255, 243, 232, 0.94)),
-        radial-gradient(circle at 10% 15%, rgba(76, 175, 122, 0.12), transparent 24%),
-        radial-gradient(circle at 90% 50%, rgba(255, 159, 67, 0.14), transparent 25%);
-      padding: 12px 12px 92px;
-      position: relative;
+        radial-gradient(circle at 8% 16%, rgba(76, 175, 122, 0.14), transparent 24%),
+        radial-gradient(circle at 92% 50%, rgba(255, 159, 67, 0.16), transparent 24%);
       overflow-x: hidden;
+      position: relative;
     }
 
     .topbar {
-      background: rgba(255,255,255,0.82);
+      background: rgba(255,255,255,0.85);
       border: 2px solid #f4cf9c;
       border-radius: 26px;
       padding: 12px;
-      box-shadow: 0 8px 18px rgba(90,56,37,0.12);
       margin-bottom: 12px;
+      box-shadow: 0 8px 18px rgba(90,56,37,0.12);
     }
 
     .title-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 8px;
       margin-bottom: 10px;
     }
@@ -70,11 +81,11 @@
 
     h1 {
       margin: 0;
-      font-size: 25px;
-      letter-spacing: 1px;
-      color: #653719;
       flex: 1;
       text-align: center;
+      font-size: 25px;
+      color: #653719;
+      letter-spacing: 1px;
     }
 
     .gear {
@@ -100,7 +111,7 @@
       background: #fff8ef;
       border: 2px solid #f1c27d;
       border-radius: 18px;
-      padding: 8px 6px;
+      padding: 8px 5px;
       font-size: 15px;
       font-weight: 900;
       text-align: center;
@@ -108,7 +119,7 @@
     }
 
     .orders-section {
-      background: rgba(255,255,255,0.86);
+      background: rgba(255,255,255,0.88);
       border: 2px solid #f4cf9c;
       border-radius: 24px;
       padding: 12px;
@@ -357,20 +368,9 @@
       z-index: 3;
     }
 
-    .badge-lucky {
-      left: -8px;
-      background: #ffb703;
-    }
-
-    .badge-star {
-      left: 16px;
-      background: #8338ec;
-    }
-
-    .badge-ready {
-      right: -8px;
-      background: #4caf7a;
-    }
+    .badge-lucky { left: -8px; background: #ffb703; }
+    .badge-star { left: 16px; background: #8338ec; }
+    .badge-ready { right: -8px; background: #4caf7a; }
 
     .hint-bubble {
       display: flex;
@@ -384,20 +384,9 @@
       box-shadow: 0 6px 14px rgba(90,56,37,0.12);
     }
 
-    .helper {
-      font-size: 34px;
-    }
-
-    .message {
-      flex: 1;
-      font-weight: 900;
-      font-size: 14px;
-      line-height: 1.35;
-    }
-
-    .bulb {
-      font-size: 27px;
-    }
+    .helper { font-size: 34px; }
+    .message { flex: 1; font-weight: 900; font-size: 14px; line-height: 1.35; }
+    .bulb { font-size: 27px; }
 
     .bottom-nav {
       position: fixed;
@@ -454,9 +443,7 @@
       transition: bottom 0.28s ease;
     }
 
-    .sheet.show {
-      bottom: 0;
-    }
+    .sheet.show { bottom: 0; }
 
     .sheet-header {
       display: flex;
@@ -502,45 +489,30 @@
       line-height: 1.35;
     }
 
-    button {
+    .green-btn,
+    .orange-btn,
+    .blue-btn {
+      color: white;
+      border-radius: 14px;
+      padding: 10px;
+      width: 100%;
+      margin-top: 7px;
       font-weight: 900;
-      border: none;
-      cursor: pointer;
     }
 
     .green-btn {
       background: linear-gradient(180deg, #78c943, #43a92c);
-      color: white;
       border: 2px solid #328c1f;
-      border-radius: 14px;
-      padding: 10px;
-      width: 100%;
-      margin-top: 7px;
     }
 
     .orange-btn {
       background: linear-gradient(180deg, #ffb24a, #ff8c1a);
-      color: white;
       border: 2px solid #d96e00;
-      border-radius: 14px;
-      padding: 10px;
-      width: 100%;
-      margin-top: 7px;
     }
 
     .blue-btn {
       background: linear-gradient(180deg, #79c7e8, #2e8ebb);
-      color: white;
       border: 2px solid #1c6f97;
-      border-radius: 14px;
-      padding: 10px;
-      width: 100%;
-      margin-top: 7px;
-    }
-
-    button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
     }
 
     .renovation-modal {
@@ -554,13 +526,11 @@
       padding: 12px;
     }
 
-    .renovation-modal.show {
-      display: flex;
-    }
+    .renovation-modal.show { display: flex; }
 
     .renovation-card {
       width: min(456px, 100%);
-      max-height: 92vh;
+      max-height: 94vh;
       overflow-y: auto;
       background: #fff8ef;
       border-radius: 28px;
@@ -579,19 +549,28 @@
     .renovation-top h2 {
       margin: 0;
       color: #653719;
+      font-size: 22px;
     }
 
     .cafe-scene {
-      height: 320px;
+      height: 350px;
       background:
-        linear-gradient(rgba(255,246,232,0.82), rgba(255,226,199,0.86)),
+        linear-gradient(rgba(255,246,232,0.80), rgba(255,226,199,0.88)),
         radial-gradient(circle at 80% 18%, rgba(121,199,232,0.25), transparent 22%);
       border: 3px solid #d69456;
-      border-radius: 22px;
+      border-radius: 24px;
       position: relative;
       overflow: hidden;
       box-shadow: inset 0 0 20px rgba(90,56,37,0.1);
       margin-bottom: 12px;
+    }
+
+    .wall {
+      position: absolute;
+      inset: 0 0 84px;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(76,175,122,0.2), transparent 15%),
+        radial-gradient(circle at 90% 10%, rgba(121,199,232,0.2), transparent 19%);
     }
 
     .floor {
@@ -599,37 +578,117 @@
       left: 0;
       right: 0;
       bottom: 0;
-      height: 86px;
+      height: 88px;
       background: repeating-linear-gradient(90deg, #c9824a, #c9824a 34px, #a96538 34px, #a96538 68px);
-      opacity: 0.75;
+      opacity: 0.82;
+    }
+
+    .window {
+      position: absolute;
+      right: 18px;
+      top: 36px;
+      width: 82px;
+      height: 82px;
+      border: 5px solid #9a552b;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #9bd6ff, #e9f8ff);
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.5);
+    }
+
+    .window::before,
+    .window::after {
+      content: "";
+      position: absolute;
+      background: #9a552b;
+    }
+
+    .window::before {
+      width: 5px;
+      height: 100%;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .window::after {
+      height: 5px;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+
+    .lamp {
+      position: absolute;
+      left: 50%;
+      top: 8px;
+      width: 4px;
+      height: 50px;
+      background: #5a3825;
+    }
+
+    .lamp::after {
+      content: "";
+      position: absolute;
+      top: 45px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 46px;
+      height: 24px;
+      background: #2f2b27;
+      border-radius: 28px 28px 8px 8px;
+      box-shadow: 0 10px 25px rgba(255,184,77,0.8);
+    }
+
+    .lamp-glow {
+      position: absolute;
+      left: 50%;
+      top: 58px;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,211,110,0.45), transparent 70%);
+      animation: glowPulse 2s infinite ease-in-out;
+    }
+
+    @keyframes glowPulse {
+      0%,100% { opacity: 0.65; }
+      50% { opacity: 1; }
     }
 
     .cafe-sign {
       position: absolute;
-      top: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #8c4d27;
-      color: white;
-      border: 3px dashed #ffe0ad;
-      border-radius: 13px;
-      padding: 8px 22px;
+      top: 24px;
+      left: 22px;
+      background: #402a1c;
+      color: #fff7d7;
+      border: 4px solid #9a552b;
+      border-radius: 10px;
+      width: 118px;
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       font-weight: 900;
+      line-height: 1.2;
+      font-size: 14px;
     }
 
     .cafe-sign.fixed {
-      background: linear-gradient(180deg, #ffb24a, #ff8c1a);
+      background: #2f1d12;
+      border-color: #ffb24a;
       box-shadow: 0 0 18px rgba(255,178,74,0.8);
-      border-style: solid;
     }
 
     .counter {
       position: absolute;
-      left: 28px;
-      bottom: 78px;
-      width: 160px;
-      height: 70px;
-      background: #9c6644;
+      left: 22px;
+      bottom: 86px;
+      width: 190px;
+      height: 78px;
+      background: linear-gradient(180deg, #c78d64, #8c5634);
       border: 4px solid #5a3825;
       border-radius: 16px 16px 8px 8px;
       display: flex;
@@ -640,134 +699,223 @@
     }
 
     .counter.clean {
-      background: linear-gradient(180deg, #bc8a5f, #8d5a3b);
-      box-shadow: 0 0 14px rgba(255,255,255,0.7);
+      box-shadow: 0 0 18px rgba(255,255,255,0.85);
+      filter: brightness(1.08);
     }
 
-    .stain {
+    .espresso {
       position: absolute;
-      width: 28px;
-      height: 18px;
-      border-radius: 50%;
-      background: rgba(82,45,20,0.48);
-      border: 2px solid rgba(255,255,255,0.5);
-      cursor: pointer;
+      left: 70px;
+      bottom: 154px;
+      width: 78px;
+      height: 56px;
+      background: linear-gradient(180deg, #82c5e0, #397f9d);
+      border: 4px solid #2e5262;
+      border-radius: 12px;
+      z-index: 2;
     }
 
-    .stain.s1 { left: 52px; bottom: 128px; }
-    .stain.s2 { left: 112px; bottom: 105px; }
-    .stain.s3 { left: 165px; bottom: 132px; }
+    .espresso::after {
+      content: "";
+      position: absolute;
+      right: 8px;
+      bottom: -18px;
+      width: 28px;
+      height: 22px;
+      border-radius: 0 0 12px 12px;
+      background: white;
+      border: 3px solid #5a3825;
+    }
 
     .display-case {
       position: absolute;
-      left: 210px;
-      bottom: 88px;
-      width: 100px;
-      height: 64px;
-      background: rgba(255,255,255,0.65);
+      left: 225px;
+      bottom: 94px;
+      width: 112px;
+      height: 70px;
+      background: rgba(255,255,255,0.72);
       border: 4px solid #7b3f00;
-      border-radius: 14px;
+      border-radius: 16px;
       display: none;
       align-items: center;
       justify-content: center;
-      font-size: 27px;
+      gap: 4px;
+      font-size: 23px;
+      box-shadow: 0 0 16px rgba(255,255,255,0.65);
     }
 
-    .display-visible .display-case {
-      display: flex;
-    }
+    .display-visible .display-case { display: flex; }
 
     .table {
       position: absolute;
-      right: 35px;
-      bottom: 48px;
-      width: 90px;
+      right: 34px;
+      bottom: 52px;
+      width: 88px;
       height: 42px;
       background: #a96538;
       border: 4px solid #5a3825;
       border-radius: 50%;
       display: none;
+      z-index: 3;
     }
 
-    .chair {
+    .table::after {
+      content: "";
       position: absolute;
-      width: 34px;
-      height: 38px;
-      border-radius: 12px;
-      border: 3px solid #5a3825;
+      left: 50%;
+      top: 34px;
+      width: 18px;
+      height: 48px;
+      background: #5a3825;
+      transform: translateX(-50%);
+      border-radius: 9px;
+    }
+
+    .chair-scene {
+      position: absolute;
       display: none;
+      z-index: 2;
+      width: 42px;
+      height: 50px;
+      border-radius: 12px;
+      border: 4px solid #5a3825;
+      background: #8d6e63;
+    }
+
+    .chair-scene::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      bottom: -13px;
+      height: 18px;
+      background: inherit;
+      border: 4px solid #5a3825;
+      border-top: none;
+      border-radius: 0 0 12px 12px;
     }
 
     .chairs-visible .table,
-    .chairs-visible .chair {
+    .chairs-visible .chair-scene {
       display: block;
     }
 
-    .chair.c1 { right: 65px; bottom: 94px; }
-    .chair.c2 { right: 65px; bottom: 14px; }
-    .chair.c3 { right: 8px; bottom: 52px; }
+    .chair-scene.c1 { right: 60px; bottom: 104px; }
+    .chair-scene.c2 { right: 60px; bottom: 16px; }
+    .chair-scene.c3 { right: 8px; bottom: 58px; }
 
-    .chair.wood { background: #8d6e63; }
-    .chair.blue { background: #79c7e8; }
-    .chair.pink { background: #ffb6c8; }
+    .chair-scene.wood { background: #a86b3c; }
+    .chair-scene.blue { background: #3f87a8; }
+    .chair-scene.pink { background: #ec8eab; }
 
     .wall-decor {
       position: absolute;
-      right: 24px;
-      top: 70px;
-      width: 72px;
-      height: 48px;
+      right: 122px;
+      top: 64px;
+      width: 66px;
+      height: 46px;
       border-radius: 12px;
-      background: white;
-      border: 3px solid #7b3f00;
+      background: #fffaf4;
+      border: 4px solid #7b3f00;
       display: none;
       align-items: center;
       justify-content: center;
-      font-size: 25px;
+      font-size: 23px;
     }
 
-    .decor-visible .wall-decor {
-      display: flex;
-    }
+    .decor-visible .wall-decor { display: flex; }
 
     .plant {
       position: absolute;
-      left: 240px;
-      bottom: 32px;
-      font-size: 45px;
+      left: 250px;
+      bottom: 30px;
+      width: 42px;
+      height: 54px;
       display: none;
+      z-index: 4;
       animation: plantMove 2.4s infinite ease-in-out;
     }
 
-    .plant-visible .plant {
-      display: block;
+    .plant::before {
+      content: "";
+      position: absolute;
+      left: 11px;
+      bottom: 0;
+      width: 22px;
+      height: 22px;
+      background: #a96538;
+      border: 3px solid #5a3825;
+      border-radius: 4px 4px 10px 10px;
     }
 
+    .plant::after {
+      content: "🌿";
+      position: absolute;
+      left: -4px;
+      bottom: 14px;
+      font-size: 42px;
+    }
+
+    .plant-visible .plant { display: block; }
+
     @keyframes plantMove {
-      0%, 100% { transform: rotate(-2deg); }
+      0%,100% { transform: rotate(-2deg); }
       50% { transform: rotate(2deg); }
     }
+
+    .stain {
+      position: absolute;
+      width: 46px;
+      height: 25px;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(80,42,20,0.78), transparent 35%),
+        radial-gradient(circle at 62% 50%, rgba(90,45,22,0.68), transparent 45%),
+        rgba(92,45,20,0.48);
+      border-radius: 60% 40% 55% 45%;
+      border: 2px solid rgba(255,255,255,0.3);
+      box-shadow: 0 2px 5px rgba(90,56,37,0.2);
+      cursor: pointer;
+      z-index: 5;
+      animation: stainPulse 1.8s infinite ease-in-out;
+    }
+
+    .stain.cleanable {
+      outline: 3px solid rgba(255,183,3,0.75);
+      box-shadow: 0 0 18px rgba(255,183,3,0.8);
+    }
+
+    @keyframes stainPulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .stain.s1 { left: 40px; bottom: 142px; transform: rotate(-8deg); }
+    .stain.s2 { left: 122px; bottom: 112px; transform: rotate(8deg); }
+    .stain.s3 { left: 160px; bottom: 152px; transform: rotate(-3deg); }
 
     .task-box {
       background: white;
       border: 2px solid #f1c27d;
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 13px;
+      box-shadow: 0 5px 13px rgba(90,56,37,0.09);
     }
 
     .task-box h3 {
       margin: 0 0 6px;
       color: #653719;
+      font-size: 20px;
     }
 
     .task-box p {
       margin: 5px 0;
       line-height: 1.35;
+      font-size: 14px;
     }
 
     .choice-row {
       display: flex;
-      gap: 8px;
+      gap: 9px;
       margin-top: 10px;
     }
 
@@ -775,15 +923,61 @@
       flex: 1;
       background: #fff3e8;
       border: 2px solid #f1c27d;
-      border-radius: 15px;
-      padding: 9px 6px;
+      border-radius: 17px;
+      padding: 10px 6px;
       text-align: center;
       font-weight: 900;
       cursor: pointer;
+      position: relative;
     }
 
-    .choice div {
-      font-size: 28px;
+    .choice.selected {
+      border-color: #4caf7a;
+      box-shadow: 0 0 0 3px rgba(76,175,122,0.18);
+    }
+
+    .chair-preview {
+      height: 70px;
+      width: 54px;
+      margin: 0 auto 7px;
+      border: 4px solid #5a3825;
+      border-radius: 14px 14px 10px 10px;
+      position: relative;
+    }
+
+    .chair-preview::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      bottom: -19px;
+      height: 24px;
+      border: 4px solid #5a3825;
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      background: inherit;
+    }
+
+    .chair-preview::after {
+      content: "";
+      position: absolute;
+      left: 9px;
+      right: 9px;
+      top: 12px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.35);
+    }
+
+    .chair-wood { background: linear-gradient(180deg, #b97741, #8e512c); }
+    .chair-blue { background: linear-gradient(180deg, #6bb5d6, #3f87a8); }
+    .chair-pink { background: linear-gradient(180deg, #ffb6c8, #e6789a); }
+
+    .choice small {
+      display: block;
+      color: #8b5e34;
+      margin-top: 3px;
+      font-size: 11px;
     }
 
     @media (min-width: 760px) {
@@ -854,18 +1048,23 @@
       </div>
 
       <div class="cafe-scene" id="cafeScene">
-        <div class="cafe-sign" id="cafeSign">Mini Cafe</div>
-        <div class="wall-decor" id="wallDecor">🖼️</div>
+        <div class="wall"></div>
+        <div class="window"></div>
+        <div class="lamp"></div>
+        <div class="lamp-glow"></div>
+        <div class="cafe-sign" id="cafeSign">GOOD<br>COFFEE</div>
+        <div class="wall-decor" id="wallDecor">♡</div>
         <div class="counter" id="counter">Counter</div>
+        <div class="espresso"></div>
+        <div class="display-case">🧁 🍰</div>
+        <div class="table"></div>
+        <div class="chair-scene c1" id="chair1"></div>
+        <div class="chair-scene c2" id="chair2"></div>
+        <div class="chair-scene c3" id="chair3"></div>
+        <div class="plant"></div>
         <div class="stain s1" id="stain1" onclick="cleanStain(1)"></div>
         <div class="stain s2" id="stain2" onclick="cleanStain(2)"></div>
         <div class="stain s3" id="stain3" onclick="cleanStain(3)"></div>
-        <div class="display-case">🧁 🍰</div>
-        <div class="table"></div>
-        <div class="chair c1" id="chair1"></div>
-        <div class="chair c2" id="chair2"></div>
-        <div class="chair c3" id="chair3"></div>
-        <div class="plant">🪴</div>
         <div class="floor"></div>
       </div>
 
@@ -891,16 +1090,15 @@
     ];
 
     const mergeMap = { 0: 1, 1: 2, 2: 3, 4: 5, 5: 6, 6: 7 };
-
     const customerPool = ["👩", "👨", "👵", "🧑", "👱‍♀️", "🧔", "👦", "👩‍🦰"];
 
     const cafeTasks = [
-      { title: "Clean the Counter", cost: 60, type: "clean", desc: "Tap all stains on the counter.", energy: 3 },
-      { title: "Fix the Cafe Sign", cost: 110, type: "repair", desc: "Attach 3 sign pieces.", energy: 4 },
-      { title: "Buy New Chairs", cost: 180, type: "chairs", desc: "Choose and place chairs.", energy: 0 },
-      { title: "Add Dessert Display", cost: 160, type: "item", itemRequired: 1, desc: "Place a Cupcake in the display.", energy: 5 },
-      { title: "Decorate the Wall", cost: 190, type: "decor", desc: "Choose a wall decoration.", energy: 2 },
-      { title: "Place a Plant", cost: 150, type: "plant", desc: "Place a plant in the cafe.", energy: 3 }
+      { title: "Clean the Counter", cost: 60, type: "clean", desc: "Tap the glowing stains in the cafe scene.", energy: 3 },
+      { title: "Fix the Cafe Sign", cost: 110, type: "repair", desc: "Attach 3 sign parts to make it shine.", energy: 4 },
+      { title: "Buy New Chairs", cost: 180, type: "chairs", desc: "Choose a chair style and place it in the cafe.", energy: 0 },
+      { title: "Add Dessert Display", cost: 160, type: "item", itemRequired: 1, desc: "Use a Cupcake from your board for the display.", energy: 5 },
+      { title: "Decorate the Wall", cost: 190, type: "decor", desc: "Choose a decoration for your cafe wall.", energy: 2 },
+      { title: "Place a Plant", cost: 150, type: "plant", desc: "Place a plant to make the cafe feel alive.", energy: 3 }
     ];
 
     function makeItem(item, opts = {}) {
@@ -1052,6 +1250,7 @@
     function allowDrop(e) {
       e.preventDefault();
       const target = Number(e.currentTarget.dataset.index);
+
       if (target !== drinkMachineIndex && target !== dessertMachineIndex) {
         e.currentTarget.classList.add("drag-over");
       }
@@ -1059,10 +1258,12 @@
 
     function dropItem(e) {
       e.preventDefault();
+
       const target = Number(e.currentTarget.dataset.index);
       e.currentTarget.classList.remove("drag-over");
 
       if (draggedIndex === null || draggedIndex === target) return;
+
       moveOrMerge(draggedIndex, target);
       draggedIndex = null;
       createBoard();
@@ -1092,6 +1293,7 @@
 
     function moveOrMerge(from, to) {
       if (to === drinkMachineIndex || to === dessertMachineIndex) return;
+
       const a = board[from];
       const b = board[to];
 
@@ -1106,15 +1308,18 @@
 
       if (a.item === b.item && mergeMap[a.item] !== undefined) {
         const newItem = mergeMap[a.item];
+
         board[to] = makeItem(newItem, {
           lucky: a.lucky || b.lucky,
           chainBadge: newItem === 7 || a.chainBadge || b.chainBadge
         });
+
         board[from] = null;
         mergedItemIndex = to;
 
         if (newItem === 7) setMsg("Fancy Drink completed! ⭐");
         else setMsg((a.lucky || b.lucky) ? "Lucky merge! ✨" : "Nice merge!");
+
         playSound("merge");
         return;
       }
@@ -1131,6 +1336,7 @@
       }
 
       const empty = [];
+
       for (let i = 0; i < boardSize; i++) {
         if (i !== drinkMachineIndex && i !== dessertMachineIndex && board[i] === null) empty.push(i);
       }
@@ -1178,6 +1384,7 @@
       customers.forEach((c, index) => {
         const ready = board.some(x => x && x.item === c.order);
         const card = document.createElement("div");
+
         card.className = "customer-card" + (ready ? " ready" : "");
 
         card.innerHTML = `
@@ -1204,8 +1411,12 @@
     }
 
     function newCustomer(replaceIndex = -1) {
-      const used = customers.map((c, i) => i !== replaceIndex ? c.order : null).filter(x => x !== null);
+      const used = customers
+        .map((c, i) => i !== replaceIndex ? c.order : null)
+        .filter(x => x !== null);
+
       let pool = availableOrders().filter(x => !used.includes(x));
+
       if (pool.length === 0) pool = availableOrders();
 
       return {
@@ -1217,8 +1428,10 @@
 
     function availableOrders() {
       let arr = [1, 2, 5, 6];
+
       if (cafeLevel >= 2) arr.push(3);
       if (cafeLevel >= 3) arr.push(7);
+
       return arr;
     }
 
@@ -1247,14 +1460,17 @@
       }
 
       const served = board[boardIndex];
+
       board[boardIndex] = null;
 
       let reward = getReward(c.order);
+
       if (served.lucky) reward += 25;
 
       coins += reward;
 
       let partMsg = "";
+
       if (c.givesPart) {
         parts++;
         ordersSinceLastPart = 0;
@@ -1268,12 +1484,12 @@
 
       setMsg((served.lucky ? "Lucky order! " : "Served! ") + "+" + reward + " 🪙" + partMsg);
       playSound("order");
-
       updateAll();
     }
 
     function openSheet(type, btn) {
       document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+
       if (btn) btn.classList.add("active");
 
       const sheet = document.getElementById("sheet");
@@ -1282,6 +1498,7 @@
 
       if (type === "orders") {
         title.textContent = "📋 Orders";
+
         content.innerHTML = `
           <div class="panel-card">
             <h3>Today’s Orders</h3>
@@ -1293,7 +1510,9 @@
 
       if (type === "cafe") {
         const task = cafeTasks[completedTasks];
+
         title.textContent = "🏡 Cafe";
+
         content.innerHTML = `
           <div class="panel-card">
             <h3>${task ? task.title : "All tasks completed ✅"}</h3>
@@ -1301,6 +1520,7 @@
             <p>${task ? "Need: " + task.cost + " 🪙" : ""}</p>
             <button class="orange-btn" onclick="closeSheet(); openRenovation();">Open Renovation</button>
           </div>
+
           <div class="panel-card">
             <h3>Cafe Progress</h3>
             <p>Level: ${cafeLevel}</p>
@@ -1311,6 +1531,7 @@
 
       if (type === "gift") {
         title.textContent = "🎁 Gift";
+
         content.innerHTML = `
           <div class="panel-card">
             <h3>Gift Box</h3>
@@ -1338,6 +1559,7 @@
 
       if (type === "shop") {
         title.textContent = "🛒 Shop";
+
         content.innerHTML = `
           <div class="panel-card">
             <h3>Drink Machine</h3>
@@ -1368,9 +1590,11 @@
 
     function claimGift() {
       if (!giftReady) return;
+
       energy = Math.min(maxEnergy, energy + 8);
       giftProgress = 0;
       giftReady = false;
+
       setMsg("Gift claimed! +8 ⚡");
       playSound("upgrade");
       updateAll();
@@ -1385,6 +1609,7 @@
 
       const obj = board[selectedIndex];
       const gain = Math.min(6, items[obj.item].level + (obj.lucky ? 1 : 0));
+
       board[selectedIndex] = null;
       selectedIndex = null;
       energy = Math.min(maxEnergy, energy + gain);
@@ -1398,6 +1623,7 @@
       if (adCooldown) return;
 
       let seconds = 5;
+
       setMsg("Ad break... 5s");
       adCooldown = true;
 
@@ -1407,7 +1633,9 @@
 
         if (seconds <= 0) {
           clearInterval(countdown);
+
           energy = Math.min(maxEnergy, energy + 15);
+
           setMsg("Ad reward! +15 ⚡");
           playSound("upgrade");
           startAdCooldown();
@@ -1418,10 +1646,12 @@
 
     function startAdCooldown() {
       adCooldownSeconds = 60;
+
       if (adTimer) clearInterval(adTimer);
 
       adTimer = setInterval(() => {
         adCooldownSeconds--;
+
         if (adCooldownSeconds <= 0) {
           clearInterval(adTimer);
           adCooldown = false;
@@ -1451,6 +1681,7 @@
       else dessertMachineLevel++;
 
       energy = Math.min(maxEnergy, energy + 10);
+
       setMsg("Machine upgraded! +10 ⚡");
       playSound("upgrade");
       updateAll();
@@ -1473,6 +1704,7 @@
 
     function renderCafe() {
       const scene = document.getElementById("cafeScene");
+
       scene.classList.toggle("display-visible", cafeState.display);
       scene.classList.toggle("chairs-visible", cafeState.chairs !== null);
       scene.classList.toggle("decor-visible", cafeState.decor !== null);
@@ -1481,18 +1713,31 @@
       document.getElementById("counter").classList.toggle("clean", cafeState.clean);
       document.getElementById("cafeSign").classList.toggle("fixed", cafeState.sign);
 
-      document.getElementById("stain1").style.display = cafeState.clean || cleanStains[1] ? "none" : "block";
-      document.getElementById("stain2").style.display = cafeState.clean || cleanStains[2] ? "none" : "block";
-      document.getElementById("stain3").style.display = cafeState.clean || cleanStains[3] ? "none" : "block";
+      const task = cafeTasks[completedTasks];
+      const isCleanTask = task && task.type === "clean";
+
+      [1, 2, 3].forEach(num => {
+        const stain = document.getElementById("stain" + num);
+
+        stain.style.display = cafeState.clean || cleanStains[num] ? "none" : "block";
+        stain.classList.toggle("cleanable", isCleanTask);
+      });
 
       ["chair1", "chair2", "chair3"].forEach(id => {
         const el = document.getElementById(id);
-        el.className = el.className.replace(/\bwood\b|\bblue\b|\bpink\b/g, "");
+
+        el.className = el.className
+          .replace(/\bwood\b|\bblue\b|\bpink\b/g, "")
+          .trim();
+
         if (cafeState.chairs) el.classList.add(cafeState.chairs);
       });
 
       const decor = document.getElementById("wallDecor");
-      decor.textContent = cafeState.decor === "clock" ? "🕒" : cafeState.decor === "heart" ? "💖" : "🖼️";
+
+      if (cafeState.decor === "clock") decor.textContent = "◷";
+      else if (cafeState.decor === "heart") decor.textContent = "♡";
+      else decor.textContent = "▧";
     }
 
     function renderTask() {
@@ -1510,7 +1755,11 @@
       document.getElementById("taskDesc").textContent = task.desc;
 
       let req = "Need: " + task.cost + " 🪙";
-      if (task.itemRequired !== undefined) req += " + " + items[task.itemRequired].emoji + " " + items[task.itemRequired].name;
+
+      if (task.itemRequired !== undefined) {
+        req += " + " + items[task.itemRequired].emoji + " " + items[task.itemRequired].name;
+      }
+
       req += " | Reward: " + (task.energy ? "+" + task.energy + " ⚡" : "Cafe upgrade");
 
       document.getElementById("taskReq").textContent = req;
@@ -1518,23 +1767,35 @@
       const action = document.getElementById("taskAction");
 
       if (task.type === "clean") {
-        action.innerHTML = `<p>Tap the stains directly on the counter.</p>`;
+        action.innerHTML = `<p>Tap the glowing stains in the cafe scene.</p>`;
       }
 
       if (task.type === "repair") {
         action.innerHTML = `
-          <p>Attach sign pieces: ${repairClicks}/3</p>
-          <button class="orange-btn" onclick="repairStep()">Attach Piece</button>
+          <p>Sign parts attached: ${repairClicks}/3</p>
+          <button class="orange-btn" onclick="repairStep()">Attach Sign Part</button>
         `;
       }
 
       if (task.type === "chairs") {
         action.innerHTML = `
-          <p>Choose chair style.</p>
+          <p>Choose one chair style:</p>
           <div class="choice-row">
-            <div class="choice" onclick="chooseChair('wood')"><div>🪑</div>Wood</div>
-            <div class="choice" onclick="chooseChair('blue')"><div>🔵</div>Blue</div>
-            <div class="choice" onclick="chooseChair('pink')"><div>🌸</div>Pink</div>
+            <div class="choice ${chairStyle === "wood" ? "selected" : ""}" onclick="chooseChair('wood')">
+              <div class="chair-preview chair-wood"></div>
+              Wood Classic
+              <small>Warm cafe style</small>
+            </div>
+            <div class="choice ${chairStyle === "blue" ? "selected" : ""}" onclick="chooseChair('blue')">
+              <div class="chair-preview chair-blue"></div>
+              Blue Comfort
+              <small>Cozy soft style</small>
+            </div>
+            <div class="choice ${chairStyle === "pink" ? "selected" : ""}" onclick="chooseChair('pink')">
+              <div class="chair-preview chair-pink"></div>
+              Pink Chic
+              <small>Sweet cafe style</small>
+            </div>
           </div>
         `;
       }
@@ -1545,18 +1806,18 @@
 
       if (task.type === "decor") {
         action.innerHTML = `
-          <p>Choose decoration.</p>
+          <p>Choose a wall decoration:</p>
           <div class="choice-row">
-            <div class="choice" onclick="chooseDecor('art')"><div>🖼️</div>Art</div>
-            <div class="choice" onclick="chooseDecor('clock')"><div>🕒</div>Clock</div>
-            <div class="choice" onclick="chooseDecor('heart')"><div>💖</div>Cute</div>
+            <div class="choice" onclick="chooseDecor('art')">▧<br>Art</div>
+            <div class="choice" onclick="chooseDecor('clock')">◷<br>Clock</div>
+            <div class="choice" onclick="chooseDecor('heart')">♡<br>Heart</div>
           </div>
         `;
       }
 
       if (task.type === "plant") {
         action.innerHTML = `
-          <p>Place plant: ${plantSteps}/2</p>
+          <p>Plant placement: ${plantSteps}/2</p>
           <button class="green-btn" onclick="plantStep()">Place Plant</button>
         `;
       }
@@ -1569,7 +1830,10 @@
         return false;
       }
 
-      if (task.itemRequired !== undefined && !board.some(x => x && x.item === task.itemRequired)) {
+      if (
+        task.itemRequired !== undefined &&
+        !board.some(x => x && x.item === task.itemRequired)
+      ) {
         setMsg("Need " + items[task.itemRequired].emoji + " " + items[task.itemRequired].name + ".");
         playSound("error");
         return false;
@@ -1583,15 +1847,18 @@
 
       if (task.itemRequired !== undefined) {
         const idx = board.findIndex(x => x && x.item === task.itemRequired);
+
         if (idx !== -1) board[idx] = null;
       }
     }
 
     function finishTask(callback) {
       const task = cafeTasks[completedTasks];
+
       if (!canPayTask(task)) return;
 
       payTask(task);
+
       if (callback) callback();
 
       if (task.energy) energy = Math.min(maxEnergy, energy + task.energy);
@@ -1617,6 +1884,7 @@
 
     function cleanStain(num) {
       const task = cafeTasks[completedTasks];
+
       if (!task || task.type !== "clean") {
         setMsg("Not the current task.");
         return;
@@ -1625,6 +1893,7 @@
       if (!canPayTask(task)) return;
 
       cleanStains[num] = true;
+
       renderCafe();
 
       if (Object.values(cleanStains).filter(Boolean).length >= 3) {
@@ -1634,19 +1903,23 @@
 
     function repairStep() {
       const task = cafeTasks[completedTasks];
+
       if (!canPayTask(task)) return;
 
       repairClicks++;
+
       if (repairClicks >= 3) finishTask(() => cafeState.sign = true);
       else renderTask();
     }
 
     function chooseChair(style) {
       const task = cafeTasks[completedTasks];
+
       if (!canPayTask(task)) return;
 
       chairStyle = style;
       cafeState.chairs = style;
+
       renderCafe();
 
       document.getElementById("taskAction").innerHTML = `
@@ -1657,6 +1930,7 @@
 
     function placeChair() {
       chairSteps++;
+
       if (chairSteps >= 3) finishTask(() => {});
       else {
         document.getElementById("taskAction").innerHTML = `
@@ -1668,6 +1942,7 @@
 
     function completeItemTask() {
       const task = cafeTasks[completedTasks];
+
       finishTask(() => {
         if (task.title.includes("Dessert")) cafeState.display = true;
       });
@@ -1679,9 +1954,11 @@
 
     function plantStep() {
       const task = cafeTasks[completedTasks];
+
       if (!canPayTask(task)) return;
 
       plantSteps++;
+
       if (plantSteps >= 2) finishTask(() => cafeState.plant = true);
       else renderTask();
     }
@@ -1703,6 +1980,7 @@
     generateItem("drink");
     generateItem("dessert");
     generateItem("drink");
+
     setMsg("Merge matching items to serve customers!");
   </script>
 </body>
