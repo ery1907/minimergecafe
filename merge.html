@@ -23,6 +23,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
+      overflow-x: hidden;
     }
 
     button {
@@ -113,10 +114,11 @@
       border: 2px solid #f1c27d;
       border-radius: 18px;
       padding: 8px 5px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 900;
       text-align: center;
       box-shadow: inset 0 2px 6px rgba(90,56,37,0.06);
+      white-space: nowrap;
     }
 
     .orders-section {
@@ -155,7 +157,7 @@
     }
 
     .customer-card {
-      min-width: 138px;
+      min-width: 150px;
       background: #fff7e8;
       border: 2px solid #f1c27d;
       border-radius: 19px;
@@ -168,8 +170,14 @@
     }
 
     .customer-card.ready {
-      border-color: #4caf7a;
-      box-shadow: 0 0 0 3px rgba(76,175,122,0.18), 0 5px 12px rgba(90,56,37,0.12);
+      border-color: #34c759;
+      box-shadow: 0 0 0 3px rgba(52,199,89,0.22), 0 0 18px rgba(52,199,89,0.45), 0 5px 12px rgba(90,56,37,0.12);
+      animation: readyPulse 1.1s infinite ease-in-out;
+    }
+
+    @keyframes readyPulse {
+      0%,100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-2px) scale(1.025); }
     }
 
     .ready-check {
@@ -194,23 +202,40 @@
       margin-bottom: 3px;
     }
 
+    .story-name {
+      font-size: 11px;
+      font-weight: 900;
+      color: #8b5e34;
+      margin-top: -1px;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .order-emoji {
-      font-size: 34px;
+      font-size: 26px;
       margin: 2px 0;
+      min-height: 34px;
     }
 
     .order-name {
       font-weight: 900;
-      font-size: 14px;
+      font-size: 13px;
       margin-bottom: 6px;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.15;
     }
 
     .reward {
       display: flex;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       font-weight: 900;
-      font-size: 13px;
+      font-size: 12px;
       margin-bottom: 7px;
       flex-wrap: wrap;
     }
@@ -279,6 +304,10 @@
         inset 0 -3px 6px rgba(90,56,37,0.09);
       cursor: pointer;
       transition: 0.16s;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
     }
 
     .cell:hover {
@@ -308,6 +337,22 @@
       background: linear-gradient(180deg, #ffb6c8, #e6789a);
     }
 
+    .bakery-machine {
+      background: linear-gradient(180deg, #e9b872, #b76b26);
+    }
+
+    .tea-machine {
+      background: linear-gradient(180deg, #9be37d, #3f9b45);
+    }
+
+    .juice-machine {
+      background: linear-gradient(180deg, #ffb24a, #ef6f2e);
+    }
+
+    .ice-machine {
+      background: linear-gradient(180deg, #b7e6ff, #5aa9d6);
+    }
+
     .machine-label,
     .item-name {
       position: absolute;
@@ -315,7 +360,7 @@
       left: 0;
       width: 100%;
       text-align: center;
-      font-size: 6.5px;
+      font-size: 6.4px;
       font-weight: 900;
       color: #5a3825;
       pointer-events: none;
@@ -333,45 +378,6 @@
       -webkit-user-drag: none;
       touch-action: none;
       animation: itemFloat 2s infinite ease-in-out;
-    }
-
-    .machine,
-    .cell {
-      touch-action: none;
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    .drag-ghost {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 58px;
-      height: 58px;
-      border-radius: 16px;
-      background: rgba(255, 248, 239, 0.96);
-      border: 3px solid #f1c27d;
-      box-shadow: 0 16px 28px rgba(90,56,37,0.28);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 34px;
-      pointer-events: none;
-      z-index: 999;
-      transform: translate(-50%, -50%);
-    }
-
-    .info-note {
-      background: #fff7e8;
-      border: 2px solid #f1c27d;
-      border-radius: 16px;
-      padding: 10px;
-      font-size: 13px;
-      line-height: 1.35;
-      font-weight: 800;
-      color: #5a3825;
-      margin-top: 8px;
     }
 
     @keyframes itemFloat {
@@ -475,7 +481,7 @@
       transform: translateX(-50%);
       bottom: -100%;
       width: min(456px, 100%);
-      max-height: 72vh;
+      max-height: 76vh;
       background: #fff8ef;
       border-radius: 28px 28px 0 0;
       border: 3px solid #f1c27d;
@@ -511,7 +517,11 @@
       font-weight: 900;
     }
 
-    .panel-card {
+    .panel-card,
+    .story-card,
+    .unlock-card,
+    .order-row,
+    .task-card {
       background: white;
       border: 2px solid #f1c27d;
       border-radius: 20px;
@@ -520,13 +530,15 @@
       box-shadow: 0 5px 13px rgba(90,56,37,0.09);
     }
 
-    .panel-card h3 {
+    .panel-card h3,
+    .task-card h3 {
       margin: 0 0 8px;
       color: #653719;
       font-size: 18px;
     }
 
-    .panel-card p {
+    .panel-card p,
+    .task-card p {
       margin: 5px 0;
       font-size: 14px;
       line-height: 1.35;
@@ -534,7 +546,8 @@
 
     .green-btn,
     .orange-btn,
-    .blue-btn {
+    .blue-btn,
+    .purple-btn {
       color: white;
       border-radius: 14px;
       padding: 10px;
@@ -558,415 +571,92 @@
       border: 2px solid #1c6f97;
     }
 
-    .renovation-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.48);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-      padding: 12px;
+    .purple-btn {
+      background: linear-gradient(180deg, #b28dff, #7c4dff);
+      border: 2px solid #5c35c9;
     }
 
-    .renovation-modal.show { display: flex; }
-
-    .renovation-card {
-      width: min(456px, 100%);
-      max-height: 94vh;
-      overflow-y: auto;
-      background: #fff8ef;
-      border-radius: 28px;
-      border: 3px solid #f1c27d;
-      padding: 14px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.3);
-    }
-
-    .renovation-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .renovation-top h2 {
-      margin: 0;
-      color: #653719;
-      font-size: 22px;
-    }
-
-    .cafe-scene {
-      height: 350px;
-      background-image: url("assets/renovation/cafe_bg.png");
-      background-size: cover;
-      background-position: center center;
-      border: 3px solid #d69456;
-      border-radius: 24px;
-      position: relative;
+    .task-progress {
+      height: 12px;
+      background: #f3cfa1;
+      border-radius: 999px;
       overflow: hidden;
-      box-shadow: inset 0 0 20px rgba(90,56,37,0.1);
-      margin-bottom: 12px;
+      border: 2px solid #d69456;
+      margin-top: 8px;
     }
 
-    .scene-darken {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.06));
-      pointer-events: none;
+    .task-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4caf7a, #a9e34b);
+      border-radius: 999px;
     }
 
-    .scene-chair {
-      position: absolute;
-      display: none;
-      width: 72px;
-      height: 72px;
-      background-image: url("assets/renovation/chairs.png");
-      background-repeat: no-repeat;
-      background-size: 300% 100%;
-      filter: drop-shadow(0 7px 6px rgba(0,0,0,0.28));
-      z-index: 5;
-    }
-
-    .chairs-visible .scene-chair {
-      display: block;
-    }
-
-    .scene-chair.wood { background-position: 0% 50%; }
-    .scene-chair.blue { background-position: 50% 50%; }
-    .scene-chair.pink { background-position: 100% 50%; }
-
-    .scene-chair.c1 {
-      right: 64px;
-      bottom: 72px;
-      transform: scale(0.82);
-    }
-
-    .scene-chair.c2 {
-      right: 30px;
-      bottom: 30px;
-      transform: scale(0.72);
-    }
-
-    .scene-chair.c3 {
-      right: 104px;
-      bottom: 30px;
-      transform: scale(0.68);
-    }
-
-    .scene-stain {
-      position: absolute;
-      width: 76px;
-      height: 48px;
-      background-image: url("assets/renovation/stains.png");
-      background-repeat: no-repeat;
-      background-size: 300% 200%;
-      filter: drop-shadow(0 0 8px rgba(255,183,3,0.9));
-      cursor: pointer;
-      z-index: 8;
-      animation: stainPulse 1.8s infinite ease-in-out;
-    }
-
-    .scene-stain.cleanable {
-      outline: 3px solid rgba(255,183,3,0.85);
-      border-radius: 50%;
-    }
-
-    .stain1 {
-      left: 90px;
-      top: 178px;
-      background-position: 0% 0%;
-      transform: rotate(-8deg) scale(0.75);
-    }
-
-    .stain2 {
-      left: 154px;
-      top: 192px;
-      background-position: 50% 0%;
-      transform: rotate(6deg) scale(0.72);
-    }
-
-    .stain3 {
-      left: 220px;
-      top: 164px;
-      background-position: 100% 0%;
-      transform: rotate(-4deg) scale(0.72);
-    }
-
-    @keyframes stainPulse {
-      0%,100% { opacity: 0.9; }
-      50% { opacity: 1; filter: drop-shadow(0 0 15px rgba(255,183,3,1)); }
-    }
-
-    .scene-hotspot {
-      position: absolute;
-      border: 3px dashed rgba(255,255,255,0.85);
-      border-radius: 18px;
-      box-shadow: 0 0 15px rgba(255,183,3,0.8);
-      display: none;
-      z-index: 7;
-      pointer-events: none;
-    }
-
-    .chairs-task .chair-zone {
-      display: block;
-    }
-
-    .chair-zone {
-      right: 36px;
-      bottom: 28px;
-      width: 150px;
-      height: 110px;
-    }
-
-    .sign-fixed-badge,
-    .display-badge,
-    .decor-badge,
-    .plant-badge {
-      position: absolute;
-      display: none;
+    .story-top,
+    .order-top {
+      display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.82);
-      border: 3px solid #ffb24a;
-      box-shadow: 0 0 18px rgba(255,183,3,0.75);
-      z-index: 9;
+      gap: 10px;
     }
 
-    .sign-fixed .sign-fixed-badge {
-      display: flex;
-      left: 74px;
-      top: 24px;
-      width: 48px;
-      height: 48px;
-    }
-
-    .display-visible .display-badge {
-      display: flex;
-      left: 22px;
-      top: 146px;
-      width: 48px;
-      height: 48px;
-    }
-
-    .decor-visible .decor-badge {
-      display: flex;
-      left: 202px;
-      top: 38px;
-      width: 48px;
-      height: 48px;
-    }
-
-    .plant-visible .plant-badge {
-      display: flex;
-      right: 118px;
-      top: 108px;
-      width: 48px;
-      height: 48px;
-    }
-
-    .task-box {
-      background: white;
-      border: 2px solid #f1c27d;
-      border-radius: 22px;
-      padding: 13px;
-      box-shadow: 0 5px 13px rgba(90,56,37,0.09);
-    }
-
-    .task-box h3 {
-      margin: 0 0 6px;
-      color: #653719;
-      font-size: 20px;
-    }
-
-    .task-box p {
-      margin: 5px 0;
-      line-height: 1.35;
-      font-size: 14px;
-    }
-
-    .choice-row {
-      display: flex;
-      gap: 9px;
-      margin-top: 10px;
-    }
-
-    .choice {
-      flex: 1;
-      background: #fff3e8;
-      border: 2px solid #f1c27d;
-      border-radius: 17px;
-      padding: 10px 6px;
+    .story-avatar,
+    .order-avatar {
+      font-size: 34px;
+      width: 42px;
       text-align: center;
+    }
+
+    .story-body,
+    .order-body {
+      flex: 1;
+    }
+
+    .story-title,
+    .order-title {
+      font-size: 15px;
       font-weight: 900;
-      cursor: pointer;
-      position: relative;
-      box-shadow: 0 4px 9px rgba(90,56,37,0.08);
+      color: #653719;
     }
 
-    .choice.selected {
-      border-color: #4caf7a;
-      box-shadow: 0 0 0 3px rgba(76,175,122,0.18);
-    }
-
-    .chair-preview {
-      height: 76px;
-      width: 76px;
-      margin: 0 auto 7px;
-      background-image: url("assets/renovation/chairs.png");
-      background-repeat: no-repeat;
-      background-size: 300% 100%;
-      filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2));
-    }
-
-    .chair-wood { background-position: 0% 50%; }
-    .chair-blue { background-position: 50% 50%; }
-    .chair-pink { background-position: 100% 50%; }
-
-    .choice small {
-      display: block;
+    .story-meta,
+    .order-meta {
+      font-size: 12px;
+      font-weight: 900;
       color: #8b5e34;
-      margin-top: 3px;
-      font-size: 11px;
+      margin-top: 2px;
     }
 
-    .scene-chair,
-    .chair-preview {
-      display: none !important;
-      background-image: none !important;
-    }
-
-    .scene-stain {
-      background-image: none !important;
-      width: 58px;
-      height: 48px;
-      background: rgba(255, 248, 239, 0.86);
-      border: 3px solid #ffb703;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .scene-stain::before {
-      content: "🧽";
-      font-size: 28px;
-    }
-
-    .chairs-badge {
-      position: absolute;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.84);
-      border: 3px solid #ffb24a;
-      box-shadow: 0 0 18px rgba(255,183,3,0.75);
-      z-index: 9;
-      right: 58px;
-      bottom: 70px;
-      width: 54px;
-      height: 54px;
-    }
-
-    .chairs-visible .chairs-badge {
-      display: flex;
-    }
-
-    .reno-progress {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin: 10px 0 12px;
-    }
-
-    .reno-mini-card {
-      background: #ffffff;
-      border: 2px solid #f1c27d;
-      border-radius: 17px;
+    .story-text,
+    .info-note {
+      margin-top: 8px;
       padding: 9px;
-      box-shadow: 0 4px 10px rgba(90,56,37,0.08);
-    }
-
-    .reno-mini-card.current {
-      border-color: #ff8c1a;
-      box-shadow: 0 0 0 3px rgba(255,140,26,0.18);
-    }
-
-    .reno-mini-card.done {
-      border-color: #4caf7a;
-      background: #f2fff5;
-    }
-
-    .reno-mini-title {
-      font-size: 12px;
-      font-weight: 900;
-      color: #653719;
-      margin-bottom: 4px;
-    }
-
-    .reno-mini-status {
-      font-size: 11px;
-      font-weight: 900;
-      color: #8b5e34;
-    }
-
-    .reno-task-action-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .reno-style-btn {
-      background: #fff3e8;
-      border: 2px solid #f1c27d;
-      border-radius: 17px;
-      padding: 12px 6px;
+      border-radius: 14px;
+      background: #fff7e8;
+      color: #5a3825;
       font-size: 13px;
-      color: #653719;
-      box-shadow: 0 4px 9px rgba(90,56,37,0.08);
+      line-height: 1.35;
+      font-weight: 800;
     }
 
-    .reno-style-btn .big {
-      display: block;
-      font-size: 28px;
-      margin-bottom: 4px;
-    }
-
-    .customer-card.ready {
-      border-color: #34c759;
-      box-shadow: 0 0 0 3px rgba(52,199,89,0.22), 0 0 18px rgba(52,199,89,0.45), 0 5px 12px rgba(90,56,37,0.12);
-      animation: readyPulse 1.1s infinite ease-in-out;
-    }
-
-    @keyframes readyPulse {
-      0%,100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-2px) scale(1.025); }
-    }
-
-    .needs-pill {
-      width: 100%;
-      padding: 8px 6px;
+    .small-action-btn {
+      background: linear-gradient(180deg, #ffb24a, #ff8c1a);
+      border: 2px solid #d96e00;
+      color: white;
       border-radius: 13px;
-      background: #fff1d9;
-      border: 2px dashed #e4af74;
-      color: #8b5e34;
+      padding: 9px 10px;
       font-size: 12px;
       font-weight: 900;
+      min-width: 88px;
     }
 
-    .story-name {
-      font-size: 11px;
+    .ready-serve-mini {
+      background: linear-gradient(180deg, #78c943, #43a92c);
+      border: 2px solid #328c1f;
+      color: white;
+      border-radius: 13px;
+      padding: 9px 10px;
+      font-size: 12px;
       font-weight: 900;
-      color: #8b5e34;
-      margin-top: -1px;
-      margin-bottom: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      min-width: 78px;
     }
 
     .fame-hero {
@@ -1009,84 +699,26 @@
       transition: width 0.45s ease;
     }
 
-    .fame-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-
-    .story-card, .unlock-card, .order-row {
-      background: white;
-      border: 2px solid #f1c27d;
-      border-radius: 20px;
-      padding: 12px;
-      margin-bottom: 10px;
-      box-shadow: 0 5px 13px rgba(90,56,37,0.08);
-    }
-
-    .story-top, .order-top {
+    .drag-ghost {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: rgba(255, 248, 239, 0.96);
+      border: 3px solid #f1c27d;
+      box-shadow: 0 16px 28px rgba(90,56,37,0.28);
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .story-avatar, .order-avatar {
+      justify-content: center;
       font-size: 34px;
-      width: 42px;
-      text-align: center;
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%);
     }
 
-    .story-body, .order-body {
-      flex: 1;
-    }
-
-    .story-title, .order-title {
-      font-size: 15px;
-      font-weight: 900;
-      color: #653719;
-    }
-
-    .story-meta, .order-meta {
-      font-size: 12px;
-      font-weight: 900;
-      color: #8b5e34;
-      margin-top: 2px;
-    }
-
-    .story-text {
-      margin-top: 8px;
-      padding: 9px;
-      border-radius: 14px;
-      background: #fff7e8;
-      color: #5a3825;
-      font-size: 13px;
-      line-height: 1.35;
-      font-weight: 800;
-    }
-
-    .small-action-btn {
-      background: linear-gradient(180deg, #ffb24a, #ff8c1a);
-      border: 2px solid #d96e00;
-      color: white;
-      border-radius: 13px;
-      padding: 9px 10px;
-      font-size: 12px;
-      font-weight: 900;
-      min-width: 90px;
-    }
-
-    .ready-serve-mini {
-      background: linear-gradient(180deg, #78c943, #43a92c);
-      border: 2px solid #328c1f;
-      color: white;
-      border-radius: 13px;
-      padding: 9px 10px;
-      font-size: 12px;
-      font-weight: 900;
-      min-width: 78px;
-    }
-
-    .fame-modal {
+    .modal {
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.58);
@@ -1097,9 +729,11 @@
       padding: 16px;
     }
 
-    .fame-modal.show { display: flex; }
+    .modal.show {
+      display: flex;
+    }
 
-    .fame-card {
+    .modal-card {
       width: min(420px, 100%);
       background: #fff8ef;
       border: 4px solid #ffb703;
@@ -1108,6 +742,8 @@
       text-align: center;
       box-shadow: 0 18px 45px rgba(0,0,0,0.35);
       animation: rankPop 0.4s ease-out;
+      position: relative;
+      overflow: hidden;
     }
 
     @keyframes rankPop {
@@ -1118,7 +754,79 @@
     .rank-big { font-size: 58px; margin-bottom: 8px; }
     .rank-title { font-size: 27px; font-weight: 900; color: #653719; margin-bottom: 6px; }
     .rank-name { font-size: 20px; font-weight: 900; color: #ff8c1a; margin-bottom: 10px; }
-    .rank-reward { background: white; border: 2px solid #f1c27d; border-radius: 18px; padding: 10px; margin: 10px 0; color: #5a3825; font-weight: 900; }
+    .rank-reward { background: white; border: 2px solid #f1c27d; border-radius: 18px; padding: 10px; margin: 10px 0; color: #5a3825; font-weight: 900; line-height: 1.4; }
+
+    .confetti {
+      position: absolute;
+      font-size: 22px;
+      animation: confettiFall 1.2s ease-in forwards;
+      pointer-events: none;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-40px) rotate(0deg); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: translateY(260px) rotate(220deg); opacity: 0; }
+    }
+
+    .mini-game-area {
+      height: 240px;
+      background: linear-gradient(180deg, #fff7e8, #ffe1bf);
+      border: 3px solid #f1c27d;
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .stain-dot {
+      position: absolute;
+      width: 56px;
+      height: 46px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.85);
+      border: 3px solid #ffb703;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 27px;
+      box-shadow: 0 0 14px rgba(255,183,3,0.5);
+    }
+
+    .rush-sequence {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 10px 0;
+      font-size: 30px;
+    }
+
+    .rush-btn-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .rush-btn {
+      background: #fff3e8;
+      border: 2px solid #f1c27d;
+      border-radius: 17px;
+      padding: 14px 6px;
+      font-size: 26px;
+      box-shadow: 0 4px 9px rgba(90,56,37,0.08);
+    }
+
+    .discovery-badge {
+      display: inline-block;
+      background: #fff3e8;
+      border: 2px solid #f1c27d;
+      color: #653719;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 12px;
+      margin: 3px;
+    }
 
     @media (min-width: 760px) {
       .app {
@@ -1128,6 +836,13 @@
         min-height: auto;
         box-shadow: 0 15px 40px rgba(90,56,37,0.2);
       }
+    }
+
+    @media (max-width: 380px) {
+      .stat-pill { font-size: 12px; padding: 7px 3px; }
+      h1 { font-size: 21px; }
+      .cell { font-size: 26px; }
+      .customer-card { min-width: 142px; }
     }
   </style>
 </head>
@@ -1181,41 +896,13 @@
     <div id="sheetContent"></div>
   </div>
 
-  <div class="renovation-modal" id="renovationModal">
-    <div class="renovation-card">
-      <div class="renovation-top">
-        <h2>🏡 Cafe Renovation</h2>
-        <button class="close-btn" onclick="closeRenovation()">Close</button>
-      </div>
-
-      <div class="cafe-scene" id="cafeScene">
-        <div class="scene-darken"></div>
-
-        <div class="scene-hotspot chair-zone"></div>
-
-        <div class="scene-stain stain1" id="stain1" onclick="cleanStain(1)"></div>
-        <div class="scene-stain stain2" id="stain2" onclick="cleanStain(2)"></div>
-        <div class="scene-stain stain3" id="stain3" onclick="cleanStain(3)"></div>
-
-        <div class="scene-chair c1" id="chair1"></div>
-        <div class="scene-chair c2" id="chair2"></div>
-        <div class="scene-chair c3" id="chair3"></div>
-
-        <div class="sign-fixed-badge">✨</div>
-        <div class="display-badge">🧁</div>
-        <div class="decor-badge">🖼️</div>
-        <div class="plant-badge">🪴</div>
-        <div class="chairs-badge">🪑</div>
-      </div>
-
-      <div class="reno-progress" id="renoProgress"></div>
-
-      <div class="task-box">
-        <h3 id="taskTitle">Current Task</h3>
-        <p id="taskDesc"></p>
-        <p id="taskReq"></p>
-        <div id="taskAction"></div>
-      </div>
+  <div class="modal" id="gameModal">
+    <div class="modal-card" id="modalCard">
+      <div class="rank-big" id="modalIcon">⭐</div>
+      <div class="rank-title" id="modalTitle">Title</div>
+      <div class="rank-name" id="modalName">Name</div>
+      <div class="rank-reward" id="modalReward">Reward</div>
+      <button class="green-btn" onclick="closeGameModal()">Continue</button>
     </div>
   </div>
 
@@ -1225,71 +912,159 @@
       { name: "Cupcake", emoji: "🧁", chain: "dessert", level: 2 },
       { name: "Cake", emoji: "🍰", chain: "dessert", level: 3 },
       { name: "Special Cake", emoji: "🎂", chain: "dessert", level: 4 },
+
       { name: "Bean", emoji: "🫘", chain: "drink", level: 1 },
       { name: "Coffee", emoji: "☕", chain: "drink", level: 2 },
       { name: "Latte", emoji: "🥤", chain: "drink", level: 3 },
-      { name: "Fancy Drink", emoji: "🍹", chain: "drink", level: 4 }
+      { name: "Fancy Drink", emoji: "🍹", chain: "drink", level: 4 },
+
+      { name: "Croissant", emoji: "🥐", chain: "bakery", level: 1 },
+      { name: "Bagel", emoji: "🥯", chain: "bakery", level: 2 },
+      { name: "Sandwich", emoji: "🥪", chain: "bakery", level: 3 },
+      { name: "Premium Snack", emoji: "🥨", chain: "bakery", level: 4 },
+
+      { name: "Tea Leaf", emoji: "🌿", chain: "tea", level: 1 },
+      { name: "Green Tea", emoji: "🍵", chain: "tea", level: 2 },
+      { name: "Tea Pot", emoji: "🫖", chain: "tea", level: 3 },
+      { name: "Bubble Tea", emoji: "🧋", chain: "tea", level: 4 },
+
+      { name: "Fruit", emoji: "🍓", chain: "juice", level: 1 },
+      { name: "Juice", emoji: "🧃", chain: "juice", level: 2 },
+      { name: "Smoothie", emoji: "🍹", chain: "juice", level: 3 },
+      { name: "Tropical Mix", emoji: "🥭", chain: "juice", level: 4 },
+
+      { name: "Ice Cream", emoji: "🍦", chain: "ice", level: 1 },
+      { name: "Sundae", emoji: "🍨", chain: "ice", level: 2 },
+      { name: "Special Ice", emoji: "🍧", chain: "ice", level: 3 },
+      { name: "Deluxe Dessert", emoji: "🍮", chain: "ice", level: 4 }
     ];
 
-    const mergeMap = { 0: 1, 1: 2, 2: 3, 4: 5, 5: 6, 6: 7 };
+    const chainStart = {
+      dessert: 0,
+      drink: 4,
+      bakery: 8,
+      tea: 12,
+      juice: 16,
+      ice: 20
+    };
+
+    const machineDefs = {
+      drink: {
+        name: "Drink Machine",
+        short: "Drink",
+        emoji: "☕",
+        cls: "drink-machine",
+        chain: "drink",
+        unlockRank: 0,
+        cost: 0
+      },
+      dessert: {
+        name: "Dessert Machine",
+        short: "Dessert",
+        emoji: "🍪",
+        cls: "dessert-machine",
+        chain: "dessert",
+        unlockRank: 0,
+        cost: 0
+      },
+      bakery: {
+        name: "Bakery Oven",
+        short: "Bakery",
+        emoji: "🥐",
+        cls: "bakery-machine",
+        chain: "bakery",
+        unlockRank: 1,
+        cost: 45
+      },
+      tea: {
+        name: "Tea Machine",
+        short: "Tea",
+        emoji: "🌿",
+        cls: "tea-machine",
+        chain: "tea",
+        unlockRank: 2,
+        cost: 65
+      },
+      juice: {
+        name: "Juice Blender",
+        short: "Juice",
+        emoji: "🍓",
+        cls: "juice-machine",
+        chain: "juice",
+        unlockRank: 2,
+        cost: 75
+      },
+      ice: {
+        name: "Ice Cream Machine",
+        short: "Ice",
+        emoji: "🍦",
+        cls: "ice-machine",
+        chain: "ice",
+        unlockRank: 3,
+        cost: 95
+      }
+    };
+
+    const fameRanks = [
+      { name: "Unknown Cafe", need: 0, reward: "Customer stories unlocked." },
+      { name: "Local Favorite", need: 45, reward: "+1 Customer Slot, Bakery Oven offer, +10 Energy, +1 Part, +5 Gems." },
+      { name: "Trendy Spot", need: 120, reward: "Drink/Dessert discoveries improved, Tea and Juice machines unlocked, +15 Energy, +2 Parts." },
+      { name: "Famous Cafe", need: 240, reward: "Multi-order customers unlocked, Ice Cream machine unlocked, +20 Energy, +10 Gems." },
+      { name: "City Icon", need: 430, reward: "Rare combo orders, stronger story bonuses, +25 Energy, +20 Gems." }
+    ];
 
     const storyProfiles = [
       {
         id: "leyla", avatar: "👵", name: "Grandma Leyla", favorite: "Coffee",
-        visits: 0, unlocked: 0,
-        costs: [80, 160, 260],
+        visits: 0, unlocked: 0, costs: [80, 160, 260],
+        bonusNames: ["Coffee orders +5 coins", "Coffee orders appear more often", "Drink machine lucky chance +2%"],
         stories: [
           "Leyla says this cafe reminds her of Sunday mornings with her husband.",
           "She starts bringing old neighborhood photos and becomes your first loyal regular.",
-          "Leyla recommends the cafe to everyone in the neighborhood. Reputation bonus unlocked."
+          "Leyla recommends the cafe to everyone in the neighborhood. Drink rewards improve."
         ]
       },
       {
         id: "mert", avatar: "🧑", name: "Student Mert", favorite: "Cupcake",
-        visits: 0, unlocked: 0,
-        costs: [70, 150, 240],
+        visits: 0, unlocked: 0, costs: [70, 150, 240],
+        bonusNames: ["Cupcake orders +5 coins", "Gift progress sometimes +1 extra", "Daily tasks give +1 gem bonus"],
         stories: [
           "Mert studies here because the cafe feels calmer than the library.",
           "He shares the cafe with his classmates after a difficult exam week.",
-          "Mert creates a small study group here. More young customers notice the cafe."
+          "Mert creates a small study group here. Gift progress improves."
         ]
       },
       {
         id: "ada", avatar: "👱‍♀️", name: "Influencer Ada", favorite: "Latte",
-        visits: 0, unlocked: 0,
-        costs: [120, 220, 340],
+        visits: 0, unlocked: 0, costs: [120, 220, 340],
+        bonusNames: ["All fame rewards +10%", "Multi-order chance +10%", "Rare customer chance improves"],
         stories: [
           "Ada posts her first photo from the cafe and calls it a hidden gem.",
           "Her followers start asking where the cafe is. Trendy Spot progress begins.",
-          "Ada's weekend post goes viral. VIP-style orders start appearing more often."
+          "Ada's weekend post goes viral. Multi-order customers become more common."
         ]
       },
       {
         id: "chef", avatar: "🧔", name: "Chef Bora", favorite: "Cake",
-        visits: 0, unlocked: 0,
-        costs: [140, 250, 380],
+        visits: 0, unlocked: 0, costs: [140, 250, 380],
+        bonusNames: ["Dessert orders +10 coins", "Cake orders unlock earlier", "Dessert machine high-level chance improves"],
         stories: [
           "Bora tastes your dessert and says the cafe has real potential.",
           "He gives you a small menu idea that makes desserts more valuable.",
-          "Bora becomes a secret mentor. Dessert rewards improve."
+          "Bora becomes a secret mentor. Dessert production improves."
         ]
       }
     ];
 
-    const fameRanks = [
-      { name: "Unknown Cafe", need: 0, reward: "Customer stories unlocked." },
-      { name: "Local Favorite", need: 45, reward: "Extra customer slot can be unlocked with coins." },
-      { name: "Trendy Spot", need: 120, reward: "Cake orders and menu research become more useful." },
-      { name: "Famous Cafe", need: 240, reward: "Fancy Drink VIP orders unlocked." },
-      { name: "City Icon", need: 430, reward: "Your cafe becomes a city icon." }
-    ];
-
-    function makeItem(item, opts = {}) {
-      return { item, lucky: opts.lucky || false, chainBadge: opts.chainBadge || false };
-    }
+    const mergeMap = {};
+    Object.keys(chainStart).forEach(chain => {
+      const s = chainStart[chain];
+      mergeMap[s] = s + 1;
+      mergeMap[s + 1] = s + 2;
+      mergeMap[s + 2] = s + 3;
+    });
 
     const boardSize = 30;
-
     let board = Array(boardSize).fill(null);
     board[5] = { machine: "drink" };
     board[24] = { machine: "dessert" };
@@ -1299,27 +1074,18 @@
     let parts = 0;
     let energy = 30;
     let maxEnergy = 75;
-    let drinkMachineLevel = 1;
-    let dessertMachineLevel = 1;
     let cafeLevel = 1;
     let famePoints = 0;
     let fameRank = 0;
     let totalServed = 0;
     let customerSlots = 3;
-    let menuResearch = { dessert: false, vip: false };
+
+    let unlockedMachines = { drink: true, dessert: true, bakery: false, tea: false, juice: false, ice: false };
+    let machineLevels = { drink: 1, dessert: 1, bakery: 1, tea: 1, juice: 1, ice: 1 };
+    let discoveredLevel = { drink: 2, dessert: 2, bakery: 1, tea: 1, juice: 1, ice: 1 };
+    let researchCost = { drink: 120, dessert: 120, bakery: 150, tea: 170, juice: 180, ice: 200 };
+
     let selectedIndex = null;
-    let draggedIndex = null;
-    let suppressTap = false;
-    const pointerDrag = {
-      pointerId: null,
-      from: null,
-      startX: 0,
-      startY: 0,
-      active: false,
-      moved: false,
-      target: null,
-      ghost: null
-    };
     let newItemIndex = null;
     let mergedItemIndex = null;
     let customers = [];
@@ -1330,9 +1096,41 @@
     let adCooldownSeconds = 0;
     let adTimer = null;
 
+    let daily = {
+      merge: { title: "Merge 5 items", value: 0, target: 5, reward: "🪙 35", claimed: false },
+      serve: { title: "Serve 3 customers", value: 0, target: 3, reward: "💎 3", claimed: false },
+      discover: { title: "Discover 1 recipe", value: 0, target: 1, reward: "🔧 1", claimed: false },
+      mini: { title: "Play 1 mini game", value: 0, target: 1, reward: "⭐ 15", claimed: false }
+    };
+
+    let achievements = {
+      serve20: { title: "Serve 20 customers", value: 0, target: 20, reward: "💎 10", claimed: false },
+      rank3: { title: "Reach Trendy Spot", value: 0, target: 1, reward: "🔧 3", claimed: false },
+      unlock3: { title: "Unlock 3 machines", value: 2, target: 3, reward: "💎 15", claimed: false },
+      recipes6: { title: "Discover 6 recipes", value: 4, target: 6, reward: "🪙 150", claimed: false }
+    };
+
+    const pointerDrag = {
+      pointerId: null,
+      from: null,
+      startX: 0,
+      startY: 0,
+      active: false,
+      moved: false,
+      target: null,
+      ghost: null
+    };
+
+    let cleanGame = { active: false, remaining: 0, reward: 0 };
+    let rushGame = { active: false, sequence: [], index: 0, reward: 0 };
+
     const boardEl = document.getElementById("board");
     const customersEl = document.getElementById("customers");
     const messageEl = document.getElementById("message");
+
+    function makeItem(item, opts = {}) {
+      return { item, lucky: opts.lucky || false, chainBadge: opts.chainBadge || false };
+    }
 
     function playSound(type) {
       try {
@@ -1349,25 +1147,29 @@
       } catch(e) {}
     }
 
-    function setMsg(text) { messageEl.textContent = text; }
+    function setMsg(text) {
+      messageEl.textContent = text;
+    }
 
     function createBoard() {
       boardEl.innerHTML = "";
+
       for (let i = 0; i < boardSize; i++) {
         const cell = document.createElement("div");
         cell.className = "cell";
         cell.dataset.index = i;
+
         if (i === selectedIndex) cell.classList.add("selected");
         if (i === newItemIndex || i === mergedItemIndex) cell.classList.add("pop");
 
         const data = board[i];
-
         cell.addEventListener("pointerdown", pointerDown);
 
         if (data && data.machine) {
           const type = data.machine;
-          cell.classList.add("machine", type === "drink" ? "drink-machine" : "dessert-machine");
-          cell.innerHTML = `<div>${getMachineEmoji(type)}</div><div class="machine-label">${type === "drink" ? "Drink" : "Dessert"} Lv.${type === "drink" ? drinkMachineLevel : dessertMachineLevel}</div>`;
+          const def = machineDefs[type];
+          cell.classList.add("machine", def.cls);
+          cell.innerHTML = `<div>${getMachineEmoji(type)}</div><div class="machine-label">${def.short} Lv.${machineLevels[type]}</div>`;
         } else if (data && data.item !== undefined) {
           if (data.lucky) cell.classList.add("lucky-cell");
           const item = items[data.item];
@@ -1379,7 +1181,11 @@
 
         boardEl.appendChild(cell);
       }
-      setTimeout(() => { newItemIndex = null; mergedItemIndex = null; }, 400);
+
+      setTimeout(() => {
+        newItemIndex = null;
+        mergedItemIndex = null;
+      }, 400);
     }
 
     function addBadge(cell, text, cls) {
@@ -1390,9 +1196,12 @@
     }
 
     function getMachineEmoji(type) {
-      const lvl = type === "drink" ? drinkMachineLevel : dessertMachineLevel;
-      if (type === "drink") return lvl === 1 ? "☕" : lvl === 2 ? "🥤" : lvl === 3 ? "🍹" : "🧋";
-      return lvl === 1 ? "🍪" : lvl === 2 ? "🧁" : lvl === 3 ? "🍰" : "🎂";
+      const lvl = machineLevels[type];
+      const s = chainStart[machineDefs[type].chain];
+      if (lvl <= 1) return items[s].emoji;
+      if (lvl === 2) return items[s + 1].emoji;
+      if (lvl === 3) return items[s + 2].emoji;
+      return items[s + 3].emoji;
     }
 
     function pointerDown(e) {
@@ -1402,6 +1211,7 @@
       if (!data && selectedIndex === null) return;
 
       e.preventDefault();
+
       pointerDrag.pointerId = e.pointerId;
       pointerDrag.from = index;
       pointerDrag.startX = e.clientX;
@@ -1409,7 +1219,6 @@
       pointerDrag.active = false;
       pointerDrag.moved = false;
       pointerDrag.target = null;
-      suppressTap = false;
 
       try { e.currentTarget.setPointerCapture(e.pointerId); } catch(err) {}
 
@@ -1431,12 +1240,13 @@
       }
 
       if (!pointerDrag.active) return;
+
       pointerDrag.moved = true;
-      suppressTap = true;
       moveGhost(e.clientX, e.clientY);
 
       const cell = cellFromPoint(e.clientX, e.clientY);
       document.querySelectorAll(".cell.drag-over").forEach(c => c.classList.remove("drag-over"));
+
       if (cell) {
         const target = Number(cell.dataset.index);
         if (target !== pointerDrag.from) {
@@ -1462,7 +1272,6 @@
 
       if (wasDragging && target !== null && target !== undefined) {
         moveOrMerge(from, target);
-        selectedIndex = target;
         updateAll();
       } else {
         handleBoardTap(from);
@@ -1487,6 +1296,7 @@
     function startPointerDrag(e) {
       const data = board[pointerDrag.from];
       if (!data) return;
+
       const ghost = document.createElement("div");
       ghost.className = "drag-ghost";
       ghost.textContent = getBoardObjectEmoji(data);
@@ -1531,11 +1341,13 @@
 
     function handleBoardTap(index) {
       const data = board[index];
+
       if (data && data.machine && selectedIndex === null) {
         selectedIndex = index;
         generateItem(data.machine);
         return;
       }
+
       tapCell(index);
     }
 
@@ -1548,12 +1360,14 @@
         }
         return;
       }
+
       if (selectedIndex === index) {
         selectedIndex = null;
         setMsg("Selection cancelled.");
         createBoard();
         return;
       }
+
       moveOrMerge(selectedIndex, index);
       selectedIndex = null;
       updateAll();
@@ -1562,6 +1376,7 @@
     function moveOrMerge(from, to) {
       const a = board[from];
       const b = board[to];
+
       if (!a) return;
 
       if (!b) {
@@ -1580,27 +1395,61 @@
 
       if (a.item === b.item && mergeMap[a.item] !== undefined) {
         const newItem = mergeMap[a.item];
-        board[to] = makeItem(newItem, { lucky: a.lucky || b.lucky, chainBadge: newItem === 7 || a.chainBadge || b.chainBadge });
+        const newLevel = items[newItem].level;
+        const chain = items[newItem].chain;
+
+        if (newLevel > discoveredLevel[chain]) {
+          setMsg("This recipe is not discovered yet. Use Research first.");
+          playSound("error");
+          return;
+        }
+
+        board[to] = makeItem(newItem, {
+          lucky: a.lucky || b.lucky,
+          chainBadge: newLevel === 4 || a.chainBadge || b.chainBadge
+        });
+
         board[from] = null;
         selectedIndex = to;
         mergedItemIndex = to;
-        setMsg(newItem === 7 ? "Fancy Drink completed! ⭐" : ((a.lucky || b.lucky) ? "Lucky merge! ✨" : "Nice merge!"));
+        daily.merge.value++;
+        updateAchievements();
+
+        setMsg(newLevel === 4 ? items[newItem].name + " completed! ⭐" : ((a.lucky || b.lucky) ? "Lucky merge! ✨" : "Nice merge!"));
         playSound("merge");
         return;
       }
+
       setMsg("Only same items merge.");
       playSound("error");
     }
 
     function generateItem(type) {
-      if (energy <= 0) { setMsg("No energy. Use Gift, Recycle or Boost."); playSound("error"); return; }
+      if (energy <= 0) {
+        setMsg("No energy. Use Gift, Recycle, Boost or Shop.");
+        playSound("error");
+        return;
+      }
+
       const empty = [];
-      for (let i = 0; i < boardSize; i++) if (board[i] === null) empty.push(i);
-      if (empty.length === 0) { setMsg("Board full. Merge or recycle."); playSound("error"); return; }
+      for (let i = 0; i < boardSize; i++) {
+        if (board[i] === null) empty.push(i);
+      }
+
+      if (empty.length === 0) {
+        setMsg("Board full. Merge or recycle.");
+        playSound("error");
+        return;
+      }
+
       energy--;
       const slot = empty[Math.floor(Math.random() * empty.length)];
       const item = getMachineItem(type);
-      const lucky = Math.random() < 0.08;
+      let luckyChance = 0.08;
+
+      if (storyProfiles[0].unlocked >= 3 && machineDefs[type].chain === "drink") luckyChance += 0.02;
+
+      const lucky = Math.random() < luckyChance;
       board[slot] = makeItem(item, { lucky });
       newItemIndex = slot;
       setMsg(lucky ? "Lucky item! ✨" : "New item!");
@@ -1609,37 +1458,52 @@
     }
 
     function getMachineItem(type) {
-      const level = type === "drink" ? drinkMachineLevel : dessertMachineLevel;
+      const chain = machineDefs[type].chain;
+      const start = chainStart[chain];
+      const level = machineLevels[type];
+      const discovered = discoveredLevel[chain];
+      const maxLevel = Math.min(level, discovered);
       const r = Math.random();
-      if (type === "dessert") {
-        if (level === 1) return 0;
-        if (level === 2) return r < 0.82 ? 0 : 1;
-        if (level === 3) return r < 0.65 ? 0 : r < 0.92 ? 1 : 2;
-        return r < 0.5 ? 0 : r < 0.8 ? 1 : r < 0.96 ? 2 : 3;
+
+      if (maxLevel <= 1) return start;
+
+      if (maxLevel === 2) {
+        return r < 0.82 ? start : start + 1;
       }
-      if (level === 1) return 4;
-      if (level === 2) return r < 0.82 ? 4 : 5;
-      if (level === 3) return r < 0.65 ? 4 : r < 0.92 ? 5 : 6;
-      return r < 0.5 ? 4 : r < 0.8 ? 5 : r < 0.96 ? 6 : 7;
+
+      if (maxLevel === 3) {
+        return r < 0.65 ? start : r < 0.92 ? start + 1 : start + 2;
+      }
+
+      return r < 0.5 ? start : r < 0.8 ? start + 1 : r < 0.96 ? start + 2 : start + 3;
     }
 
     function createCustomers() {
       customersEl.innerHTML = "";
+
       customers.forEach((c, index) => {
-        const ready = board.some(x => x && x.item === c.order);
+        const ready = isCustomerReady(c);
         const card = document.createElement("div");
         card.className = "customer-card" + (ready ? " ready" : "");
         card.innerHTML = `
           ${ready ? `<div class="ready-check">✓</div>` : ""}
           <div class="avatar">${c.profile.avatar}</div>
           <div class="story-name">${c.profile.name}</div>
-          <div class="order-emoji">${items[c.order].emoji}</div>
-          <div class="order-name">${items[c.order].name}</div>
-          <div class="reward"><span>🪙 ${getReward(c.order)}</span>${c.givesPart ? `<span>🔧 +1</span>` : ""}<span>⭐ +${getFameReward(c.order)}</span></div>
+          <div class="order-emoji">${orderEmojiText(c.orders)}</div>
+          <div class="order-name">${orderNameText(c.orders)}</div>
+          <div class="reward"><span>🪙 ${getCustomerReward(c)}</span>${c.givesPart ? `<span>🔧 +1</span>` : ""}<span>⭐ +${getCustomerFameReward(c)}</span></div>
           ${ready ? `<button class="serve-btn" onclick="serveCustomer(${index})">Serve</button>` : ``}
         `;
         customersEl.appendChild(card);
       });
+    }
+
+    function orderEmojiText(orderArr) {
+      return orderArr.map(i => items[i].emoji).join(" + ");
+    }
+
+    function orderNameText(orderArr) {
+      return orderArr.map(i => items[i].name).join(" + ");
     }
 
     function setupCustomers() {
@@ -1648,18 +1512,50 @@
     }
 
     function newCustomer(replaceIndex = -1) {
-      const usedOrders = customers.map((c, i) => i !== replaceIndex ? c.order : null).filter(x => x !== null);
-      let pool = availableOrders().filter(x => !usedOrders.includes(x));
-      if (pool.length === 0) pool = availableOrders();
       const profile = storyProfiles[Math.floor(Math.random() * storyProfiles.length)];
-      return { profile, avatar: profile.avatar, order: pool[Math.floor(Math.random() * pool.length)], givesPart: orderGivesPart() };
+      const orderCount = shouldMakeMultiOrder() ? 2 : 1;
+      const pool = availableOrders();
+      const orders = [];
+
+      for (let i = 0; i < orderCount; i++) {
+        let pick = pool[Math.floor(Math.random() * pool.length)];
+        let safety = 0;
+        while (orders.includes(pick) && safety < 10) {
+          pick = pool[Math.floor(Math.random() * pool.length)];
+          safety++;
+        }
+        orders.push(pick);
+      }
+
+      return { profile, orders, givesPart: orderGivesPart() };
+    }
+
+    function shouldMakeMultiOrder() {
+      if (fameRank < 3) return false;
+      let chance = fameRank >= 4 ? 0.45 : 0.25;
+      if (storyProfiles[2].unlocked >= 2) chance += 0.10;
+      return Math.random() < chance;
     }
 
     function availableOrders() {
-      let arr = [1, 2, 5, 6];
-      if (fameRank >= 2 || menuResearch.dessert) arr.push(3);
-      if (fameRank >= 3 || menuResearch.vip) arr.push(7);
-      return arr;
+      const result = [];
+
+      Object.keys(chainStart).forEach(chain => {
+        if (!isChainAvailable(chain)) return;
+        const start = chainStart[chain];
+        const max = discoveredLevel[chain];
+        for (let lvl = 2; lvl <= max; lvl++) {
+          result.push(start + lvl - 1);
+        }
+      });
+
+      if (result.length === 0) return [1, 5];
+      return result;
+    }
+
+    function isChainAvailable(chain) {
+      const machineType = Object.keys(machineDefs).find(k => machineDefs[k].chain === chain);
+      return machineType && unlockedMachines[machineType];
     }
 
     function orderGivesPart() {
@@ -1667,44 +1563,106 @@
       return Math.random() < 0.25;
     }
 
-    function getReward(itemIndex) {
-      const base = { 1: 20, 2: 45, 3: 85, 4: 150 };
-      let bonus = 0;
-      if (menuResearch.dessert && items[itemIndex].chain === "dessert") bonus += 10;
-      if (storyProfiles.some(p => p.unlocked >= 3)) bonus += 5;
-      return base[items[itemIndex].level] + fameRank * 5 + bonus;
+    function isCustomerReady(c) {
+      const used = {};
+      for (const itemIndex of c.orders) {
+        const boardIndex = board.findIndex((x, idx) => x && x.item === itemIndex && !used[idx]);
+        if (boardIndex === -1) return false;
+        used[boardIndex] = true;
+      }
+      return true;
     }
 
-    function getFameReward(itemIndex) {
-      return items[itemIndex].level * 4 + 4;
+    function hasOrderItem(itemIndex) {
+      return customers.some(c => c.orders.includes(itemIndex));
     }
 
-    function isOrderReady(itemIndex) { return customers.some(c => c.order === itemIndex); }
+    function isOrderReady(itemIndex) {
+      return hasOrderItem(itemIndex);
+    }
+
+    function getBaseReward(itemIndex) {
+      const level = items[itemIndex].level;
+      const base = { 1: 8, 2: 20, 3: 45, 4: 85 };
+      return base[level] || 15;
+    }
+
+    function getCustomerReward(c) {
+      let reward = c.orders.reduce((sum, itemIndex) => sum + getBaseReward(itemIndex), 0);
+      reward += fameRank * 5;
+
+      c.orders.forEach(itemIndex => {
+        const item = items[itemIndex];
+
+        if (storyProfiles[0].unlocked >= 1 && item.name === "Coffee") reward += 5;
+        if (storyProfiles[1].unlocked >= 1 && item.name === "Cupcake") reward += 5;
+        if (storyProfiles[3].unlocked >= 1 && item.chain === "dessert") reward += 10;
+      });
+
+      if (c.orders.length > 1) reward += 35;
+      return reward;
+    }
+
+    function getCustomerFameReward(c) {
+      let fame = c.orders.reduce((sum, itemIndex) => sum + items[itemIndex].level * 4 + 4, 0);
+      if (c.orders.length > 1) fame += 10;
+      if (storyProfiles[2].unlocked >= 1) fame = Math.ceil(fame * 1.1);
+      return fame;
+    }
 
     function serveCustomer(index) {
       const c = customers[index];
-      const boardIndex = board.findIndex(x => x && x.item === c.order);
-      if (boardIndex === -1) { setMsg("Order item not ready."); playSound("error"); return; }
-      const served = board[boardIndex];
-      board[boardIndex] = null;
-      let reward = getReward(c.order);
-      if (served.lucky) reward += 25;
-      const fameGain = getFameReward(c.order) + (served.lucky ? 6 : 0);
+
+      if (!isCustomerReady(c)) {
+        setMsg("Order items are not ready.");
+        playSound("error");
+        return;
+      }
+
+      let luckyBonus = 0;
+      const used = {};
+
+      c.orders.forEach(itemIndex => {
+        const boardIndex = board.findIndex((x, idx) => x && x.item === itemIndex && !used[idx]);
+        if (boardIndex !== -1) {
+          const served = board[boardIndex];
+          if (served.lucky) luckyBonus += 25;
+          board[boardIndex] = null;
+          used[boardIndex] = true;
+        }
+      });
+
+      let reward = getCustomerReward(c) + luckyBonus;
+      const fameGain = getCustomerFameReward(c) + (luckyBonus ? 6 : 0);
+
+      coins += reward;
       famePoints += fameGain;
       c.profile.visits++;
       totalServed++;
+      daily.serve.value++;
+      achievements.serve20.value = totalServed;
 
       let partMsg = "";
-      if (c.givesPart) { parts++; ordersSinceLastPart = 0; partMsg = " +1 🔧"; }
-      else ordersSinceLastPart++;
+      if (c.givesPart) {
+        parts++;
+        ordersSinceLastPart = 0;
+        partMsg = " +1 🔧";
+      } else {
+        ordersSinceLastPart++;
+      }
 
       giftProgress++;
+      if (storyProfiles[1].unlocked >= 2 && Math.random() < 0.3) giftProgress++;
+
       customers[index] = newCustomer(index);
-      setMsg((served.lucky ? "Lucky order! " : "Served! ") + "+" + reward + " 🪙 +" + fameGain + " ⭐" + partMsg);
-      coins += reward;
+
+      setMsg((luckyBonus ? "Lucky order! " : "Served! ") + "+" + reward + " 🪙 +" + fameGain + " ⭐" + partMsg);
       playSound("order");
+
       updateAll();
       checkFameRankUp();
+      updateAchievements();
+
       if (document.getElementById("sheet").classList.contains("show")) refreshOpenSheet();
     }
 
@@ -1722,37 +1680,108 @@
       const type = sheet.dataset.type || "goals";
       const title = document.getElementById("sheetTitle");
       const content = document.getElementById("sheetContent");
+
       if (type === "goals") { title.textContent = "🎯 Goals"; content.innerHTML = renderGoalsPanel(); }
       if (type === "fame") { title.textContent = "⭐ Cafe Fame"; content.innerHTML = renderFamePanel(); }
       if (type === "gift") { title.textContent = "🎁 Gift"; content.innerHTML = renderGiftPanel(); }
       if (type === "shop") { title.textContent = "🛒 Shop"; content.innerHTML = renderShopPanel(); }
       if (type === "info") { title.textContent = "ℹ️ Info"; content.innerHTML = renderInfoPanel(); }
+      if (type === "minigame") { title.textContent = "🎮 Mini Games"; content.innerHTML = renderMiniGamePanel(); }
     }
 
-    function closeSheet() { document.getElementById("sheet").classList.remove("show"); }
+    function closeSheet() {
+      document.getElementById("sheet").classList.remove("show");
+    }
 
     function renderGoalsPanel() {
-      const readyCount = customers.filter(c => board.some(x => x && x.item === c.order)).length;
-      let html = `
+      return `
         <div class="panel-card">
-          <h3>Active Goals</h3>
-          <p>${readyCount} order(s) ready now. Ready orders glow on the main screen. Complete orders to gain coins, fame and gifts.</p>
+          <h3>Daily Tasks</h3>
+          <p>These give you a reason to keep playing beyond the merge board.</p>
+        </div>
+        ${renderTask("merge", daily.merge)}
+        ${renderTask("serve", daily.serve)}
+        ${renderTask("discover", daily.discover)}
+        ${renderTask("mini", daily.mini)}
+
+        <div class="panel-card">
+          <h3>Mini Games</h3>
+          <p>Take a short break from merging and earn rewards.</p>
+          <button class="blue-btn" onclick="openSheet('minigame')">Open Mini Games</button>
+        </div>
+
+        <div class="panel-card">
+          <h3>Achievements</h3>
+          <p>Long-term goals for progression.</p>
+        </div>
+        ${renderAchievement("serve20", achievements.serve20)}
+        ${renderAchievement("rank3", achievements.rank3)}
+        ${renderAchievement("unlock3", achievements.unlock3)}
+        ${renderAchievement("recipes6", achievements.recipes6)}
+      `;
+    }
+
+    function renderTask(key, task) {
+      const pct = Math.min(100, Math.round((task.value / task.target) * 100));
+      const done = task.value >= task.target;
+      return `
+        <div class="task-card">
+          <h3>${done ? "✅" : "▫️"} ${task.title}</h3>
+          <p>${Math.min(task.value, task.target)} / ${task.target} · Reward: ${task.reward}</p>
+          <div class="task-progress"><div class="task-fill" style="width:${pct}%"></div></div>
+          <button class="green-btn" onclick="claimDaily('${key}')" ${done && !task.claimed ? "" : "disabled"}>${task.claimed ? "Claimed" : "Claim Reward"}</button>
         </div>`;
-      customers.forEach((c, i) => {
-        const ready = board.some(x => x && x.item === c.order);
-        html += `
-          <div class="order-row">
-            <div class="order-top">
-              <div class="order-avatar">${c.profile.avatar}</div>
-              <div class="order-body">
-                <div class="order-title">${c.profile.name} wants ${items[c.order].emoji} ${items[c.order].name}</div>
-                <div class="order-meta">Reward: 🪙 ${getReward(c.order)} · ⭐ ${getFameReward(c.order)}${c.givesPart ? " · 🔧 +1" : ""}</div>
-              </div>
-              ${ready ? `<button class="ready-serve-mini" onclick="serveCustomer(${i}); refreshOpenSheet();">Serve</button>` : ``}
-            </div>
-          </div>`;
-      });
-      return html;
+    }
+
+    function renderAchievement(key, ach) {
+      const pct = Math.min(100, Math.round((ach.value / ach.target) * 100));
+      const done = ach.value >= ach.target;
+      return `
+        <div class="task-card">
+          <h3>${done ? "🏆" : "🔒"} ${ach.title}</h3>
+          <p>${Math.min(ach.value, ach.target)} / ${ach.target} · Reward: ${ach.reward}</p>
+          <div class="task-progress"><div class="task-fill" style="width:${pct}%"></div></div>
+          <button class="orange-btn" onclick="claimAchievement('${key}')" ${done && !ach.claimed ? "" : "disabled"}>${ach.claimed ? "Claimed" : "Claim Reward"}</button>
+        </div>`;
+    }
+
+    function claimDaily(key) {
+      const task = daily[key];
+      if (!task || task.claimed || task.value < task.target) return;
+      task.claimed = true;
+
+      if (key === "merge") coins += 35;
+      if (key === "serve") gems += storyProfiles[1].unlocked >= 3 ? 4 : 3;
+      if (key === "discover") parts += 1;
+      if (key === "mini") famePoints += 15;
+
+      setMsg("Daily reward claimed!");
+      playSound("upgrade");
+      updateAll();
+      checkFameRankUp();
+      refreshOpenSheet();
+    }
+
+    function claimAchievement(key) {
+      const ach = achievements[key];
+      if (!ach || ach.claimed || ach.value < ach.target) return;
+      ach.claimed = true;
+
+      if (key === "serve20") gems += 10;
+      if (key === "rank3") parts += 3;
+      if (key === "unlock3") gems += 15;
+      if (key === "recipes6") coins += 150;
+
+      setMsg("Achievement reward claimed!");
+      playSound("upgrade");
+      updateAll();
+      refreshOpenSheet();
+    }
+
+    function updateAchievements() {
+      achievements.rank3.value = fameRank >= 2 ? 1 : 0;
+      achievements.unlock3.value = Object.values(unlockedMachines).filter(Boolean).length;
+      achievements.recipes6.value = Object.values(discoveredLevel).reduce((a, b) => a + b, 0);
     }
 
     function renderFamePanel() {
@@ -1760,20 +1789,36 @@
       const currentNeed = fameRanks[fameRank].need;
       const nextNeed = next ? next.need : fameRanks[fameRank].need;
       const pct = next ? Math.min(100, Math.round((famePoints - currentNeed) / (nextNeed - currentNeed) * 100)) : 100;
+
       let html = `
         <div class="fame-hero">
           <div class="fame-rank-title">⭐ ${fameRanks[fameRank].name}</div>
           <div class="fame-rank-sub">Fame: ${famePoints}${next ? " / " + next.need : " MAX"}</div>
           <div class="fame-bar"><div class="fame-fill" style="width:${pct}%"></div></div>
         </div>
+
+        <div class="unlock-card">
+          <h3>Research Lab</h3>
+          <p>Research now discovers real recipes. New recipes can appear in orders and be merged on the board.</p>
+          ${renderResearchButton("drink")}
+          ${renderResearchButton("dessert")}
+          ${unlockedMachines.bakery ? renderResearchButton("bakery") : ""}
+          ${unlockedMachines.tea ? renderResearchButton("tea") : ""}
+          ${unlockedMachines.juice ? renderResearchButton("juice") : ""}
+          ${unlockedMachines.ice ? renderResearchButton("ice") : ""}
+        </div>
+
         <div class="unlock-card">
           <h3>Spend Coins</h3>
-          <p>Coins now unlock useful progress, not just numbers.</p>
+          <p>Coins unlock useful progress, not just numbers.</p>
           <button class="orange-btn" onclick="unlockExtraCustomerSlot()" ${customerSlots >= 4 || fameRank < 1 ? "disabled" : ""}>Unlock 4th Customer Slot - 300 🪙</button>
-          <button class="blue-btn" onclick="buyMenuResearch('dessert')" ${menuResearch.dessert ? "disabled" : ""}>Dessert Menu Research - 220 🪙</button>
-          <button class="green-btn" onclick="buyMenuResearch('vip')" ${menuResearch.vip || fameRank < 2 ? "disabled" : ""}>VIP Drink Research - 360 🪙</button>
         </div>
-        <div class="panel-card"><h3>Customer Stories</h3><p>Serve the same customers, then spend coins to unlock story parts and Fame rewards.</p></div>`;
+
+        <div class="panel-card">
+          <h3>Customer Stories</h3>
+          <p>Stories now give permanent bonuses. Unlocking them improves rewards, fame, gift progress or production chances.</p>
+        </div>
+      `;
 
       storyProfiles.forEach(p => {
         const nextStory = p.unlocked < p.stories.length ? p.stories[p.unlocked] : null;
@@ -1790,17 +1835,381 @@
               ${nextStory ? `<button class="small-action-btn" onclick="unlockStory('${p.id}')" ${canUnlock ? "" : "disabled"}>${cost} 🪙</button>` : `<span class="done-badge2">Done ✓</span>`}
             </div>
             ${p.unlocked > 0 ? `<div class="story-text">${p.stories[p.unlocked - 1]}</div>` : `<div class="story-text">Serve this customer to reveal their story.</div>`}
+            <div class="info-note"><b>Next Bonus:</b> ${p.unlocked < p.bonusNames.length ? p.bonusNames[p.unlocked] : "All bonuses unlocked."}</div>
             ${nextStory && !canUnlock ? `<p style="font-size:12px;font-weight:900;color:#8b5e34;margin-top:7px;">Need ${p.unlocked + 1} visit(s) to unlock next story.</p>` : ""}
           </div>`;
       });
+
       return html;
+    }
+
+    function renderResearchButton(chain) {
+      const label = chainLabel(chain);
+      const level = discoveredLevel[chain];
+
+      if (level >= 4) {
+        return `<button class="green-btn" disabled>${label} Research Complete ✓</button>`;
+      }
+
+      const nextItem = items[chainStart[chain] + level];
+      return `<button class="blue-btn" onclick="doResearch('${chain}'); refreshOpenSheet();">${label} Research - ${researchCost[chain]} 🪙<br>Discover: ${nextItem.emoji} ${nextItem.name}</button>`;
+    }
+
+    function chainLabel(chain) {
+      if (chain === "drink") return "Drink";
+      if (chain === "dessert") return "Dessert";
+      if (chain === "bakery") return "Bakery";
+      if (chain === "tea") return "Tea";
+      if (chain === "juice") return "Juice";
+      if (chain === "ice") return "Ice Cream";
+      return chain;
+    }
+
+    function doResearch(chain) {
+      if (discoveredLevel[chain] >= 4) {
+        setMsg("All recipes already discovered.");
+        return;
+      }
+
+      const cost = researchCost[chain];
+      if (coins < cost) {
+        setMsg("Need " + cost + " coins for research.");
+        playSound("error");
+        return;
+      }
+
+      coins -= cost;
+      const oldLevel = discoveredLevel[chain];
+      discoveredLevel[chain]++;
+      researchCost[chain] += 80;
+
+      const itemIndex = chainStart[chain] + oldLevel;
+      const item = items[itemIndex];
+
+      daily.discover.value++;
+      updateAchievements();
+      famePoints += 8;
+
+      showGameModal("🔬", "New Recipe Discovered!", item.emoji + " " + item.name, "Unlocked for merge, machine production and customer orders. Reward: +8 ⭐");
+      setMsg(item.name + " discovered!");
+      playSound("upgrade");
+
+      updateAll();
+      checkFameRankUp();
+    }
+
+    function unlockExtraCustomerSlot() {
+      if (customerSlots >= 4) return;
+      if (fameRank < 1) { setMsg("Reach Local Favorite first."); return; }
+      if (coins < 300) { setMsg("Need 300 coins."); playSound("error"); return; }
+
+      coins -= 300;
+      customerSlots = 4;
+      customers.push(newCustomer());
+      famePoints += 25;
+      setMsg("4th customer slot unlocked! +25 ⭐");
+      updateAll();
+      checkFameRankUp();
+      refreshOpenSheet();
+    }
+
+    function unlockStory(id) {
+      const p = storyProfiles.find(x => x.id === id);
+      if (!p || p.unlocked >= p.stories.length) return;
+
+      if (p.visits < p.unlocked + 1) {
+        setMsg("Serve this customer more to unlock the story.");
+        return;
+      }
+
+      const cost = p.costs[p.unlocked];
+      if (coins < cost) {
+        setMsg("Need " + cost + " coins.");
+        playSound("error");
+        return;
+      }
+
+      coins -= cost;
+      p.unlocked++;
+
+      const fameGain = 20 + p.unlocked * 10;
+      famePoints += fameGain;
+
+      if (p.unlocked === 3) parts += 1;
+
+      showGameModal("📖", "Story Bonus Unlocked!", p.name, p.bonusNames[p.unlocked - 1] + "<br>Reward: +" + fameGain + " ⭐" + (p.unlocked === 3 ? " +1 🔧" : ""));
+      setMsg("Story unlocked: " + p.name + "! +" + fameGain + " ⭐");
+      playSound("upgrade");
+
+      updateAll();
+      checkFameRankUp();
+      refreshOpenSheet();
+    }
+
+    function renderGiftPanel() {
+      return `
+        <div class="panel-card">
+          <h3>Gift Box</h3>
+          <p>${giftReady ? "Gift ready! Claim +8 energy." : "Serve " + giftProgress + "/3 customers to unlock."}</p>
+          <button class="green-btn" onclick="claimGift(); refreshOpenSheet();" ${giftReady ? "" : "disabled"}>${giftReady ? "Claim +8 ⚡" : "Locked"}</button>
+        </div>
+
+        <div class="panel-card">
+          <h3>Recycle</h3>
+          <p>Select an item on the board. Recycle it for energy.</p>
+          <button class="green-btn" onclick="recycleSelected(); refreshOpenSheet();">Recycle Selected Item</button>
+        </div>
+
+        <div class="panel-card">
+          <h3>Energy Boost</h3>
+          <p>Watch a short ad break to get +15 energy.</p>
+          <button class="blue-btn" onclick="watchAd(); refreshOpenSheet();" ${adCooldown ? "disabled" : ""}>${adCooldown ? "Available in " + adCooldownSeconds + "s" : "Watch Ad +15 ⚡"}</button>
+        </div>
+
+        <div class="panel-card">
+          <h3>Mini Games</h3>
+          <p>Play short mini games for bonus coins, fame and energy.</p>
+          <button class="purple-btn" onclick="openSheet('minigame')">Open Mini Games</button>
+        </div>`;
+    }
+
+    function renderShopPanel() {
+      return `
+        <div class="panel-card">
+          <h3>💎 Gem Shop</h3>
+          <p>Gems are a future premium currency. Later these can connect to App Store / Google Play purchases.</p>
+          <p><b>Your gems:</b> 💎 ${gems}</p>
+          <button class="green-btn" onclick="buyEnergyWithGems(10, 6); refreshOpenSheet();">Buy +10 Energy - 6 💎</button>
+          <button class="blue-btn" onclick="buyEnergyWithGems(25, 14); refreshOpenSheet();">Buy +25 Energy - 14 💎</button>
+          <button class="orange-btn" onclick="prototypeBuyGems(); refreshOpenSheet();">Prototype Gem Pack +25 💎</button>
+          <div class="info-note">Prototype Gem Pack is free for testing now. Later it can become a real payment product.</div>
+        </div>
+
+        <div class="panel-card">
+          <h3>New Machines</h3>
+          <p>Unlock machines with gems as your cafe becomes more famous.</p>
+          ${renderMachineShop("bakery")}
+          ${renderMachineShop("tea")}
+          ${renderMachineShop("juice")}
+          ${renderMachineShop("ice")}
+        </div>`;
+    }
+
+    function renderMachineShop(type) {
+      const def = machineDefs[type];
+
+      if (unlockedMachines[type]) {
+        return `<button class="green-btn" disabled>${def.emoji} ${def.name} Owned ✓</button>`;
+      }
+
+      const rankOk = fameRank >= def.unlockRank;
+      const gemOk = gems >= def.cost;
+      return `<button class="orange-btn" onclick="unlockMachine('${type}'); refreshOpenSheet();" ${rankOk && gemOk ? "" : "disabled"}>${def.emoji} Unlock ${def.name} - ${def.cost} 💎<br>Requires: ${fameRanks[def.unlockRank].name}</button>`;
+    }
+
+    function unlockMachine(type) {
+      const def = machineDefs[type];
+
+      if (unlockedMachines[type]) return;
+
+      if (fameRank < def.unlockRank) {
+        setMsg("Reach " + fameRanks[def.unlockRank].name + " first.");
+        playSound("error");
+        return;
+      }
+
+      if (gems < def.cost) {
+        setMsg("Need " + def.cost + " gems.");
+        playSound("error");
+        return;
+      }
+
+      const empty = firstEmptyCell();
+      if (empty === -1) {
+        setMsg("Need an empty board cell for new machine.");
+        playSound("error");
+        return;
+      }
+
+      gems -= def.cost;
+      unlockedMachines[type] = true;
+      board[empty] = { machine: type };
+
+      famePoints += 20;
+      updateAchievements();
+
+      showGameModal("🛒", "New Machine Unlocked!", def.emoji + " " + def.name, "A new item chain is now available. Reward: +20 ⭐");
+      setMsg(def.name + " unlocked!");
+      playSound("upgrade");
+
+      updateAll();
+      checkFameRankUp();
+    }
+
+    function buyEnergyWithGems(amount, cost) {
+      if (gems < cost) {
+        setMsg("Need " + cost + " 💎.");
+        playSound("error");
+        return;
+      }
+
+      if (energy >= maxEnergy) {
+        setMsg("Energy is already full.");
+        return;
+      }
+
+      gems -= cost;
+      energy = Math.min(maxEnergy, energy + amount);
+      setMsg("Energy purchased! +" + amount + " ⚡");
+      playSound("upgrade");
+      updateAll();
+    }
+
+    function prototypeBuyGems() {
+      gems += 25;
+      setMsg("Prototype gem pack added! +25 💎");
+      playSound("upgrade");
+      updateAll();
+    }
+
+    function renderMiniGamePanel() {
+      return `
+        <div class="panel-card">
+          <h3>🧽 Clean the Table</h3>
+          <p>Tap all stains before they disappear. Reward: coins + fame.</p>
+          <button class="green-btn" onclick="startCleanGame(); refreshOpenSheet();">Start Clean Game</button>
+        </div>
+
+        <div class="panel-card">
+          <h3>☕ Coffee Rush</h3>
+          <p>Tap the correct sequence to make a quick drink. Reward: energy + coins.</p>
+          <button class="blue-btn" onclick="startRushGame(); refreshOpenSheet();">Start Coffee Rush</button>
+        </div>
+
+        <div id="miniGameMount">${renderActiveMiniGame()}</div>`;
+    }
+
+    function renderActiveMiniGame() {
+      if (cleanGame.active) {
+        return `
+          <div class="panel-card">
+            <h3>Clean the Table</h3>
+            <p>Remaining stains: ${cleanGame.remaining}</p>
+            <div class="mini-game-area" id="cleanArea"></div>
+          </div>`;
+      }
+
+      if (rushGame.active) {
+        return `
+          <div class="panel-card">
+            <h3>Coffee Rush</h3>
+            <p>Tap the sequence in order.</p>
+            <div class="rush-sequence">${rushGame.sequence.map((s, idx) => `<span style="${idx < rushGame.index ? "opacity:.35" : ""}">${s}</span>`).join("")}</div>
+            <div class="rush-btn-row">
+              <button class="rush-btn" onclick="tapRush('🫘')">🫘</button>
+              <button class="rush-btn" onclick="tapRush('☕')">☕</button>
+              <button class="rush-btn" onclick="tapRush('🥤')">🥤</button>
+            </div>
+          </div>`;
+      }
+
+      return ``;
+    }
+
+    function startCleanGame() {
+      cleanGame.active = true;
+      cleanGame.remaining = 5;
+      cleanGame.reward = 0;
+      daily.mini.value++;
+
+      setTimeout(spawnCleanStains, 80);
+    }
+
+    function spawnCleanStains() {
+      const area = document.getElementById("cleanArea");
+      if (!area) return;
+
+      area.innerHTML = "";
+
+      for (let i = 0; i < 5; i++) {
+        const dot = document.createElement("button");
+        dot.className = "stain-dot";
+        dot.textContent = "🧽";
+        dot.style.left = Math.floor(Math.random() * 74 + 3) + "%";
+        dot.style.top = Math.floor(Math.random() * 68 + 8) + "%";
+        dot.onclick = () => cleanDot(dot);
+        area.appendChild(dot);
+      }
+    }
+
+    function cleanDot(dot) {
+      if (!cleanGame.active) return;
+
+      dot.remove();
+      cleanGame.remaining--;
+      cleanGame.reward += 1;
+
+      if (cleanGame.remaining <= 0) {
+        finishCleanGame();
+      } else {
+        refreshOpenSheet();
+        setTimeout(spawnCleanStains, 30);
+      }
+    }
+
+    function finishCleanGame() {
+      cleanGame.active = false;
+      coins += 25;
+      famePoints += 12;
+      giftProgress++;
+      setMsg("Clean game completed! +25 🪙 +12 ⭐");
+      playSound("upgrade");
+      updateAll();
+      checkFameRankUp();
+      refreshOpenSheet();
+    }
+
+    function startRushGame() {
+      rushGame.active = true;
+      rushGame.sequence = ["🫘", "☕", "🥤", "☕", "🫘"];
+      rushGame.index = 0;
+      rushGame.reward = 0;
+      daily.mini.value++;
+    }
+
+    function tapRush(symbol) {
+      if (!rushGame.active) return;
+
+      if (rushGame.sequence[rushGame.index] === symbol) {
+        rushGame.index++;
+        if (rushGame.index >= rushGame.sequence.length) {
+          finishRushGame();
+        } else {
+          refreshOpenSheet();
+        }
+      } else {
+        rushGame.active = false;
+        setMsg("Coffee Rush failed. Try again!");
+        playSound("error");
+        refreshOpenSheet();
+      }
+    }
+
+    function finishRushGame() {
+      rushGame.active = false;
+      coins += 20;
+      energy = Math.min(maxEnergy, energy + 6);
+      famePoints += 8;
+      setMsg("Coffee Rush completed! +20 🪙 +6 ⚡ +8 ⭐");
+      playSound("upgrade");
+      updateAll();
+      checkFameRankUp();
+      refreshOpenSheet();
     }
 
     function openInfoPanel() {
       if (selectedIndex === null || !board[selectedIndex]) {
         setMsg("Select an item or machine first, then tap Info.");
-        openSheet("info", null);
-        return;
       }
       openSheet("info", null);
     }
@@ -1818,12 +2227,13 @@
 
       if (data.machine) {
         const type = data.machine;
-        const lvl = type === "drink" ? drinkMachineLevel : dessertMachineLevel;
+        const def = machineDefs[type];
+        const lvl = machineLevels[type];
         const cost = upgradeCost(type);
         const produces = getMachineProductionText(type);
         return `
           <div class="panel-card">
-            <h3>${getMachineEmoji(type)} ${type === "drink" ? "Drink Machine" : "Dessert Machine"}</h3>
+            <h3>${getMachineEmoji(type)} ${def.name}</h3>
             <p><b>Level:</b> ${lvl}</p>
             <p><b>Produces:</b> ${produces}</p>
             <p><b>How it works:</b> Tap the machine to produce items. Drag it to move it on the board.</p>
@@ -1833,194 +2243,144 @@
       }
 
       const item = items[data.item];
-      const chain = item.chain === "drink" ? ["Bean", "Coffee", "Latte", "Fancy Drink"] : ["Cookie", "Cupcake", "Cake", "Special Cake"];
+      const chain = getChainItems(item.chain);
       const nextIndex = mergeMap[data.item];
       const nextText = nextIndex !== undefined ? items[nextIndex].emoji + " " + items[nextIndex].name : "Max level";
-      const how = item.level === 1 ? (item.chain === "drink" ? "Produced by Drink Machine." : "Produced by Dessert Machine.") : "Merge two " + item.name + " items from the previous level.";
+      const how = item.level === 1 ? "Produced by " + chainLabel(item.chain) + " machine." : "Merge two previous items from the same chain.";
 
       return `
         <div class="panel-card">
           <h3>${item.emoji} ${item.name}</h3>
           <p><b>Product name:</b> ${item.name}</p>
           <p><b>How to make:</b> ${how}</p>
-          <p><b>Merge chain:</b> ${chain.join(" → ")}</p>
+          <p><b>Merge chain:</b> ${chain.map(i => items[i].name).join(" → ")}</p>
           <p><b>Next merge:</b> ${nextText}</p>
+          <p><b>Discovered:</b> ${item.level <= discoveredLevel[item.chain] ? "Yes" : "No"}</p>
           ${data.lucky ? `<p><b>Lucky:</b> This item gives extra reward when served.</p>` : ""}
           ${data.chainBadge ? `<p><b>Badge:</b> ⭐ Special completed item.</p>` : ""}
         </div>`;
     }
 
+    function getChainItems(chain) {
+      const s = chainStart[chain];
+      return [s, s + 1, s + 2, s + 3];
+    }
+
     function getMachineProductionText(type) {
-      const lvl = type === "drink" ? drinkMachineLevel : dessertMachineLevel;
-      if (type === "drink") {
-        if (lvl === 1) return "Bean";
-        if (lvl === 2) return "Mostly Bean, sometimes Coffee";
-        if (lvl === 3) return "Bean, Coffee, rarely Latte";
-        return "Bean, Coffee, Latte, rarely Fancy Drink";
+      const chain = machineDefs[type].chain;
+      const start = chainStart[chain];
+      const max = Math.min(machineLevels[type], discoveredLevel[chain]);
+      const names = [];
+
+      for (let i = 0; i < max; i++) {
+        names.push(items[start + i].emoji + " " + items[start + i].name);
       }
-      if (lvl === 1) return "Cookie";
-      if (lvl === 2) return "Mostly Cookie, sometimes Cupcake";
-      if (lvl === 3) return "Cookie, Cupcake, rarely Cake";
-      return "Cookie, Cupcake, Cake, rarely Special Cake";
+
+      return names.join(", ");
     }
 
-    function renderGiftPanel() {
-      return `
-        <div class="panel-card">
-          <h3>Gift Box</h3>
-          <p>${giftReady ? "Gift ready! Claim +8 energy." : "Serve " + giftProgress + "/3 customers to unlock."}</p>
-          <button class="green-btn" onclick="claimGift(); refreshOpenSheet();" ${giftReady ? "" : "disabled"}>${giftReady ? "Claim +8 ⚡" : "Locked"}</button>
-        </div>
-        <div class="panel-card">
-          <h3>Recycle</h3>
-          <p>Select an item on the board. Recycle it for energy.</p>
-          <button class="green-btn" onclick="recycleSelected(); refreshOpenSheet();">Recycle Selected Item</button>
-        </div>
-        <div class="panel-card">
-          <h3>Energy Boost</h3>
-          <p>Watch a short ad break to get +15 energy.</p>
-          <button class="blue-btn" onclick="watchAd(); refreshOpenSheet();" ${adCooldown ? "disabled" : ""}>${adCooldown ? "Available in " + adCooldownSeconds + "s" : "Watch Ad +15 ⚡"}</button>
-        </div>`;
-    }
+    function upgradeMachine(type) {
+      const lvl = machineLevels[type];
 
-    function renderShopPanel() {
-      return `
-        <div class="panel-card">
-          <h3>💎 Gem Shop</h3>
-          <p>Gems are added as a future premium currency. Later, this can be connected to real App Store / Google Play purchases.</p>
-          <p><b>Your gems:</b> 💎 ${gems}</p>
-          <button class="green-btn" onclick="buyEnergyWithGems(10, 6); refreshOpenSheet();">Buy +10 Energy - 6 💎</button>
-          <button class="blue-btn" onclick="buyEnergyWithGems(25, 14); refreshOpenSheet();">Buy +25 Energy - 14 💎</button>
-          <button class="orange-btn" onclick="prototypeBuyGems(); refreshOpenSheet();">Prototype Gem Pack +25 💎</button>
-          <div class="info-note">Note: Prototype Gem Pack is free for testing now. Later this button can become a real payment product.</div>
-        </div>`;
-    }
+      if (lvl >= 4) {
+        setMsg("Machine already max.");
+        return;
+      }
 
-    function buyEnergyWithGems(amount, cost) {
-      if (gems < cost) { setMsg("Need " + cost + " 💎."); playSound("error"); return; }
-      if (energy >= maxEnergy) { setMsg("Energy is already full."); return; }
-      gems -= cost;
-      energy = Math.min(maxEnergy, energy + amount);
-      setMsg("Energy purchased! +" + amount + " ⚡");
-      playSound("upgrade");
-      updateAll();
-    }
+      const cost = upgradeCost(type);
 
-    function prototypeBuyGems() {
-      gems += 25;
-      setMsg("Prototype gem pack added! +25 💎");
-      playSound("upgrade");
-      updateAll();
-    }
+      if (parts < cost) {
+        setMsg("Need " + cost + " 🔧.");
+        playSound("error");
+        return;
+      }
 
-    function refreshOrdersWithCoins() {
-      if (coins < 35) { setMsg("Need 35 coins to refresh orders."); playSound("error"); return; }
-      coins -= 35;
-      setupCustomers();
-      setMsg("Orders refreshed! New customers arrived.");
-      updateAll();
-      refreshOpenSheet();
-    }
+      parts -= cost;
+      machineLevels[type]++;
+      energy = Math.min(maxEnergy, energy + 10);
+      famePoints += 10;
 
-    function unlockExtraCustomerSlot() {
-      if (customerSlots >= 4) return;
-      if (fameRank < 1) { setMsg("Reach Local Favorite first."); return; }
-      if (coins < 300) { setMsg("Need 300 coins."); playSound("error"); return; }
-      coins -= 300;
-      customerSlots = 4;
-      customers.push(newCustomer());
-      famePoints += 25;
-      setMsg("4th customer slot unlocked! +25 ⭐");
-      updateAll();
-      checkFameRankUp();
-      refreshOpenSheet();
-    }
-
-    function buyMenuResearch(type) {
-      const cost = type === "dessert" ? 220 : 360;
-      if (menuResearch[type]) return;
-      if (type === "vip" && fameRank < 2) { setMsg("Reach Trendy Spot first."); return; }
-      if (coins < cost) { setMsg("Need " + cost + " coins."); playSound("error"); return; }
-      coins -= cost;
-      menuResearch[type] = true;
-      famePoints += type === "dessert" ? 35 : 60;
-      parts += type === "dessert" ? 1 : 2;
-      setMsg((type === "dessert" ? "Dessert" : "VIP Drink") + " research complete! Fame gained.");
-      updateAll();
-      checkFameRankUp();
-      refreshOpenSheet();
-    }
-
-    function unlockStory(id) {
-      const p = storyProfiles.find(x => x.id === id);
-      if (!p || p.unlocked >= p.stories.length) return;
-      if (p.visits < p.unlocked + 1) { setMsg("Serve this customer more to unlock the story."); return; }
-      const cost = p.costs[p.unlocked];
-      if (coins < cost) { setMsg("Need " + cost + " coins."); playSound("error"); return; }
-      coins -= cost;
-      p.unlocked++;
-      const fameGain = 20 + p.unlocked * 10;
-      famePoints += fameGain;
-      if (p.unlocked === 3) parts += 1;
-      setMsg("Story unlocked: " + p.name + "! +" + fameGain + " ⭐");
+      setMsg(machineDefs[type].name + " upgraded! +10 ⚡ +10 ⭐");
       playSound("upgrade");
       updateAll();
       checkFameRankUp();
-      refreshOpenSheet();
+    }
+
+    function upgradeCost(type) {
+      const lvl = machineLevels[type];
+      return lvl === 1 ? 3 : lvl === 2 ? 6 : lvl === 3 ? 10 : 999;
     }
 
     function checkFameRankUp() {
       const next = fameRanks[fameRank + 1];
       if (!next) return;
+
       if (famePoints >= next.need) {
         fameRank++;
         cafeLevel = fameRank + 1;
-        const reward = fameRanks[fameRank].reward;
-        energy = Math.min(maxEnergy, energy + 10);
-        parts += 1;
-        showRankUp(reward);
+
+        let rewardText = fameRanks[fameRank].reward;
+
+        if (fameRank === 1) {
+          energy = Math.min(maxEnergy, energy + 10);
+          parts += 1;
+          gems += 5;
+        }
+
+        if (fameRank === 2) {
+          energy = Math.min(maxEnergy, energy + 15);
+          parts += 2;
+        }
+
+        if (fameRank === 3) {
+          energy = Math.min(maxEnergy, energy + 20);
+          gems += 10;
+        }
+
+        if (fameRank === 4) {
+          energy = Math.min(maxEnergy, energy + 25);
+          gems += 20;
+        }
+
+        updateAchievements();
+        showGameModal("⭐", "Fame Rank Up!", fameRanks[fameRank].name, rewardText);
+        playSound("upgrade");
         updateAll();
       }
     }
 
-    function showRankUp(reward) {
-      let modal = document.getElementById("fameRankModal");
-      if (!modal) {
-        modal = document.createElement("div");
-        modal.id = "fameRankModal";
-        modal.className = "fame-modal";
-        modal.innerHTML = `<div class="fame-card"><div class="rank-big">⭐</div><div class="rank-title">Fame Rank Up!</div><div class="rank-name" id="rankNameText"></div><div class="rank-reward" id="rankRewardText"></div><button class="green-btn" onclick="closeRankUp()">Continue</button></div>`;
-        document.body.appendChild(modal);
-      }
-      document.getElementById("rankNameText").textContent = fameRanks[fameRank].name;
-      document.getElementById("rankRewardText").textContent = "Unlocked: " + reward + " Reward: +10 ⚡ +1 🔧";
-      modal.classList.add("show");
-      playSound("upgrade");
-    }
-
-    function closeRankUp() {
-      const modal = document.getElementById("fameRankModal");
-      if (modal) modal.classList.remove("show");
-    }
-
     function claimGift() {
       if (!giftReady) return;
+
       energy = Math.min(maxEnergy, energy + 8);
       giftProgress = 0;
       giftReady = false;
+
       setMsg("Gift claimed! +8 ⚡");
       playSound("upgrade");
       updateAll();
     }
 
     function recycleSelected() {
-      if (selectedIndex === null || !board[selectedIndex]) { setMsg("Select an item first."); playSound("error"); return; }
+      if (selectedIndex === null || !board[selectedIndex]) {
+        setMsg("Select an item first.");
+        playSound("error");
+        return;
+      }
+
       const obj = board[selectedIndex];
-      if (obj.machine) { setMsg("Machines cannot be recycled."); playSound("error"); return; }
+
+      if (obj.machine) {
+        setMsg("Machines cannot be recycled.");
+        playSound("error");
+        return;
+      }
+
       const gain = Math.min(6, items[obj.item].level + (obj.lucky ? 1 : 0));
       board[selectedIndex] = null;
       selectedIndex = null;
       energy = Math.min(maxEnergy, energy + gain);
+
       setMsg("Recycled! +" + gain + " ⚡");
       playSound("upgrade");
       updateAll();
@@ -2028,12 +2388,15 @@
 
     function watchAd() {
       if (adCooldown) return;
+
       let seconds = 5;
       setMsg("Ad break... 5s");
       adCooldown = true;
+
       const countdown = setInterval(() => {
         seconds--;
         setMsg("Ad break... " + seconds + "s");
+
         if (seconds <= 0) {
           clearInterval(countdown);
           energy = Math.min(maxEnergy, energy + 15);
@@ -2041,6 +2404,7 @@
           playSound("upgrade");
           startAdCooldown();
           updateAll();
+
           if (document.getElementById("sheet").classList.contains("show")) refreshOpenSheet();
         }
       }, 1000);
@@ -2048,55 +2412,78 @@
 
     function startAdCooldown() {
       adCooldownSeconds = 60;
+
       if (adTimer) clearInterval(adTimer);
+
       adTimer = setInterval(() => {
         adCooldownSeconds--;
-        if (adCooldownSeconds <= 0) { clearInterval(adTimer); adCooldown = false; }
+
+        if (adCooldownSeconds <= 0) {
+          clearInterval(adTimer);
+          adCooldown = false;
+        }
+
         if (document.getElementById("sheet").classList.contains("show")) refreshOpenSheet();
       }, 1000);
     }
 
-    function upgradeMachine(type) {
-      const lvl = type === "drink" ? drinkMachineLevel : dessertMachineLevel;
-      if (lvl >= 4) { setMsg("Machine already max."); return; }
-      const cost = upgradeCost(type);
-      if (parts < cost) { setMsg("Need " + cost + " 🔧."); playSound("error"); return; }
-      parts -= cost;
-      if (type === "drink") drinkMachineLevel++; else dessertMachineLevel++;
-      energy = Math.min(maxEnergy, energy + 10);
-      famePoints += 10;
-      setMsg("Machine upgraded! +10 ⚡ +10 ⭐");
-      playSound("upgrade");
-      updateAll();
-      checkFameRankUp();
+    function firstEmptyCell() {
+      return board.findIndex(x => x === null);
     }
 
-    function upgradeCost(type) {
-      const lvl = type === "drink" ? drinkMachineLevel : dessertMachineLevel;
-      return lvl === 1 ? 3 : lvl === 2 ? 6 : lvl === 3 ? 10 : 999;
+    function showGameModal(icon, title, name, reward) {
+      document.getElementById("modalIcon").textContent = icon;
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("modalName").textContent = name;
+      document.getElementById("modalReward").innerHTML = reward;
+      document.getElementById("gameModal").classList.add("show");
+      spawnConfetti();
+    }
+
+    function closeGameModal() {
+      document.getElementById("gameModal").classList.remove("show");
+      document.querySelectorAll(".confetti").forEach(x => x.remove());
+    }
+
+    function spawnConfetti() {
+      const card = document.getElementById("modalCard");
+      document.querySelectorAll(".confetti").forEach(x => x.remove());
+      const icons = ["⭐", "✨", "🎉", "🪙", "💎"];
+
+      for (let i = 0; i < 22; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.textContent = icons[Math.floor(Math.random() * icons.length)];
+        c.style.left = Math.floor(Math.random() * 95) + "%";
+        c.style.top = "-30px";
+        c.style.animationDelay = (Math.random() * 0.3) + "s";
+        card.appendChild(c);
+      }
     }
 
     function updateAll() {
       cafeLevel = fameRank + 1;
+
       document.getElementById("coinsText").textContent = "🪙 " + coins;
       document.getElementById("gemsText").textContent = "💎 " + gems;
       document.getElementById("partsText").textContent = "🔧 " + parts;
       document.getElementById("energyText").textContent = "⚡ " + energy + "/" + maxEnergy;
+
       giftReady = giftProgress >= 3;
+
       createBoard();
       createCustomers();
+      updateAchievements();
     }
 
-    function openRenovation() { openSheet("fame", document.querySelectorAll(".nav-btn")[1]); }
-    function closeRenovation() {}
-    function cleanStain() {}
+    document.addEventListener("dragstart", e => e.preventDefault());
 
     setupCustomers();
     updateAll();
     generateItem("drink");
     generateItem("dessert");
     generateItem("drink");
-    setMsg("Merge matching items. Ready customers glow instantly!");
+    setMsg("Merge, discover recipes, unlock machines and grow your cafe!");
   </script>
 </body>
 </html>
