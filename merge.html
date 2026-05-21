@@ -1255,6 +1255,18 @@
       -ms-touch-action: none !important;
     }
 
+
+    /* HARD MOBILE DOUBLE-TAP ZOOM LOCK */
+    html, body, .app, .board-frame, .board, .cell, .machine, .item, .asset-wrap, .machine-img, .item-img {
+      -webkit-tap-highlight-color: transparent !important;
+      -webkit-touch-callout: none !important;
+    }
+
+    .board-frame, .board, .cell, .machine, .item, .asset-wrap, .machine-img, .item-img {
+      touch-action: none !important;
+      -ms-touch-action: none !important;
+    }
+
     .hint-recycle-btn {
       width: 38px;
       height: 38px;
@@ -1746,7 +1758,866 @@
       }
     }
 
-  </style>
+
+
+    /* PATCH 107: double order card overflow fix + stronger mobile double-tap lock */
+    .orders-section { overflow: hidden; }
+    .customer-card {
+      min-width: 170px !important;
+      height: 166px !important;
+      padding: 8px !important;
+      overflow: hidden !important;
+      margin-top: 16px !important;
+    }
+    .customer-top {
+      margin-top: -28px !important;
+      margin-bottom: 4px !important;
+      gap: 2px !important;
+    }
+    .portrait-ring {
+      width: 74px !important;
+      height: 74px !important;
+      border-radius: 22px !important;
+      padding: 3px !important;
+    }
+    .portrait-ring img { border-radius: 19px !important; }
+    .customer-name {
+      font-size: 14px !important;
+      line-height: 1.05 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      max-width: 100% !important;
+    }
+    .order-block {
+      min-height: 54px !important;
+      height: 54px !important;
+      padding: 5px !important;
+      margin-bottom: 5px !important;
+      border-radius: 15px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 4px !important;
+      overflow: hidden !important;
+    }
+    .order-emoji {
+      min-height: 0 !important;
+      height: 42px !important;
+      flex: 1 1 auto !important;
+      width: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 5px !important;
+      flex-wrap: nowrap !important;
+      overflow: hidden !important;
+      margin: 0 !important;
+    }
+    .order-name { display: none !important; }
+    .order-plus { display: none !important; }
+    .order-slot {
+      width: 42px !important;
+      height: 42px !important;
+      min-width: 42px !important;
+      border-radius: 12px !important;
+      background: #fff8ef !important;
+      border: 1px solid #f1d3a5 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+    }
+    .order-icon-img {
+      width: 34px !important;
+      height: 34px !important;
+      object-fit: contain !important;
+    }
+    .reward {
+      font-size: 10px !important;
+      gap: 3px !important;
+      margin-bottom: 4px !important;
+      flex-wrap: nowrap !important;
+      overflow: hidden !important;
+    }
+    .reward span { padding: 3px 4px !important; }
+    .serve-btn {
+      height: 24px !important;
+      padding: 3px 6px !important;
+      font-size: 11px !important;
+      border-radius: 10px !important;
+    }
+    .ready-check {
+      width: 22px !important;
+      height: 22px !important;
+      top: 5px !important;
+      right: 5px !important;
+      font-size: 12px !important;
+    }
+    @media (max-width: 380px) {
+      .customer-card { min-width: 164px !important; height: 162px !important; }
+      .portrait-ring { width: 70px !important; height: 70px !important; }
+      .order-slot { width: 40px !important; height: 40px !important; min-width: 40px !important; }
+      .order-icon-img { width: 32px !important; height: 32px !important; }
+    }
+
+
+
+    /* PATCH 108: compact double orders + stricter board mobile zoom lock */
+    .orders-section {
+      overflow: hidden !important;
+      padding-bottom: 8px !important;
+    }
+    .customers {
+      overflow-y: hidden !important;
+    }
+    .customer-card {
+      min-width: 154px !important;
+      height: 154px !important;
+      padding: 7px !important;
+      overflow: hidden !important;
+    }
+    .customer-top {
+      margin-top: -22px !important;
+      margin-bottom: 3px !important;
+    }
+    .portrait-ring {
+      width: 66px !important;
+      height: 66px !important;
+    }
+    .order-block {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-height: 44px !important;
+      height: 44px !important;
+      padding: 4px !important;
+      margin-bottom: 4px !important;
+      overflow: hidden !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .order-emoji {
+      width: auto !important;
+      max-width: 82px !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-wrap: nowrap !important;
+      gap: 4px !important;
+      overflow: hidden !important;
+      flex: 0 0 auto !important;
+      scrollbar-width: none !important;
+    }
+    .order-emoji::-webkit-scrollbar { display: none !important; }
+    .order-slot {
+      width: 36px !important;
+      height: 36px !important;
+      min-width: 36px !important;
+      max-width: 36px !important;
+      flex: 0 0 36px !important;
+      border-radius: 11px !important;
+      overflow: hidden !important;
+    }
+    .order-icon-img {
+      width: 29px !important;
+      height: 29px !important;
+      max-width: 29px !important;
+      max-height: 29px !important;
+      object-fit: contain !important;
+    }
+    .order-name, .order-plus { display: none !important; }
+    .reward {
+      font-size: 9.5px !important;
+      margin-bottom: 3px !important;
+      gap: 3px !important;
+      flex-wrap: nowrap !important;
+      overflow: hidden !important;
+    }
+    .serve-btn {
+      height: 23px !important;
+      padding: 2px 6px !important;
+    }
+    #board, #board *, .board-frame, .board-frame * {
+      touch-action: none !important;
+      -ms-touch-action: none !important;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+      -webkit-touch-callout: none !important;
+    }
+    @media (max-width: 380px) {
+      .customer-card { min-width: 148px !important; height: 150px !important; }
+      .portrait-ring { width: 62px !important; height: 62px !important; }
+      .order-block { height: 42px !important; min-height: 42px !important; }
+      .order-emoji { max-width: 76px !important; height: 34px !important; min-height: 34px !important; }
+      .order-slot { width: 34px !important; height: 34px !important; min-width: 34px !important; max-width: 34px !important; flex-basis: 34px !important; }
+      .order-icon-img { width: 27px !important; height: 27px !important; }
+    }
+
+  
+
+    /* PATCH 109: final stable compact orders - no vertical overflow, no loose icons */
+    .orders-section {
+      height: 194px !important;
+      max-height: 194px !important;
+      min-height: 0 !important;
+      padding: 9px !important;
+      margin-bottom: 10px !important;
+      overflow: hidden !important;
+      position: relative !important;
+    }
+
+    .orders-section::-webkit-scrollbar,
+    .customers::-webkit-scrollbar:vertical {
+      display: none !important;
+      width: 0 !important;
+    }
+
+    .section-ribbon {
+      margin: -22px auto 7px !important;
+      padding: 7px 23px !important;
+      font-size: 15px !important;
+      line-height: 1 !important;
+      position: relative !important;
+      z-index: 2 !important;
+    }
+
+    .customers {
+      height: 150px !important;
+      max-height: 150px !important;
+      min-height: 150px !important;
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 8px !important;
+      padding: 0 2px 6px !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-snap-type: x mandatory !important;
+      scrollbar-width: thin !important;
+      contain: layout paint !important;
+    }
+
+    .customer-card {
+      box-sizing: border-box !important;
+      flex: 0 0 136px !important;
+      min-width: 136px !important;
+      max-width: 136px !important;
+      width: 136px !important;
+      height: 142px !important;
+      min-height: 142px !important;
+      max-height: 142px !important;
+      margin: 0 !important;
+      padding: 6px !important;
+      border-radius: 18px !important;
+      overflow: hidden !important;
+      background: linear-gradient(180deg, #fffaf4, #ffedd7) !important;
+      scroll-snap-align: start !important;
+      position: relative !important;
+    }
+
+    .customer-card.ready {
+      animation: none !important;
+      transform: none !important;
+      border-color: #34c759 !important;
+      box-shadow: 0 0 0 2px rgba(52,199,89,.18), 0 4px 10px rgba(90,56,37,.10) !important;
+    }
+
+    .ready-check {
+      top: 4px !important;
+      right: 4px !important;
+      width: 19px !important;
+      height: 19px !important;
+      font-size: 11px !important;
+      z-index: 8 !important;
+    }
+
+    .customer-top {
+      display: block !important;
+      height: 52px !important;
+      min-height: 52px !important;
+      max-height: 52px !important;
+      margin: 0 0 2px 0 !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      text-align: center !important;
+    }
+
+    .portrait-ring {
+      width: 52px !important;
+      height: 52px !important;
+      min-width: 52px !important;
+      min-height: 52px !important;
+      max-width: 52px !important;
+      max-height: 52px !important;
+      margin: 0 auto !important;
+      padding: 2px !important;
+      border-radius: 15px !important;
+      flex: none !important;
+    }
+
+    .portrait-ring img {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 13px !important;
+      object-fit: cover !important;
+      object-position: center top !important;
+      display: block !important;
+    }
+
+    .customer-meta {
+      display: block !important;
+      height: 16px !important;
+      min-height: 16px !important;
+      max-height: 16px !important;
+      text-align: center !important;
+      overflow: hidden !important;
+    }
+
+    .customer-name {
+      height: 16px !important;
+      min-height: 16px !important;
+      max-height: 16px !important;
+      margin: 0 !important;
+      font-size: 12px !important;
+      line-height: 16px !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+
+    .customer-trait,
+    .customer-mood,
+    .order-label,
+    .order-name,
+    .order-plus {
+      display: none !important;
+    }
+
+    .order-block {
+      box-sizing: border-box !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      margin: 3px 0 4px !important;
+      padding: 3px !important;
+      border-radius: 13px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+      position: relative !important;
+    }
+
+    .order-emoji {
+      box-sizing: border-box !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 32px !important;
+      min-height: 32px !important;
+      max-height: 32px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 4px !important;
+      flex-wrap: nowrap !important;
+      overflow: hidden !important;
+      scrollbar-width: none !important;
+    }
+
+    .order-emoji::-webkit-scrollbar { display: none !important; }
+
+    .order-slot {
+      box-sizing: border-box !important;
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      max-width: 32px !important;
+      min-height: 32px !important;
+      max-height: 32px !important;
+      flex: 0 0 32px !important;
+      border-radius: 10px !important;
+      background: #fff8ef !important;
+      border: 1px solid #f1d3a5 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+      padding: 1px !important;
+      position: relative !important;
+    }
+
+    .order-slot .asset-wrap {
+      width: 100% !important;
+      height: 100% !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+    }
+
+    .order-icon-img {
+      width: 27px !important;
+      height: 27px !important;
+      max-width: 27px !important;
+      max-height: 27px !important;
+      object-fit: contain !important;
+      display: block !important;
+      margin: 0 !important;
+      filter: drop-shadow(0 2px 2px rgba(90,56,37,.12)) !important;
+    }
+
+    .reward {
+      height: 18px !important;
+      min-height: 18px !important;
+      max-height: 18px !important;
+      margin: 0 0 3px !important;
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 3px !important;
+      flex-wrap: nowrap !important;
+      overflow: hidden !important;
+      font-size: 9px !important;
+      line-height: 1 !important;
+    }
+
+    .reward span {
+      padding: 3px 4px !important;
+      border-radius: 999px !important;
+      white-space: nowrap !important;
+      line-height: 1 !important;
+    }
+
+    .serve-btn {
+      width: 100% !important;
+      height: 20px !important;
+      min-height: 20px !important;
+      max-height: 20px !important;
+      padding: 1px 5px !important;
+      margin: 0 !important;
+      border-radius: 9px !important;
+      font-size: 10px !important;
+      line-height: 1 !important;
+      display: block !important;
+    }
+
+    @media (max-width: 380px) {
+      .orders-section { height: 190px !important; max-height: 190px !important; }
+      .customers { height: 146px !important; max-height: 146px !important; min-height: 146px !important; }
+      .customer-card { flex-basis: 130px !important; min-width: 130px !important; max-width: 130px !important; width: 130px !important; height: 138px !important; min-height: 138px !important; max-height: 138px !important; }
+      .portrait-ring { width: 50px !important; height: 50px !important; min-width: 50px !important; min-height: 50px !important; }
+      .order-slot { width: 31px !important; height: 31px !important; min-width: 31px !important; max-width: 31px !important; flex-basis: 31px !important; }
+      .order-icon-img { width: 26px !important; height: 26px !important; }
+    }
+
+
+    /* PATCH 110: fixed customer order card layout - serve stays inside, 2 orders side-by-side */
+    .orders-section {
+      height: 218px !important;
+      max-height: 218px !important;
+      min-height: 218px !important;
+      padding: 9px !important;
+      margin-bottom: 10px !important;
+      overflow: hidden !important;
+    }
+
+    .section-ribbon {
+      margin: -22px auto 8px !important;
+      padding: 7px 23px !important;
+      font-size: 15px !important;
+      line-height: 1 !important;
+    }
+
+    .customers {
+      height: 174px !important;
+      max-height: 174px !important;
+      min-height: 174px !important;
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 8px !important;
+      padding: 0 2px 6px !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-snap-type: x mandatory !important;
+    }
+
+    .customer-card {
+      box-sizing: border-box !important;
+      flex: 0 0 148px !important;
+      width: 148px !important;
+      min-width: 148px !important;
+      max-width: 148px !important;
+      height: 164px !important;
+      min-height: 164px !important;
+      max-height: 164px !important;
+      margin: 0 !important;
+      padding: 7px !important;
+      border-radius: 18px !important;
+      overflow: hidden !important;
+      display: grid !important;
+      grid-template-rows: 58px 42px 20px 24px !important;
+      row-gap: 4px !important;
+      align-items: stretch !important;
+      background: linear-gradient(180deg, #fffaf4, #ffedd7) !important;
+      scroll-snap-align: start !important;
+      position: relative !important;
+    }
+
+    .customer-card.ready {
+      animation: none !important;
+      transform: none !important;
+      border-color: #34c759 !important;
+      box-shadow: 0 0 0 2px rgba(52,199,89,.18), 0 4px 10px rgba(90,56,37,.10) !important;
+    }
+
+    .ready-check {
+      top: 4px !important;
+      right: 4px !important;
+      width: 19px !important;
+      height: 19px !important;
+      font-size: 11px !important;
+      z-index: 8 !important;
+    }
+
+    .customer-top {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      height: 58px !important;
+      min-height: 58px !important;
+      max-height: 58px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      text-align: center !important;
+      gap: 1px !important;
+    }
+
+    .portrait-ring {
+      width: 43px !important;
+      height: 43px !important;
+      min-width: 43px !important;
+      min-height: 43px !important;
+      max-width: 43px !important;
+      max-height: 43px !important;
+      margin: 0 auto !important;
+      padding: 2px !important;
+      border-radius: 14px !important;
+      flex: 0 0 43px !important;
+    }
+
+    .portrait-ring img {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 12px !important;
+      object-fit: cover !important;
+      object-position: center top !important;
+      display: block !important;
+    }
+
+    .customer-meta {
+      display: block !important;
+      width: 100% !important;
+      height: 14px !important;
+      min-height: 14px !important;
+      max-height: 14px !important;
+      text-align: center !important;
+      overflow: hidden !important;
+    }
+
+    .customer-name {
+      height: 14px !important;
+      min-height: 14px !important;
+      max-height: 14px !important;
+      margin: 0 !important;
+      font-size: 12px !important;
+      line-height: 14px !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+
+    .customer-trait,
+    .customer-mood,
+    .order-label,
+    .order-name,
+    .order-plus {
+      display: none !important;
+    }
+
+    .order-block {
+      box-sizing: border-box !important;
+      width: 100% !important;
+      height: 42px !important;
+      min-height: 42px !important;
+      max-height: 42px !important;
+      margin: 0 !important;
+      padding: 3px !important;
+      border-radius: 13px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+      position: relative !important;
+    }
+
+    .order-emoji {
+      box-sizing: border-box !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 5px !important;
+      flex-wrap: nowrap !important;
+      overflow: hidden !important;
+      scrollbar-width: none !important;
+    }
+
+    .order-emoji::-webkit-scrollbar { display: none !important; }
+
+    .order-slot {
+      box-sizing: border-box !important;
+      width: 35px !important;
+      height: 35px !important;
+      min-width: 35px !important;
+      max-width: 35px !important;
+      min-height: 35px !important;
+      max-height: 35px !important;
+      flex: 0 0 35px !important;
+      border-radius: 10px !important;
+      background: #fff8ef !important;
+      border: 1px solid #f1d3a5 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+      padding: 1px !important;
+    }
+
+    .order-slot .asset-wrap {
+      width: 100% !important;
+      height: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+    }
+
+    .order-icon-img {
+      width: 30px !important;
+      height: 30px !important;
+      max-width: 30px !important;
+      max-height: 30px !important;
+      object-fit: contain !important;
+      display: block !important;
+      margin: 0 !important;
+      filter: drop-shadow(0 2px 2px rgba(90,56,37,.12)) !important;
+    }
+
+    .reward {
+      height: 20px !important;
+      min-height: 20px !important;
+      max-height: 20px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 3px !important;
+      flex-wrap: nowrap !important;
+      overflow: hidden !important;
+      font-size: 9px !important;
+      line-height: 1 !important;
+    }
+
+    .reward span {
+      padding: 3px 4px !important;
+      border-radius: 999px !important;
+      white-space: nowrap !important;
+      line-height: 1 !important;
+    }
+
+    .serve-btn {
+      width: 100% !important;
+      height: 24px !important;
+      min-height: 24px !important;
+      max-height: 24px !important;
+      padding: 2px 6px !important;
+      margin: 0 !important;
+      border-radius: 9px !important;
+      font-size: 11px !important;
+      line-height: 1 !important;
+      display: block !important;
+      align-self: stretch !important;
+    }
+
+    @media (max-width: 380px) {
+      .orders-section { height: 214px !important; max-height: 214px !important; min-height: 214px !important; }
+      .customers { height: 170px !important; max-height: 170px !important; min-height: 170px !important; }
+      .customer-card { flex-basis: 142px !important; min-width: 142px !important; max-width: 142px !important; width: 142px !important; height: 160px !important; min-height: 160px !important; max-height: 160px !important; grid-template-rows: 56px 40px 20px 24px !important; }
+      .portrait-ring { width: 41px !important; height: 41px !important; min-width: 41px !important; min-height: 41px !important; max-width: 41px !important; max-height: 41px !important; flex-basis: 41px !important; }
+      .order-block { height: 40px !important; min-height: 40px !important; max-height: 40px !important; }
+      .order-emoji { height: 34px !important; min-height: 34px !important; max-height: 34px !important; gap: 4px !important; }
+      .order-slot { width: 33px !important; height: 33px !important; min-width: 33px !important; max-width: 33px !important; flex-basis: 33px !important; }
+      .order-icon-img { width: 28px !important; height: 28px !important; }
+    }
+
+
+
+    /* PATCH 111 FINAL: order cards rebuilt - no overflow, serve locked inside, 2 orders side by side */
+    .orders-section{
+      height:206px!important; min-height:206px!important; max-height:206px!important;
+      padding:9px!important; margin-bottom:10px!important; overflow:hidden!important;
+      border-radius:24px!important; position:relative!important;
+    }
+    .section-ribbon{
+      margin:-22px auto 8px!important; padding:7px 22px!important; font-size:15px!important;
+      line-height:1!important; position:relative!important; z-index:3!important;
+    }
+    .customers{
+      height:162px!important; min-height:162px!important; max-height:162px!important;
+      display:flex!important; align-items:flex-start!important; gap:8px!important;
+      padding:0 2px 4px!important; overflow-x:auto!important; overflow-y:hidden!important;
+      scroll-snap-type:x mandatory!important; scrollbar-width:none!important;
+      contain:layout paint!important;
+    }
+    .customers::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;}
+    .orders-section::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;}
+
+    .orders-section .customer-card{
+      box-sizing:border-box!important;
+      flex:0 0 146px!important; width:146px!important; min-width:146px!important; max-width:146px!important;
+      height:154px!important; min-height:154px!important; max-height:154px!important;
+      padding:6px!important; margin:0!important; border-radius:18px!important;
+      overflow:hidden!important; position:relative!important; scroll-snap-align:start!important;
+      background:linear-gradient(180deg,#fffaf4,#ffedd7)!important;
+      display:grid!important;
+      grid-template-rows:52px 38px 17px 22px!important;
+      row-gap:3px!important; align-items:stretch!important;
+    }
+    .orders-section .customer-card.ready{
+      animation:none!important; transform:none!important; border-color:#34c759!important;
+      box-shadow:0 0 0 2px rgba(52,199,89,.18),0 4px 10px rgba(90,56,37,.10)!important;
+    }
+    .orders-section .ready-check{
+      top:4px!important; right:4px!important; width:18px!important; height:18px!important;
+      font-size:10px!important; line-height:1!important; z-index:9!important;
+    }
+
+    .orders-section .customer-top{
+      grid-row:1!important; height:52px!important; min-height:52px!important; max-height:52px!important;
+      display:flex!important; flex-direction:column!important; align-items:center!important; justify-content:flex-start!important;
+      gap:1px!important; margin:0!important; padding:0!important; overflow:hidden!important; text-align:center!important;
+    }
+    .orders-section .portrait-ring{
+      width:38px!important; height:38px!important; min-width:38px!important; min-height:38px!important;
+      max-width:38px!important; max-height:38px!important; flex:0 0 38px!important;
+      margin:0 auto!important; padding:2px!important; border-radius:13px!important;
+    }
+    .orders-section .portrait-ring img{
+      width:100%!important; height:100%!important; border-radius:11px!important;
+      object-fit:cover!important; object-position:center top!important; display:block!important;
+    }
+    .orders-section .customer-meta{
+      width:100%!important; height:13px!important; min-height:13px!important; max-height:13px!important;
+      overflow:hidden!important; text-align:center!important;
+    }
+    .orders-section .customer-name{
+      height:13px!important; min-height:13px!important; max-height:13px!important;
+      margin:0!important; padding:0!important; font-size:11.5px!important; line-height:13px!important;
+      white-space:nowrap!important; overflow:hidden!important; text-overflow:ellipsis!important; text-align:center!important;
+    }
+    .orders-section .customer-trait,
+    .orders-section .customer-mood,
+    .orders-section .order-label,
+    .orders-section .order-name,
+    .orders-section .order-plus{display:none!important;}
+
+    .orders-section .order-block{
+      grid-row:2!important; box-sizing:border-box!important; width:100%!important;
+      height:38px!important; min-height:38px!important; max-height:38px!important;
+      margin:0!important; padding:3px!important; border-radius:13px!important;
+      display:flex!important; align-items:center!important; justify-content:center!important;
+      overflow:hidden!important; position:relative!important; background:rgba(255,255,255,.84)!important;
+    }
+    .orders-section .order-emoji{
+      width:100%!important; height:32px!important; min-height:32px!important; max-height:32px!important;
+      margin:0!important; padding:0!important; display:flex!important; flex-direction:row!important;
+      align-items:center!important; justify-content:center!important; gap:4px!important; flex-wrap:nowrap!important;
+      overflow:hidden!important; scrollbar-width:none!important;
+    }
+    .orders-section .order-emoji::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;}
+    .orders-section .order-slot{
+      box-sizing:border-box!important; width:31px!important; height:31px!important; min-width:31px!important; max-width:31px!important;
+      min-height:31px!important; max-height:31px!important; flex:0 0 31px!important;
+      border-radius:10px!important; background:#fff8ef!important; border:1px solid #f1d3a5!important;
+      display:flex!important; align-items:center!important; justify-content:center!important; overflow:hidden!important; padding:1px!important;
+    }
+    .orders-section .order-slot .asset-wrap{
+      width:100%!important; height:100%!important; display:flex!important; align-items:center!important; justify-content:center!important; overflow:hidden!important;
+    }
+    .orders-section .order-icon-img{
+      width:27px!important; height:27px!important; max-width:27px!important; max-height:27px!important;
+      object-fit:contain!important; display:block!important; margin:0!important; filter:drop-shadow(0 2px 2px rgba(90,56,37,.12))!important;
+    }
+
+    .orders-section .reward{
+      grid-row:3!important; width:100%!important; height:17px!important; min-height:17px!important; max-height:17px!important;
+      margin:0!important; padding:0!important; display:flex!important; flex-direction:row!important;
+      align-items:center!important; justify-content:center!important; gap:2px!important; flex-wrap:nowrap!important;
+      overflow:hidden!important; font-size:7.8px!important; line-height:1!important;
+    }
+    .orders-section .reward span{
+      display:inline-flex!important; align-items:center!important; justify-content:center!important;
+      height:15px!important; max-height:15px!important; padding:2px 3px!important;
+      border-radius:999px!important; white-space:nowrap!important; line-height:1!important; flex:0 1 auto!important;
+    }
+    .orders-section .serve-btn{
+      grid-row:4!important; width:100%!important; height:22px!important; min-height:22px!important; max-height:22px!important;
+      margin:0!important; padding:1px 5px!important; border-radius:9px!important;
+      font-size:10.5px!important; line-height:1!important; display:block!important; align-self:stretch!important; overflow:hidden!important;
+    }
+
+    @media (max-width:380px){
+      .orders-section{height:202px!important;min-height:202px!important;max-height:202px!important;}
+      .customers{height:158px!important;min-height:158px!important;max-height:158px!important;gap:7px!important;}
+      .orders-section .customer-card{
+        flex-basis:140px!important;width:140px!important;min-width:140px!important;max-width:140px!important;
+        height:150px!important;min-height:150px!important;max-height:150px!important;
+        grid-template-rows:50px 37px 16px 21px!important;row-gap:3px!important;
+      }
+      .orders-section .portrait-ring{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;max-width:36px!important;max-height:36px!important;flex-basis:36px!important;}
+      .orders-section .order-block{height:37px!important;min-height:37px!important;max-height:37px!important;}
+      .orders-section .order-emoji{height:31px!important;min-height:31px!important;max-height:31px!important;gap:3px!important;}
+      .orders-section .order-slot{width:30px!important;height:30px!important;min-width:30px!important;max-width:30px!important;flex-basis:30px!important;}
+      .orders-section .order-icon-img{width:26px!important;height:26px!important;}
+      .orders-section .reward{font-size:7.4px!important;height:16px!important;min-height:16px!important;max-height:16px!important;}
+      .orders-section .reward span{height:14px!important;max-height:14px!important;padding:2px 2px!important;}
+      .orders-section .serve-btn{height:21px!important;min-height:21px!important;max-height:21px!important;font-size:10px!important;}
+    }
+
+</style>
 </head>
 
 <body>
@@ -2177,6 +3048,91 @@
     const customersEl = document.getElementById("customers");
     const messageEl = document.getElementById("message");
 
+    function installMobileZoomLock() {
+      let lastTapTime = 0;
+      let lastTapX = 0;
+      let lastTapY = 0;
+
+      function isBoardTap(e) {
+        const t = e.target;
+        return !!(t && t.closest && t.closest(".board-frame, .board, .cell, .machine, .item, .asset-wrap, .machine-img, .item-img"));
+      }
+
+      function lockTapZoom(e) {
+        if (!isBoardTap(e)) return;
+        const touch = e.changedTouches && e.changedTouches[0] ? e.changedTouches[0] : null;
+        const x = touch ? touch.clientX : 0;
+        const y = touch ? touch.clientY : 0;
+        const now = Date.now();
+        const closeTap = Math.abs(x - lastTapX) < 34 && Math.abs(y - lastTapY) < 34;
+
+        if (now - lastTapTime < 420 && closeTap) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+        }
+
+        lastTapTime = now;
+        lastTapX = x;
+        lastTapY = y;
+      }
+
+      function blockBoardDefault(e) {
+        if (isBoardTap(e)) e.preventDefault();
+      }
+
+      document.addEventListener("touchstart", lockTapZoom, { passive: false, capture: true });
+      document.addEventListener("touchend", lockTapZoom, { passive: false, capture: true });
+      document.addEventListener("dblclick", function(e) {
+        if (isBoardTap(e)) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, { passive: false, capture: true });
+      document.addEventListener("gesturestart", blockBoardDefault, { passive: false, capture: true });
+      document.addEventListener("gesturechange", blockBoardDefault, { passive: false, capture: true });
+      document.addEventListener("gestureend", blockBoardDefault, { passive: false, capture: true });
+    }
+
+    installMobileZoomLock();
+
+    /* PATCH 107: prevent browser zoom on fast taps inside merge board */
+    (function hardStopBoardDoubleTapZoom(){
+      let lastX = 0;
+      let lastY = 0;
+      let lastTime = 0;
+      function inBoard(e) {
+        const t = e.target;
+        return !!(t && t.closest && t.closest("#board, .board-frame, .cell, .machine, .machine-img, .item-img"));
+      }
+      function stop(e) {
+        if (!inBoard(e)) return;
+        const touch = e.touches && e.touches[0] ? e.touches[0] : (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0] : null);
+        const x = touch ? touch.clientX : 0;
+        const y = touch ? touch.clientY : 0;
+        const now = Date.now();
+        if (now - lastTime < 520 && Math.abs(x - lastX) < 42 && Math.abs(y - lastY) < 42) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+        }
+        lastX = x;
+        lastY = y;
+        lastTime = now;
+      }
+      document.addEventListener("touchstart", stop, { passive:false, capture:true });
+      document.addEventListener("touchend", stop, { passive:false, capture:true });
+      document.addEventListener("dblclick", function(e){
+        if (inBoard(e)) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+        }
+      }, { passive:false, capture:true });
+    })();
+
+
+
     let lastTouchEndForZoomFix = 0;
     document.addEventListener("touchend", function(e) {
       const now = Date.now();
@@ -2281,6 +3237,28 @@
         if (e.target && e.target.closest(".cell")) e.preventDefault();
       }, { passive: false });
     }
+
+
+    /* PATCH 108: always prevent native double-tap zoom inside merge board; pointer logic still handles game taps */
+    (function absoluteBoardZoomStop(){
+      function inMergeBoard(e) {
+        const t = e.target;
+        return !!(t && t.closest && t.closest('#board, .board, .board-frame, .cell, .machine, .item, .asset-wrap, .machine-img, .item-img'));
+      }
+      function hardPrevent(e) {
+        if (!inMergeBoard(e)) return;
+        if (e.cancelable) e.preventDefault();
+      }
+      document.addEventListener('touchstart', hardPrevent, { passive:false, capture:true });
+      document.addEventListener('touchend', hardPrevent, { passive:false, capture:true });
+      document.addEventListener('touchcancel', hardPrevent, { passive:false, capture:true });
+      document.addEventListener('dblclick', function(e){
+        if (!inMergeBoard(e)) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      }, { passive:false, capture:true });
+    })();
 
 
     customersEl.addEventListener("wheel", function(e) {
@@ -2710,7 +3688,7 @@
     }
 
     function orderEmojiText(orderArr) {
-      return orderArr.map((i, idx) => `${idx > 0 ? '<span class="order-plus">+</span>' : ''}${itemImageHTML(i, "order-icon-img")}`).join("");
+      return orderArr.map(i => `<span class="order-slot">${itemImageHTML(i, "order-icon-img")}</span>`).join("");
     }
 
     function orderNameText(orderArr) {
