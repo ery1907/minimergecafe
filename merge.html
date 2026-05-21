@@ -2617,6 +2617,391 @@
       .orders-section .serve-btn{height:21px!important;min-height:21px!important;max-height:21px!important;font-size:10px!important;}
     }
 
+
+    /* PATCH 120 FINAL: borderless character order stand UI */
+    .orders-section{
+      height:272px!important;
+      min-height:272px!important;
+      max-height:272px!important;
+      padding:10px 10px 12px!important;
+      margin-bottom:11px!important;
+      overflow:hidden!important;
+      border-radius:26px!important;
+      background:rgba(255,255,255,.78)!important;
+      border:2px solid rgba(244,207,156,.75)!important;
+      box-shadow:0 8px 18px rgba(90,56,37,.08)!important;
+    }
+
+    .orders-section .section-ribbon,
+    .section-ribbon{
+      margin:-24px auto 7px!important;
+      padding:7px 24px!important;
+      font-size:15px!important;
+      line-height:1!important;
+      position:relative!important;
+      z-index:5!important;
+    }
+
+    .customers{
+      height:226px!important;
+      min-height:226px!important;
+      max-height:226px!important;
+      display:flex!important;
+      align-items:flex-start!important;
+      gap:8px!important;
+      padding:0 1px 4px!important;
+      overflow-x:auto!important;
+      overflow-y:hidden!important;
+      scroll-snap-type:x mandatory!important;
+      scrollbar-width:none!important;
+      contain:layout paint!important;
+    }
+
+    .customers::-webkit-scrollbar,
+    .orders-section::-webkit-scrollbar{
+      display:none!important;
+      width:0!important;
+      height:0!important;
+    }
+
+    .orders-section .customer-card{
+      box-sizing:border-box!important;
+      flex:0 0 146px!important;
+      width:146px!important;
+      min-width:146px!important;
+      max-width:146px!important;
+      height:218px!important;
+      min-height:218px!important;
+      max-height:218px!important;
+      padding:4px 3px 3px!important;
+      margin:0!important;
+      border:none!important;
+      border-radius:28px!important;
+      background:transparent!important;
+      box-shadow:none!important;
+      overflow:hidden!important;
+      position:relative!important;
+      scroll-snap-align:start!important;
+      display:grid!important;
+      grid-template-rows:101px 61px 22px 27px!important;
+      row-gap:2px!important;
+      align-items:center!important;
+      justify-items:center!important;
+      transform:none!important;
+    }
+
+    .orders-section .customer-card::before{
+      content:""!important;
+      position:absolute!important;
+      inset:4px 2px 2px!important;
+      border-radius:30px!important;
+      background:rgba(255,255,255,.34)!important;
+      filter:blur(.2px)!important;
+      z-index:0!important;
+    }
+
+    .orders-section .customer-card.ready::before{
+      background:radial-gradient(circle at 50% 32%, rgba(78,205,124,.24), rgba(255,255,255,.28) 62%, rgba(255,255,255,.12))!important;
+      box-shadow:0 0 0 3px rgba(52,199,89,.18), 0 0 18px rgba(52,199,89,.20)!important;
+    }
+
+    .orders-section .customer-card.ready{
+      animation:none!important;
+      border:none!important;
+      box-shadow:none!important;
+    }
+
+    .orders-section .ready-check{
+      top:7px!important;
+      right:13px!important;
+      width:24px!important;
+      height:24px!important;
+      font-size:13px!important;
+      border-radius:50%!important;
+      z-index:9!important;
+      background:#4caf7a!important;
+      border:2px solid #fff!important;
+      box-shadow:0 3px 8px rgba(52,199,89,.25)!important;
+    }
+
+    .orders-section .customer-top{
+      grid-row:1!important;
+      width:100%!important;
+      height:101px!important;
+      min-height:101px!important;
+      max-height:101px!important;
+      display:flex!important;
+      flex-direction:column!important;
+      align-items:center!important;
+      justify-content:flex-start!important;
+      gap:3px!important;
+      margin:0!important;
+      padding:0!important;
+      overflow:visible!important;
+      position:relative!important;
+      z-index:2!important;
+      text-align:center!important;
+    }
+
+    .orders-section .portrait-ring{
+      width:78px!important;
+      height:78px!important;
+      min-width:78px!important;
+      min-height:78px!important;
+      max-width:78px!important;
+      max-height:78px!important;
+      flex:0 0 78px!important;
+      margin:0 auto!important;
+      padding:0!important;
+      border-radius:23px!important;
+      background:transparent!important;
+      border:none!important;
+      box-shadow:0 8px 13px rgba(90,56,37,.18)!important;
+      overflow:hidden!important;
+    }
+
+    .orders-section .portrait-ring img{
+      width:100%!important;
+      height:100%!important;
+      border-radius:23px!important;
+      object-fit:cover!important;
+      object-position:center top!important;
+      display:block!important;
+      background:#fff7ee!important;
+    }
+
+    .orders-section .customer-meta{
+      width:100%!important;
+      height:17px!important;
+      min-height:17px!important;
+      max-height:17px!important;
+      overflow:hidden!important;
+      text-align:center!important;
+    }
+
+    .orders-section .customer-name{
+      height:17px!important;
+      min-height:17px!important;
+      max-height:17px!important;
+      margin:0!important;
+      padding:0 2px!important;
+      font-size:13px!important;
+      line-height:17px!important;
+      font-weight:900!important;
+      color:#653719!important;
+      white-space:nowrap!important;
+      overflow:hidden!important;
+      text-overflow:ellipsis!important;
+      text-align:center!important;
+    }
+
+    .orders-section .customer-trait,
+    .orders-section .customer-mood,
+    .orders-section .order-label,
+    .orders-section .order-name,
+    .orders-section .order-plus{
+      display:none!important;
+    }
+
+    .orders-section .order-block{
+      grid-row:2!important;
+      box-sizing:border-box!important;
+      width:126px!important;
+      height:58px!important;
+      min-height:58px!important;
+      max-height:58px!important;
+      margin:0!important;
+      padding:4px 7px!important;
+      border:none!important;
+      border-radius:999px!important;
+      display:flex!important;
+      align-items:center!important;
+      justify-content:center!important;
+      overflow:hidden!important;
+      position:relative!important;
+      z-index:2!important;
+      background:rgba(255,255,255,.82)!important;
+      box-shadow:0 8px 13px rgba(90,56,37,.08), inset 0 0 0 2px rgba(242,209,165,.44)!important;
+    }
+
+    .orders-section .order-block::after{
+      content:""!important;
+      position:absolute!important;
+      left:17px!important;
+      right:17px!important;
+      bottom:-7px!important;
+      height:11px!important;
+      border-radius:50%!important;
+      background:rgba(90,56,37,.10)!important;
+      filter:blur(6px)!important;
+      z-index:-1!important;
+    }
+
+    .orders-section .order-emoji{
+      width:100%!important;
+      height:100%!important;
+      min-height:0!important;
+      max-height:none!important;
+      margin:0!important;
+      padding:0!important;
+      display:flex!important;
+      flex-direction:row!important;
+      align-items:center!important;
+      justify-content:center!important;
+      gap:7px!important;
+      flex-wrap:nowrap!important;
+      overflow:hidden!important;
+      scrollbar-width:none!important;
+    }
+
+    .orders-section .order-emoji::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;}
+
+    .orders-section .order-slot{
+      box-sizing:border-box!important;
+      border:none!important;
+      background:transparent!important;
+      border-radius:14px!important;
+      display:flex!important;
+      align-items:center!important;
+      justify-content:center!important;
+      overflow:hidden!important;
+      padding:0!important;
+      flex:0 0 auto!important;
+    }
+
+    .orders-section .single-order .order-slot{
+      width:56px!important;
+      height:56px!important;
+      min-width:56px!important;
+      max-width:56px!important;
+      min-height:56px!important;
+      max-height:56px!important;
+    }
+
+    .orders-section .multi-order .order-slot{
+      width:43px!important;
+      height:43px!important;
+      min-width:43px!important;
+      max-width:43px!important;
+      min-height:43px!important;
+      max-height:43px!important;
+    }
+
+    .orders-section .order-slot .asset-wrap{
+      width:100%!important;
+      height:100%!important;
+      display:flex!important;
+      align-items:center!important;
+      justify-content:center!important;
+      overflow:hidden!important;
+    }
+
+    .orders-section .single-order .order-icon-img{
+      width:56px!important;
+      height:56px!important;
+      max-width:56px!important;
+      max-height:56px!important;
+    }
+
+    .orders-section .multi-order .order-icon-img{
+      width:43px!important;
+      height:43px!important;
+      max-width:43px!important;
+      max-height:43px!important;
+    }
+
+    .orders-section .order-icon-img{
+      object-fit:contain!important;
+      display:block!important;
+      margin:0!important;
+      filter:drop-shadow(0 3px 3px rgba(90,56,37,.16))!important;
+    }
+
+    .orders-section .reward{
+      grid-row:3!important;
+      width:100%!important;
+      height:22px!important;
+      min-height:22px!important;
+      max-height:22px!important;
+      margin:0!important;
+      padding:0!important;
+      display:flex!important;
+      flex-direction:row!important;
+      align-items:center!important;
+      justify-content:center!important;
+      gap:4px!important;
+      flex-wrap:nowrap!important;
+      overflow:hidden!important;
+      position:relative!important;
+      z-index:2!important;
+      font-size:9px!important;
+      line-height:1!important;
+    }
+
+    .orders-section .reward span{
+      display:inline-flex!important;
+      align-items:center!important;
+      justify-content:center!important;
+      height:19px!important;
+      max-height:19px!important;
+      padding:3px 6px!important;
+      border-radius:999px!important;
+      white-space:nowrap!important;
+      line-height:1!important;
+      flex:0 1 auto!important;
+      background:rgba(255,248,239,.90)!important;
+      border:1px solid rgba(241,211,165,.75)!important;
+      color:#653719!important;
+    }
+
+    .orders-section .serve-btn{
+      grid-row:4!important;
+      width:126px!important;
+      height:27px!important;
+      min-height:27px!important;
+      max-height:27px!important;
+      margin:0!important;
+      padding:2px 8px!important;
+      border-radius:14px!important;
+      font-size:12px!important;
+      line-height:1!important;
+      display:block!important;
+      align-self:center!important;
+      justify-self:center!important;
+      overflow:hidden!important;
+      position:relative!important;
+      z-index:2!important;
+    }
+
+    .orders-section .serve-btn:disabled{
+      opacity:.78!important;
+      cursor:not-allowed!important;
+      color:#8b6a4f!important;
+      background:linear-gradient(180deg,#eee2d5,#d9c8b4)!important;
+      border:2px solid #cbb69e!important;
+      box-shadow:none!important;
+    }
+
+    @media (max-width:380px){
+      .orders-section{height:264px!important;min-height:264px!important;max-height:264px!important;padding-left:8px!important;padding-right:8px!important;}
+      .customers{height:218px!important;min-height:218px!important;max-height:218px!important;gap:7px!important;}
+      .orders-section .customer-card{
+        flex-basis:138px!important;width:138px!important;min-width:138px!important;max-width:138px!important;
+        height:210px!important;min-height:210px!important;max-height:210px!important;
+        grid-template-rows:97px 57px 21px 26px!important;
+      }
+      .orders-section .portrait-ring{width:74px!important;height:74px!important;min-width:74px!important;min-height:74px!important;max-width:74px!important;max-height:74px!important;flex-basis:74px!important;border-radius:22px!important;}
+      .orders-section .portrait-ring img{border-radius:22px!important;}
+      .orders-section .order-block{width:120px!important;height:55px!important;min-height:55px!important;max-height:55px!important;}
+      .orders-section .single-order .order-slot{width:53px!important;height:53px!important;min-width:53px!important;max-width:53px!important;min-height:53px!important;max-height:53px!important;}
+      .orders-section .single-order .order-icon-img{width:53px!important;height:53px!important;max-width:53px!important;max-height:53px!important;}
+      .orders-section .multi-order .order-slot{width:40px!important;height:40px!important;min-width:40px!important;max-width:40px!important;min-height:40px!important;max-height:40px!important;}
+      .orders-section .multi-order .order-icon-img{width:40px!important;height:40px!important;max-width:40px!important;max-height:40px!important;}
+      .orders-section .reward{font-size:8.4px!important;height:21px!important;min-height:21px!important;max-height:21px!important;gap:3px!important;}
+      .orders-section .reward span{height:18px!important;max-height:18px!important;padding:3px 5px!important;}
+      .orders-section .serve-btn{width:120px!important;height:26px!important;min-height:26px!important;max-height:26px!important;font-size:11.5px!important;}
+    }
+
 </style>
 </head>
 
@@ -3654,7 +4039,7 @@
       customers.forEach((c, index) => {
         const ready = isCustomerReady(c);
         const card = document.createElement("div");
-        card.className = "customer-card" + (ready ? " ready" : "");
+        card.className = "customer-card" + (ready ? " ready" : "") + (c.orders.length > 1 ? " multi-order" : " single-order");
 
         card.innerHTML = `
           ${ready ? `<div class="ready-check">✓</div>` : ""}
@@ -3680,7 +4065,7 @@
             <span>⭐ +${getCustomerFameReward(c)}</span>
           </div>
 
-          ${ready ? `<button class="serve-btn" onclick="serveCustomer(${index})">Serve</button>` : ``}
+          <button class="serve-btn" ${ready ? `onclick="serveCustomer(${index})"` : `disabled`}>Serve</button>
         `;
 
         customersEl.appendChild(card);
