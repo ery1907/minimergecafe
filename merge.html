@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>Mini Merge Cafe</title>
-  <!-- MINI_MERGE_CUSTOMERS_BALANCE_V2 -->
+  <!-- MINI_MERGE_UI_FIX_V3 -->
 
   <style>
     * {
@@ -1080,6 +1080,157 @@
       text-overflow: ellipsis;
     }
 
+
+    /* UI fix v3: compact modern orders, safe badges, no mobile zoom */
+    html, body {
+      touch-action: manipulation;
+      -webkit-text-size-adjust: 100%;
+      overscroll-behavior: none;
+    }
+
+    .title-row .gear {
+      display: none;
+    }
+
+    .hint-bubble {
+      position: relative;
+      padding: 10px;
+      gap: 8px;
+    }
+
+    .hint-bubble .helper {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .hint-bubble .bulb {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .hint-info-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(180deg,#ffffff,#fff1d9);
+      border: 2px solid #f1c27d;
+      box-shadow: 0 4px 10px rgba(90,56,37,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      font-weight: 900;
+      color: #5a3825;
+      flex-shrink: 0;
+    }
+
+    .message {
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .customer-card {
+      min-width: 172px;
+      padding: 9px;
+      border-radius: 21px;
+      background: linear-gradient(180deg,#fffaf4,#ffeedb);
+    }
+
+    .customer-top {
+      align-items: center;
+      margin-bottom: 7px;
+    }
+
+    .portrait-ring {
+      width: 58px;
+      height: 58px;
+      border-radius: 17px;
+      padding: 2px;
+      background: linear-gradient(180deg,#ffe6c2,#e9a85e);
+    }
+
+    .portrait-ring img {
+      border-radius: 15px;
+      object-position: center top;
+    }
+
+    .customer-name {
+      font-size: 14px;
+      line-height: 1.1;
+    }
+
+    .order-block {
+      min-height: 108px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8px;
+    }
+
+    .order-label {
+      text-align: center;
+    }
+
+    .order-emoji {
+      min-height: 58px;
+      gap: 2px;
+      margin-bottom: 4px;
+    }
+
+    .order-icon-img {
+      width: 58px;
+      height: 58px;
+    }
+
+    .order-plus {
+      font-size: 17px;
+    }
+
+    .order-name {
+      text-align: center;
+      font-size: 11px;
+      min-height: 26px;
+    }
+
+    .mini-badge {
+      top: 2px;
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+      border-width: 2px;
+      z-index: 7;
+    }
+
+    .badge-lucky { left: 2px; }
+    .badge-star { left: 24px; }
+    .badge-ready { right: 2px; }
+
+    .cell {
+      touch-action: none;
+      -webkit-touch-callout: none;
+    }
+
+    .item-img {
+      width: 78%;
+      height: 78%;
+    }
+
+    .machine-img {
+      width: 84%;
+      height: 78%;
+    }
+
+    .rank-name .info-item-img,
+    .rank-name .info-machine-img {
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 380px) {
+      .customer-card { min-width: 165px; }
+      .portrait-ring { width: 54px; height: 54px; }
+      .order-icon-img { width: 54px; height: 54px; }
+    }
+
     @media (max-width: 380px) {
       .board { gap: 5px; padding: 6px; }
       .board-frame { padding: 10px; }
@@ -1128,6 +1279,7 @@
     <div class="hint-bubble">
       <div class="helper">🐱</div>
       <div class="message" id="message">Merge matching items to serve customers!</div>
+      <button class="hint-info-btn" onclick="openInfoPanel()">ℹ️</button>
       <div class="bulb">💡</div>
     </div>
   </div>
@@ -1503,6 +1655,22 @@
     const customersEl = document.getElementById("customers");
     const messageEl = document.getElementById("message");
 
+    let lastTouchEndForZoomFix = 0;
+    document.addEventListener("touchend", function(e) {
+      const now = Date.now();
+      if (now - lastTouchEndForZoomFix <= 320) {
+        e.preventDefault();
+      }
+      lastTouchEndForZoomFix = now;
+    }, { passive: false });
+
+    document.addEventListener("touchmove", function(e) {
+      if (e.touches && e.touches.length > 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+
     customersEl.addEventListener("wheel", function(e) {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         customersEl.scrollLeft += e.deltaY;
@@ -1747,7 +1915,15 @@
 
       if (data && data.machine && selectedIndex === null) {
         selectedIndex = index;
+        setMsg("Machine selected. Press Info for details, or tap again to produce.");
+        createBoard();
+        return;
+      }
+
+      if (data && data.machine && selectedIndex === index) {
         generateItem(data.machine);
+        selectedIndex = null;
+        createBoard();
         return;
       }
 
@@ -3037,7 +3213,7 @@
     function showGameModal(icon, title, name, reward) {
       document.getElementById("modalIcon").textContent = icon;
       document.getElementById("modalTitle").textContent = title;
-      document.getElementById("modalName").textContent = name;
+      document.getElementById("modalName").innerHTML = name;
       document.getElementById("modalReward").innerHTML = reward;
       document.getElementById("gameModal").classList.add("show");
       spawnConfetti();
