@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Mini Merge Cafe</title>
   <!-- MINI_MERGE_UI_FIX_V3 -->
 
@@ -1246,6 +1246,263 @@
       .customer-card { min-width: 190px; }
       .portrait-ring { width: 58px; height: 58px; }
     }
+
+
+    /* PATCH_NEXT: visual info, bigger customer cards, recycle quick action, real-time energy */
+    * { -webkit-user-select: none; user-select: none; }
+    .board, .board-frame, .cell, .machine, .item, .asset-wrap, .machine-img, .item-img {
+      touch-action: none !important;
+      -ms-touch-action: none !important;
+    }
+
+    .hint-recycle-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(180deg,#ffffff,#ffe8d1);
+      border: 2px solid #f1c27d;
+      box-shadow: 0 4px 10px rgba(90,56,37,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      font-weight: 900;
+      color: #5a3825;
+      flex-shrink: 0;
+    }
+
+    .customers {
+      gap: 14px;
+      padding: 12px 3px 8px;
+    }
+
+    .customer-card {
+      min-width: 220px;
+      padding: 12px;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 25% 3%, rgba(255,255,255,.95), transparent 30%),
+        linear-gradient(180deg,#fffaf4,#ffe8cf);
+      overflow: visible;
+      margin-top: 22px;
+    }
+
+    .customer-card.ready {
+      animation: readyPulse 1.15s infinite ease-in-out;
+    }
+
+    .customer-top {
+      justify-content: center;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: -38px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .portrait-ring {
+      width: 96px;
+      height: 96px;
+      border-radius: 28px;
+      padding: 4px;
+      background: linear-gradient(180deg,#fff1ce,#d99143);
+      box-shadow: 0 8px 18px rgba(90,56,37,0.20);
+    }
+
+    .portrait-ring img {
+      border-radius: 24px;
+      object-position: center top;
+    }
+
+    .customer-name {
+      font-size: 17px;
+      white-space: normal;
+      margin-top: 2px;
+    }
+
+    .order-block {
+      min-height: 124px;
+      border-radius: 22px;
+      background: linear-gradient(180deg,#ffffff,#fff5e8);
+      box-shadow: inset 0 2px 8px rgba(90,56,37,.06);
+    }
+
+    .order-label {
+      font-size: 10px;
+      color: #b06d38;
+    }
+
+    .order-emoji {
+      min-height: 74px;
+    }
+
+    .order-icon-img {
+      width: 72px;
+      height: 72px;
+    }
+
+    .order-name {
+      font-size: 12px;
+      min-height: 28px;
+    }
+
+    .reward {
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .ready-check {
+      top: 8px;
+      right: 8px;
+      width: 30px;
+      height: 30px;
+      z-index: 8;
+    }
+
+    .info-visual-card {
+      background: linear-gradient(180deg,#fffaf4,#ffe9cf);
+      border: 2px solid #f1c27d;
+      border-radius: 24px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 14px rgba(90,56,37,0.10);
+      text-align: center;
+    }
+
+    .info-title-big {
+      font-size: 22px;
+      font-weight: 900;
+      color: #653719;
+      margin: 4px 0 8px;
+    }
+
+    .info-main-visual .info-item-img {
+      width: 108px;
+      height: 108px;
+    }
+
+    .info-main-visual .info-machine-img {
+      width: 150px;
+      height: 120px;
+    }
+
+    .info-chain-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 8px 2px 4px;
+      justify-content: flex-start;
+      scrollbar-width: thin;
+    }
+
+    .info-chain-step {
+      min-width: 74px;
+      background: #fff;
+      border: 2px solid #f1d3a5;
+      border-radius: 18px;
+      padding: 6px 4px;
+      font-size: 9px;
+      font-weight: 900;
+      color: #7a4c2b;
+      text-align: center;
+    }
+
+    .info-chain-step.active {
+      border-color: #ffb703;
+      box-shadow: 0 0 0 3px rgba(255,183,3,.22), 0 5px 12px rgba(90,56,37,.12);
+      background: #fff8d9;
+    }
+
+    .info-chain-step img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 3px;
+      filter: drop-shadow(0 3px 3px rgba(90,56,37,0.15));
+    }
+
+    .info-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .info-mini-pill {
+      background: #fff;
+      border: 2px solid #f1d3a5;
+      border-radius: 16px;
+      padding: 9px 7px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #6b4126;
+    }
+
+    .fame-road {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 5px 0 8px;
+      scrollbar-width: thin;
+    }
+
+    .fame-node {
+      min-width: 132px;
+      background: #fff;
+      border: 2px solid #f1c27d;
+      border-radius: 20px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(90,56,37,.08);
+    }
+
+    .fame-node.done {
+      background: linear-gradient(180deg,#fff8d9,#ffe7a4);
+      border-color: #ffb703;
+    }
+
+    .fame-node.current {
+      box-shadow: 0 0 0 3px rgba(255,183,3,.25), 0 6px 16px rgba(90,56,37,.12);
+      transform: translateY(-2px);
+    }
+
+    .fame-node-icon { font-size: 26px; margin-bottom: 3px; }
+    .fame-node-name { font-size: 12px; font-weight: 900; color: #653719; min-height: 30px; }
+    .fame-node-need { font-size: 11px; font-weight: 900; color: #8b5e34; margin: 3px 0; }
+    .fame-node-reward { font-size: 10px; font-weight: 800; color: #7a4c2b; line-height: 1.25; }
+
+    .rank-reward-icons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .rank-reward-chip {
+      background: #fff;
+      border: 2px solid #f1d3a5;
+      border-radius: 16px;
+      padding: 9px 6px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #6b4126;
+    }
+
+    .energy-timer {
+      font-size: 12px;
+      font-weight: 900;
+      color: #8b5e34;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 380px) {
+      .customer-card { min-width: 205px; }
+      .portrait-ring { width: 88px; height: 88px; }
+      .order-icon-img { width: 66px; height: 66px; }
+      .info-mini-grid, .rank-reward-icons { grid-template-columns: 1fr; }
+    }
+
   </style>
 </head>
 
@@ -1280,6 +1537,7 @@
       <div class="helper">🐱</div>
       <div class="message" id="message">Merge matching items to serve customers!</div>
       <button class="hint-info-btn" onclick="openInfoPanel()">ℹ️</button>
+      <button class="hint-recycle-btn" onclick="recycleSelected()">♻️</button>
       <div class="bulb">💡</div>
     </div>
   </div>
@@ -1596,12 +1854,12 @@
     let gems = 25;
     let parts = 0;
     let energy = 30;
-    let maxEnergy = 75;
+    let maxEnergy = 100;
     let cafeLevel = 1;
     let famePoints = 0;
     let fameRank = 0;
     let totalServed = 0;
-    let customerSlots = 3;
+    let customerSlots = 4;
     const MAX_CUSTOMER_SLOTS = 5;
     let customerDeck = [];
     let recentOrderKeys = [];
@@ -1617,6 +1875,8 @@
     let mergedItemIndex = null;
     let customers = [];
     let giftProgress = 0;
+    let giftStage = 0;
+    let giftTarget = 3;
     let giftReady = false;
     let ordersSinceLastPart = 0;
     let adCooldown = false;
@@ -1669,6 +1929,86 @@
         e.preventDefault();
       }
     }, { passive: false });
+
+
+    const ENERGY_REGEN_BASE_MS = 2 * 60 * 1000;
+    let energyRegenMs = ENERGY_REGEN_BASE_MS;
+    let nextEnergySeconds = 0;
+
+    function getEnergyRegenMs() {
+      return fameRank >= 10 ? 90 * 1000 : ENERGY_REGEN_BASE_MS;
+    }
+
+    function applyOfflineEnergyRegen() {
+      energyRegenMs = getEnergyRegenMs();
+      const now = Date.now();
+      const savedEnergy = Number(localStorage.getItem("mmc_energy"));
+      const savedMaxEnergy = Number(localStorage.getItem("mmc_maxEnergy"));
+      const savedGiftStage = Number(localStorage.getItem("mmc_giftStage"));
+      const savedGiftTarget = Number(localStorage.getItem("mmc_giftTarget"));
+
+      if (!Number.isNaN(savedEnergy) && savedEnergy >= 0) energy = Math.min(savedEnergy, maxEnergy);
+      if (!Number.isNaN(savedMaxEnergy) && savedMaxEnergy >= maxEnergy) maxEnergy = savedMaxEnergy;
+      if (!Number.isNaN(savedGiftStage) && savedGiftStage >= 0) giftStage = savedGiftStage;
+      if (!Number.isNaN(savedGiftTarget) && savedGiftTarget >= 3) giftTarget = savedGiftTarget;
+
+      let last = Number(localStorage.getItem("mmc_lastEnergyTime"));
+      if (!last || Number.isNaN(last)) {
+        localStorage.setItem("mmc_lastEnergyTime", String(now));
+        return;
+      }
+
+      if (energy >= maxEnergy) {
+        localStorage.setItem("mmc_lastEnergyTime", String(now));
+        return;
+      }
+
+      const gained = Math.floor((now - last) / energyRegenMs);
+      if (gained > 0) {
+        energy = Math.min(maxEnergy, energy + gained);
+        localStorage.setItem("mmc_lastEnergyTime", String(last + gained * energyRegenMs));
+      }
+    }
+
+    function tickEnergyRegen() {
+      energyRegenMs = getEnergyRegenMs();
+      const now = Date.now();
+      let last = Number(localStorage.getItem("mmc_lastEnergyTime")) || now;
+
+      if (energy >= maxEnergy) {
+        nextEnergySeconds = 0;
+        localStorage.setItem("mmc_lastEnergyTime", String(now));
+        return;
+      }
+
+      const diff = now - last;
+      const gained = Math.floor(diff / energyRegenMs);
+      if (gained > 0) {
+        energy = Math.min(maxEnergy, energy + gained);
+        localStorage.setItem("mmc_lastEnergyTime", String(last + gained * energyRegenMs));
+        updateAll();
+        return;
+      }
+
+      nextEnergySeconds = Math.max(0, Math.ceil((energyRegenMs - diff) / 1000));
+      const sheet = document.getElementById("sheet");
+      if (sheet && sheet.classList.contains("show") && sheet.dataset.type === "gift") refreshOpenSheet();
+    }
+
+    function persistEnergyState() {
+      localStorage.setItem("mmc_energy", String(energy));
+      localStorage.setItem("mmc_maxEnergy", String(maxEnergy));
+      localStorage.setItem("mmc_giftStage", String(giftStage));
+      localStorage.setItem("mmc_giftTarget", String(giftTarget));
+      if (!localStorage.getItem("mmc_lastEnergyTime")) localStorage.setItem("mmc_lastEnergyTime", String(Date.now()));
+    }
+
+    if (boardEl) {
+      boardEl.addEventListener("dblclick", e => e.preventDefault(), { passive: false });
+      boardEl.addEventListener("touchend", function(e) {
+        if (e.target && e.target.closest(".cell")) e.preventDefault();
+      }, { passive: false });
+    }
 
 
     customersEl.addEventListener("wheel", function(e) {
@@ -2020,6 +2360,7 @@
       }
 
       energy--;
+      if (energy < maxEnergy) localStorage.setItem("mmc_lastEnergyTime", String(Date.now()));
       const slot = empty[Math.floor(Math.random() * empty.length)];
       const item = getMachineItem(type);
       let luckyChance = 0.08;
@@ -2073,13 +2414,11 @@
             </div>
             <div class="customer-meta">
               <div class="customer-name">${c.profile.name}</div>
-              <div class="customer-trait">${c.profile.trait}</div>
-              <div class="customer-mood">${c.profile.mood}</div>
             </div>
           </div>
 
           <div class="order-block">
-            <div class="order-label">Order</div>
+            <div class="order-label">Wants</div>
             <div class="order-emoji">${orderEmojiText(c.orders)}</div>
             <div class="order-name">${orderNameText(c.orders)}</div>
           </div>
@@ -2148,9 +2487,9 @@
     }
 
     function shouldMakeMultiOrder() {
-      if (fameRank < 2) return false;
+      if (fameRank < 1) return false;
       const ada = storyProfiles.find(p => p.id === "ada");
-      let chance = fameRank >= 6 ? 0.48 : fameRank >= 4 ? 0.34 : 0.20;
+      let chance = fameRank >= 6 ? 0.55 : fameRank >= 4 ? 0.42 : fameRank >= 2 ? 0.28 : 0.16;
       if (ada && ada.unlocked >= 2) chance += 0.10;
       return Math.random() < chance;
     }
@@ -2242,8 +2581,21 @@
       const weightedItems = [];
       finalPool.forEach(itemIndex => {
         const lvl = items[itemIndex].level;
-        let weight = lvl <= 2 ? 9 : lvl === 3 ? 6 : lvl === 4 ? 4 : lvl === 5 ? 2 : 1;
-        for (let i = 0; i < weight; i++) weightedItems.push(itemIndex);
+        const progress = Math.max(fameRank, Math.floor(totalServed / 8));
+        let weight;
+
+        if (progress < 3) {
+          weight = lvl <= 2 ? 8 : lvl === 3 ? 5 : lvl === 4 ? 2 : 1;
+        } else if (progress < 7) {
+          weight = lvl <= 2 ? 5 : lvl === 3 ? 6 : lvl === 4 ? 5 : lvl === 5 ? 3 : 2;
+        } else if (progress < 12) {
+          weight = lvl <= 2 ? 2 : lvl === 3 ? 4 : lvl === 4 ? 6 : lvl === 5 ? 5 : 4;
+        } else {
+          weight = lvl <= 2 ? 1 : lvl === 3 ? 2 : lvl === 4 ? 5 : lvl === 5 ? 7 : 8;
+        }
+
+        if (lvl === CHAIN_LENGTH && progress >= 6) weight += 5;
+        for (let i = 0; i < Math.max(1, weight); i++) weightedItems.push(itemIndex);
       });
 
       return weightedItems[Math.floor(Math.random() * weightedItems.length)] || finalPool[0];
@@ -2445,13 +2797,6 @@
         ${renderTask("serve", daily.serve)}
         ${renderTask("discover", daily.discover)}
         ${renderTask("mini", daily.mini)}
-
-        <div class="panel-card">
-          <h3>Mini Games</h3>
-          <p>Take a short break from merging and earn rewards.</p>
-          <button class="blue-btn" onclick="openSheet('minigame')">Open Mini Games</button>
-        </div>
-
         <div class="panel-card">
           <h3>Achievements</h3>
           <p>Long-term goals for progression.</p>
@@ -2542,6 +2887,12 @@
         </div>
 
         <div class="unlock-card">
+          <h3>🏆 Fame Road</h3>
+          <p>See what your cafe will unlock next.</p>
+          ${renderFameRoad()}
+        </div>
+
+        <div class="unlock-card">
           <h3>Research Lab</h3>
           <p>Research now discovers real recipes. New recipes can appear in orders and be merged on the board.</p>
           ${renderResearchButton("drink")}
@@ -2588,6 +2939,58 @@
       });
 
       return html;
+    }
+
+
+    function renderFameRoad() {
+      return `<div class="fame-road">${fameRanks.map((r, idx) => {
+        const done = idx <= fameRank;
+        const current = idx === fameRank;
+        const icon = done ? "⭐" : "🔒";
+        return `
+          <div class="fame-node ${done ? "done" : ""} ${current ? "current" : ""}">
+            <div class="fame-node-icon">${icon}</div>
+            <div class="fame-node-name">${idx + 1}. ${r.name}</div>
+            <div class="fame-node-need">${idx === 0 ? "Start" : r.need + " ⭐"}</div>
+            <div class="fame-node-reward">${rankUnlockText(idx)}</div>
+          </div>`;
+      }).join("")}</div>`;
+    }
+
+    function rankUnlockText(rank) {
+      const map = {
+        1: "+10 ⚡ +1 🔧 +5 💎",
+        2: "Combo orders",
+        3: "Bakery offer",
+        4: "Tea/Juice offers",
+        5: "+10 Max ⚡",
+        7: "Ice Cream offer",
+        9: "5th customer spot",
+        10: "Faster energy regen",
+        12: "Better combo rewards",
+        15: "+20 Max ⚡",
+        18: "Top-tier orders",
+        19: "Master status"
+      };
+      return map[rank] || fameRanks[rank].reward;
+    }
+
+    function rankRewardHTML(rank) {
+      const rewards = [];
+      if (rank === 1) rewards.push("⚡ +10 Energy", "🔧 +1 Part", "💎 +5 Gems");
+      if (rank === 2) rewards.push("🍽️ Combo Orders", "⚡ +15 Energy", "🔧 +2 Parts");
+      if (rank === 3) rewards.push("🥐 Bakery Offer", "⚡ +20 Energy", "💎 +10 Gems");
+      if (rank === 4) rewards.push("🍵 Tea Orders", "🧃 Juice Offer", "💎 +20 Gems");
+      if (rank === 5) rewards.push("⚡ Max Energy +10", "🎁 Better Gift Value");
+      if (rank === 7) rewards.push("🍦 Ice Cream Offer", "🔧 +2 Parts");
+      if (rank === 9) rewards.push("👥 Final Customer Spot", "⚡ +20 Energy");
+      if (rank === 10) rewards.push("⏱️ Faster Energy Regen", "🔧 +3 Parts");
+      if (rank === 12) rewards.push("🍽️ Better Combo Rewards", "💎 +20 Gems");
+      if (rank === 15) rewards.push("⚡ Max Energy +20", "✨ Lucky Rewards Improve");
+      if (rank === 18) rewards.push("🌟 Top-tier Orders", "⚡ +40 Energy");
+      if (rank === 19) rewards.push("🏆 Mini Merge Master", "👑 Max Rank");
+      if (!rewards.length) rewards.push(fameRanks[rank].reward);
+      return `<div class="rank-reward-icons">${rewards.map(r => `<div class="rank-reward-chip">${r}</div>`).join("")}</div>`;
     }
 
     function renderResearchButton(chain) {
@@ -2650,11 +3053,11 @@
         return { cost: 0, rank: 0, label: "All customer spots unlocked" };
       }
 
-      if (customerSlots === 3) {
-        return { cost: 250, rank: 3, label: "Unlock New Customer Spot" };
+      if (customerSlots === 4) {
+        return { cost: 500, rank: 9, label: "Unlock Final Customer Spot" };
       }
 
-      return { cost: 600, rank: 9, label: "Unlock Final Customer Spot" };
+      return { cost: 0, rank: 0, label: "All customer spots unlocked" };
     }
 
     function renderCustomerSlotButton() {
@@ -2740,17 +3143,20 @@
     }
 
     function renderGiftPanel() {
+      const timerText = energy >= maxEnergy ? "Energy is full." : "Next +1 energy in " + formatSeconds(nextEnergySeconds || Math.ceil(getEnergyRegenMs() / 1000)) + ".";
       return `
         <div class="panel-card">
           <h3>Gift Box</h3>
-          <p>${giftReady ? "Gift ready! Claim +8 energy." : "Serve " + giftProgress + "/3 customers to unlock."}</p>
+          <p>${giftReady ? "Gift ready! Claim +8 energy." : "Serve " + Math.min(giftProgress, giftTarget) + "/" + giftTarget + " customers to unlock."}</p>
+          <div class="task-progress"><div class="task-fill" style="width:${Math.min(100, Math.round((giftProgress / giftTarget) * 100))}%"></div></div>
           <button class="green-btn" onclick="claimGift(); refreshOpenSheet();" ${giftReady ? "" : "disabled"}>${giftReady ? "Claim +8 ⚡" : "Locked"}</button>
         </div>
 
         <div class="panel-card">
-          <h3>Recycle</h3>
-          <p>Select an item on the board. Recycle it for energy.</p>
-          <button class="green-btn" onclick="recycleSelected(); refreshOpenSheet();">Recycle Selected Item</button>
+          <h3>⚡ Energy Regen</h3>
+          <p>Energy refills with real time. It stops when your energy is full.</p>
+          <p><b>Rate:</b> ${fameRank >= 10 ? "1 energy / 90 sec" : "1 energy / 2 min"}</p>
+          <div class="energy-timer">${timerText}</div>
         </div>
 
         <div class="panel-card">
@@ -2764,6 +3170,13 @@
           <p>Play short mini games for bonus coins, fame and energy.</p>
           <button class="purple-btn" onclick="openSheet('minigame')">Open Mini Games</button>
         </div>`;
+    }
+
+    function formatSeconds(sec) {
+      sec = Math.max(0, Number(sec) || 0);
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return m + ":" + String(s).padStart(2, "0");
     }
 
     function renderShopPanel() {
@@ -3003,9 +3416,13 @@
     function renderInfoPanel() {
       if (selectedIndex === null || !board[selectedIndex]) {
         return `
-          <div class="panel-card">
-            <h3>ℹ️ Item Info</h3>
-            <p>Select any item or machine on the board first. Then tap the Info button again.</p>
+          <div class="info-visual-card">
+            <div class="rank-big">ℹ️</div>
+            <div class="info-title-big">Select Something</div>
+            <div class="info-mini-grid">
+              <div class="info-mini-pill">Tap an item</div>
+              <div class="info-mini-pill">Then tap Info</div>
+            </div>
           </div>`;
       }
 
@@ -3016,15 +3433,21 @@
         const def = machineDefs[type];
         const lvl = machineLevels[type];
         const cost = upgradeCost(type);
-        const produces = getMachineProductionText(type);
+        const chain = machineDefs[type].chain;
+        const production = getChainItems(chain).slice(0, Math.min(lvl, discoveredLevel[chain], CHAIN_LENGTH));
         return `
-          <div class="panel-card">
-            ${machineImageHTML(type, "info-machine-img")}
-            <h3>${def.name}</h3>
-            <p><b>Level:</b> ${lvl}</p>
-            <p><b>Produces:</b> ${produces}</p>
-            <p><b>How it works:</b> Tap the machine to produce items. Drag it to move it on the board.</p>
-            <p><b>Upgrade:</b> ${lvl >= CHAIN_LENGTH ? "Max level reached." : "Cost: " + cost + " 🔧"}</p>
+          <div class="info-visual-card">
+            <div class="info-main-visual">${machineImageHTML(type, "info-machine-img")}</div>
+            <div class="info-title-big">${def.name}</div>
+            <div class="info-chain-row">
+              ${production.map(i => `<div class="info-chain-step">${itemImageTag(i)}<span>${items[i].name}</span></div>`).join("")}
+            </div>
+            <div class="info-mini-grid">
+              <div class="info-mini-pill">Lv. ${lvl}</div>
+              <div class="info-mini-pill">${lvl >= CHAIN_LENGTH ? "Max Level" : cost + " 🔧 Upgrade"}</div>
+              <div class="info-mini-pill">Tap twice to produce</div>
+              <div class="info-mini-pill">Drag to move</div>
+            </div>
             <button class="${type === "drink" ? "blue-btn" : "orange-btn"}" onclick="upgradeMachine('${type}'); refreshOpenSheet();" ${lvl >= CHAIN_LENGTH ? "disabled" : ""}>${lvl >= CHAIN_LENGTH ? "Max Level" : "Upgrade Machine"}</button>
           </div>`;
       }
@@ -3032,21 +3455,27 @@
       const item = items[data.item];
       const chain = getChainItems(item.chain);
       const nextIndex = mergeMap[data.item];
-      const nextText = nextIndex !== undefined ? itemImageHTML(nextIndex, "order-icon-img") + " " + items[nextIndex].name : "Max level";
-      const how = item.level === 1 ? "Produced by " + chainLabel(item.chain) + " machine." : "Merge two previous items from the same chain.";
 
       return `
-        <div class="panel-card">
-          ${itemImageHTML(data.item, "info-item-img")}
-          <h3>${item.name}</h3>
-          <p><b>Product name:</b> ${item.name}</p>
-          <p><b>How to make:</b> ${how}</p>
-          <p><b>Merge chain:</b> ${chain.map(i => items[i].name).join(" → ")}</p>
-          <p><b>Next merge:</b> ${nextText}</p>
-          <p><b>Discovered:</b> ${item.level <= discoveredLevel[item.chain] ? "Yes" : "No"}</p>
-          ${data.lucky ? `<p><b>Lucky:</b> This item gives extra reward when served.</p>` : ""}
-          ${data.chainBadge ? `<p><b>Badge:</b> ⭐ Special completed item.</p>` : ""}
+        <div class="info-visual-card">
+          <div class="info-main-visual">${itemImageHTML(data.item, "info-item-img")}</div>
+          <div class="info-title-big">${item.name}</div>
+          <div class="info-chain-row">
+            ${chain.map(i => `<div class="info-chain-step ${i === data.item ? "active" : ""}">${itemImageTag(i)}<span>${items[i].name}</span></div>`).join("")}
+          </div>
+          <div class="info-mini-grid">
+            <div class="info-mini-pill">Level ${item.level}</div>
+            <div class="info-mini-pill">${nextIndex !== undefined ? "Next: " + items[nextIndex].name : "Max Level ⭐"}</div>
+            <div class="info-mini-pill">${item.level <= discoveredLevel[item.chain] ? "Discovered ✓" : "Locked 🔒"}</div>
+            <div class="info-mini-pill">${data.lucky ? "Lucky ✨" : data.chainBadge ? "Special ⭐" : "Merge Item"}</div>
+          </div>
         </div>`;
+    }
+
+    function itemImageTag(itemIndex) {
+      const item = items[itemIndex];
+      if (!item || !item.img) return `<span>${item ? item.emoji : ""}</span>`;
+      return `<img src="${item.img}" alt="${item.name}" draggable="false" onerror="this.outerHTML='${item.emoji}'">`;
     }
 
     function getChainItems(chain) {
@@ -3098,38 +3527,29 @@
     }
 
     function checkFameRankUp() {
-      const next = fameRanks[fameRank + 1];
-      if (!next) return;
+      let rankedUp = false;
+      let rewardHTML = "";
 
-      if (famePoints >= next.need) {
+      while (fameRanks[fameRank + 1] && famePoints >= fameRanks[fameRank + 1].need) {
         fameRank++;
         cafeLevel = fameRank + 1;
+        rankedUp = true;
 
-        let rewardText = fameRanks[fameRank].reward;
+        if (fameRank === 1) { energy = Math.min(maxEnergy, energy + 10); parts += 1; gems += 5; }
+        if (fameRank === 2) { energy = Math.min(maxEnergy, energy + 15); parts += 2; }
+        if (fameRank === 3) { energy = Math.min(maxEnergy, energy + 20); gems += 10; }
+        if (fameRank === 4) { energy = Math.min(maxEnergy, energy + 25); gems += 20; }
+        if (fameRank === 5) { maxEnergy += 10; energy = Math.min(maxEnergy, energy + 10); }
+        if (fameRank === 10) { energy = Math.min(maxEnergy, energy + 20); parts += 3; }
+        if (fameRank === 15) { maxEnergy += 20; energy = Math.min(maxEnergy, energy + 25); }
+        if (fameRank === 18) { energy = Math.min(maxEnergy, energy + 40); gems += 30; }
 
-        if (fameRank === 1) {
-          energy = Math.min(maxEnergy, energy + 10);
-          parts += 1;
-          gems += 5;
-        }
+        rewardHTML = rankRewardHTML(fameRank);
+      }
 
-        if (fameRank === 2) {
-          energy = Math.min(maxEnergy, energy + 15);
-          parts += 2;
-        }
-
-        if (fameRank === 3) {
-          energy = Math.min(maxEnergy, energy + 20);
-          gems += 10;
-        }
-
-        if (fameRank === 4) {
-          energy = Math.min(maxEnergy, energy + 25);
-          gems += 20;
-        }
-
+      if (rankedUp) {
         updateAchievements();
-        showGameModal("⭐", "Fame Rank Up!", fameRanks[fameRank].name, rewardText);
+        showGameModal("🏆", "New Fame Rank Unlocked!", fameRanks[fameRank].name, rewardHTML);
         playSound("upgrade");
         updateAll();
       }
@@ -3139,6 +3559,8 @@
       if (!giftReady) return;
       energy = Math.min(maxEnergy, energy + 8);
       giftProgress = 0;
+      giftStage++;
+      giftTarget = giftStage === 1 ? 5 : 10;
       giftReady = false;
       setMsg("Gift claimed! +8 ⚡");
       playSound("upgrade");
@@ -3147,7 +3569,7 @@
 
     function recycleSelected() {
       if (selectedIndex === null || !board[selectedIndex]) {
-        setMsg("Select an item first.");
+        setMsg("Select an item first, then recycle.");
         playSound("error");
         return;
       }
@@ -3159,12 +3581,14 @@
         return;
       }
 
-      const gain = Math.min(6, items[obj.item].level + (obj.lucky ? 1 : 0));
+      const lvl = items[obj.item].level;
+      const coinMap = { 1: 1, 2: 2, 3: 4, 4: 7, 5: 10, 6: 15 };
+      const gain = coinMap[lvl] || Math.min(15, lvl * 2);
       board[selectedIndex] = null;
       selectedIndex = null;
-      energy = Math.min(maxEnergy, energy + gain);
+      coins += gain;
 
-      setMsg("Recycled! +" + gain + " ⚡");
+      setMsg("Recycled! +" + gain + " 🪙");
       playSound("upgrade");
       updateAll();
     }
@@ -3246,7 +3670,8 @@
       document.getElementById("gemsText").textContent = "💎 " + gems;
       document.getElementById("partsText").textContent = "🔧 " + parts;
       document.getElementById("energyText").textContent = "⚡ " + energy + "/" + maxEnergy;
-      giftReady = giftProgress >= 3;
+      giftReady = giftProgress >= giftTarget;
+      persistEnergyState();
       createBoard();
       createCustomers();
       updateAchievements();
@@ -3254,8 +3679,10 @@
 
     document.addEventListener("dragstart", e => e.preventDefault());
 
+    applyOfflineEnergyRegen();
     setupCustomers();
     updateAll();
+    setInterval(tickEnergyRegen, 1000);
     generateItem("drink");
     generateItem("dessert");
     generateItem("drink");
