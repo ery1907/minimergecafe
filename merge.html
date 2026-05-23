@@ -3587,6 +3587,125 @@
       .secret-icon{font-size:24px;}
     }
 
+
+
+    /* PATCH 146: Secret Recipe final 8x7 + clean reward grid + safe order ticks */
+    .bottom-nav { grid-template-columns: repeat(5, 1fr) !important; }
+    .nav-btn { font-size: 22px !important; padding: 6px 2px !important; }
+    .nav-btn span { font-size: 10px !important; }
+
+    .reward.reward-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 3px !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: 36px !important;
+      max-height: 38px !important;
+      margin: 2px 0 4px !important;
+      overflow: hidden !important;
+      align-items: center !important;
+    }
+    .reward.reward-grid span {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-width: 0 !important;
+      height: 17px !important;
+      padding: 2px 3px !important;
+      font-size: 8.5px !important;
+      line-height: 1 !important;
+      overflow: hidden !important;
+      white-space: nowrap !important;
+      text-overflow: clip !important;
+    }
+    .reward.reward-grid .secret-move-reward { background:#fff3ff !important; border-color:#dfb8ff !important; color:#6b3aa8 !important; }
+
+    .order-slot { overflow: visible !important; }
+    .order-item-check {
+      position: absolute !important;
+      right: 0px !important;
+      top: 0px !important;
+      width: 14px !important;
+      height: 14px !important;
+      border-radius: 50% !important;
+      background: #4caf7a !important;
+      color: white !important;
+      border: 1.5px solid white !important;
+      font-size: 9px !important;
+      line-height: 11px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      z-index: 5 !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,.15) !important;
+    }
+    .single-order .order-slot .order-item-check { right: 1px !important; top: 1px !important; transform: none !important; }
+    .multi-order .order-slot .order-item-check { right: 0px !important; top: 0px !important; transform: none !important; }
+
+    .secret-hero.secret-final { padding: 12px !important; }
+    .secret-board.secret-board-large {
+      display: grid !important;
+      grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+      gap: 5px !important;
+      padding: 8px !important;
+      border-radius: 22px !important;
+      max-width: none !important;
+      background: rgba(90,56,37,.14) !important;
+      border: 3px solid #d69456 !important;
+      touch-action: none !important;
+    }
+    .secret-board-large .secret-cell {
+      aspect-ratio: 1 / 1 !important;
+      min-width: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      border-radius: 12px !important;
+      padding: 1px !important;
+      font-size: 20px !important;
+      overflow: hidden !important;
+      position: relative !important;
+    }
+    .secret-board-large .secret-cell.locked {
+      background: linear-gradient(180deg,#d8e8c7,#9fbd7a) !important;
+      border-color: #6f984f !important;
+      color: #36572b !important;
+    }
+    .secret-board-large .secret-cell.empty {
+      background: rgba(255,255,255,.42) !important;
+      border-style: dashed !important;
+    }
+    .secret-board-large .secret-cell.selected {
+      outline: 3px solid #ffb703 !important;
+      box-shadow: 0 0 12px rgba(255,183,3,.55) !important;
+    }
+    .secret-board-large .secret-icon { font-size: 22px !important; line-height: 1 !important; }
+    .secret-board-large .secret-lvl {
+      bottom: 1px !important;
+      right: 2px !important;
+      font-size: 8px !important;
+      padding: 1px 3px !important;
+      border-radius: 8px !important;
+    }
+    .secret-board-large .secret-vines {
+      position: absolute !important;
+      inset: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 18px !important;
+      background: rgba(85,120,55,.22) !important;
+      pointer-events: none !important;
+    }
+    .secret-moves { background:#fff !important; }
+    .secret-actions { grid-template-columns: 1fr 1fr !important; }
+    @media (max-width: 380px) {
+      .secret-board.secret-board-large { gap: 4px !important; padding: 6px !important; }
+      .secret-board-large .secret-icon { font-size: 18px !important; }
+      .secret-board-large .secret-lvl { font-size: 7px !important; }
+      .reward.reward-grid span { font-size: 8px !important; }
+    }
+
   </style>
 </head>
 
@@ -3629,6 +3748,7 @@
   <div class="bottom-nav">
     <button class="nav-btn active" onclick="openSheet('goals', this)">🎯<span>Goals</span></button>
     <button class="nav-btn" onclick="openSheet('fame', this)">⭐<span>Fame</span></button>
+    <button class="nav-btn" onclick="openSheet('secret', this)">📖<span>Secret</span></button>
     <button class="nav-btn" onclick="openSheet('gift', this)">🎁<span>Gift</span></button>
     <button class="nav-btn" onclick="openSheet('shop', this)">🛒<span>Shop</span></button>
   </div>
@@ -6407,8 +6527,11 @@
 
 
 
-    /* PATCH 145 FIXED: Secret Recipe permanent side progression */
-    const SECRET_SAVE_KEY = "miniMergeCafeSecretRecipe";
+    /* PATCH 146: Secret Recipe final system - separate 8x7 progression */
+    const SECRET_SAVE_KEY = "miniMergeCafeSecretRecipe_v2";
+    const SECRET_COLS = 8;
+    const SECRET_ROWS = 7;
+    const SECRET_BOARD_SIZE = SECRET_COLS * SECRET_ROWS;
     const SECRET_LEVELS = [
       { name:"Recipe Note", icon:"📜" },
       { name:"Vanilla Drop", icon:"🌼" },
@@ -6423,17 +6546,24 @@
       { name:"Master Mix", icon:"✨" },
       { name:"Secret Recipe", icon:"📖" }
     ];
-    const SECRET_BOARD_SIZE = 20;
     let secretRecipe = { moves: 0, selected: null, maxReached: 1, board: [] };
+
+    function secretLockedLevelForRow(row) {
+      if (row === 0) return 9;
+      if (row === 1) return 8;
+      if (row === 2) return 7;
+      if (row === 3) return 6;
+      if (row === 4) return 5;
+      if (row === 5) return 4;
+      return 0;
+    }
 
     function secretDefaultBoard() {
       const b = Array(SECRET_BOARD_SIZE).fill(null);
-      b[0] = { level: 1, locked: false };
-      b[1] = { level: 1, locked: false };
-      b[5] = { level: 1, locked: true };
-      b[8] = { level: 1, locked: true };
-      b[12] = { level: 2, locked: true };
-      b[16] = { level: 2, locked: true };
+      for (let r = 0; r < SECRET_ROWS - 1; r++) {
+        const lvl = secretLockedLevelForRow(r);
+        for (let c = 0; c < SECRET_COLS; c++) b[r * SECRET_COLS + c] = { level: lvl, locked: true };
+      }
       return b;
     }
 
@@ -6443,14 +6573,14 @@
     }
 
     function normalizeSecretRecipe() {
-      if (!secretRecipe || typeof secretRecipe !== "object") resetSecretRecipe();
+      if (!secretRecipe || typeof secretRecipe !== "object") secretRecipe = { moves: 0, selected: null, maxReached: 1, board: secretDefaultBoard() };
       secretRecipe.moves = Math.max(0, Number(secretRecipe.moves) || 0);
       secretRecipe.selected = null;
       secretRecipe.maxReached = Math.max(1, Math.min(12, Number(secretRecipe.maxReached) || 1));
       if (!Array.isArray(secretRecipe.board) || secretRecipe.board.length !== SECRET_BOARD_SIZE) {
         secretRecipe.board = secretDefaultBoard();
       }
-      secretRecipe.board = secretRecipe.board.map(x => {
+      secretRecipe.board = secretRecipe.board.map((x, idx) => {
         if (!x) return null;
         const lvl = Math.max(1, Math.min(12, Number(x.level) || 1));
         return { level: lvl, locked: !!x.locked };
@@ -6460,7 +6590,10 @@
     function loadSecretRecipe() {
       try {
         const params = new URLSearchParams(window.location.search);
-        if (params.get("reset") === "1") localStorage.removeItem(SECRET_SAVE_KEY);
+        if (params.get("reset") === "1") {
+          localStorage.removeItem(SECRET_SAVE_KEY);
+          localStorage.removeItem("miniMergeCafeSecretRecipe");
+        }
         const raw = localStorage.getItem(SECRET_SAVE_KEY);
         if (raw) secretRecipe = JSON.parse(raw);
         else secretRecipe = { moves: 0, selected: null, maxReached: 1, board: secretDefaultBoard() };
@@ -6476,16 +6609,24 @@
     }
 
     function secretOrderMoveReward(c) {
-      if (!c || !Array.isArray(c.orders)) return 1;
+      if (!c || !Array.isArray(c.orders) || !c.orders.length) return 0;
       const totalLevels = c.orders.reduce((sum, i) => sum + ((items[i] && items[i].level) || 1), 0);
-      let moves = Math.ceil(totalLevels / 3);
-      if (c.orders.length > 1) moves += 1;
-      return Math.max(1, Math.min(5, moves));
+      const count = c.orders.length;
+      if (count === 1) {
+        if (totalLevels <= 2) return 0;
+        if (totalLevels <= 4) return 1;
+        if (totalLevels <= 6) return 2;
+        return 3;
+      }
+      if (totalLevels <= 5) return 2;
+      if (totalLevels <= 8) return 3;
+      return 4;
     }
 
     function addSecretMoves(n) {
       n = Math.max(0, Number(n) || 0);
       if (!n) return;
+      normalizeSecretRecipe();
       secretRecipe.moves += n;
       saveSecretRecipe();
     }
@@ -6511,11 +6652,8 @@
       energy = Math.min(maxEnergy, energy + r.energy);
       gems += r.gems;
       const rewardText = `+${r.coins} 🪙 +${r.energy} ⚡` + (r.gems ? ` +${r.gems} 💎` : "");
-      if (level >= 12) {
-        showGameModal("📖", "Secret Recipe Complete!", SECRET_LEVELS[level - 1].name, rewardText);
-      } else {
-        showGameModal("🎁", "Secret Reward!", "Level " + level + " Merge", rewardText);
-      }
+      if (level >= 12) showGameModal("📖", "Secret Recipe Complete!", SECRET_LEVELS[level - 1].name, rewardText);
+      else showGameModal("🎁", "Secret Reward!", "Level " + level + " Merge", rewardText);
     }
 
     function renderSecretRecipePanel() {
@@ -6523,10 +6661,9 @@
       const best = secretRecipe.maxReached || 1;
       const progress = SECRET_LEVELS.map((x, idx) => `<div class="secret-step ${idx + 1 <= best ? "done" : ""}"><div>${x.icon}</div><div>Lv.${idx + 1}</div></div>`).join("");
       const boardHtml = secretRecipe.board.map((cell, idx) => {
-        if (!cell) {
-          return `<button class="secret-cell empty" onclick="secretCellClick(${idx})"><span style="font-size:18px;opacity:.55">+</span></button>`;
-        }
-        const def = SECRET_LEVELS[cell.level - 1];
+        const row = Math.floor(idx / SECRET_COLS);
+        if (!cell) return `<button class="secret-cell empty" onclick="secretCellClick(${idx})"><span style="font-size:16px;opacity:.55">+</span></button>`;
+        const def = SECRET_LEVELS[cell.level - 1] || SECRET_LEVELS[0];
         return `<button class="secret-cell ${cell.locked ? "locked" : ""} ${secretRecipe.selected === idx ? "selected" : ""}" onclick="secretCellClick(${idx})">
           <span class="secret-icon">${def.icon}</span>
           ${cell.locked ? `<span class="secret-vines">🌿</span>` : ""}
@@ -6534,27 +6671,40 @@
         </button>`;
       }).join("");
       return `
-        <div class="secret-hero">
+        <div class="secret-hero secret-final">
           <div class="secret-top">
             <div class="secret-title">📖 Secret Recipe</div>
-            <div class="secret-moves">🎟️ ${secretRecipe.moves} moves</div>
+            <div class="secret-moves">🧩 ${secretRecipe.moves} moves</div>
           </div>
           <div class="secret-progress">${progress}</div>
-          <div class="secret-reward-note">Serve main orders to earn moves. Harder and double orders give more moves. Merge matching Secret Recipe items; locked vine items open when merged with the same open item.</div>
-          <div class="secret-board">${boardHtml}</div>
+          <div class="secret-reward-note">Only the bottom row starts open. Serve main orders to earn 🧩 moves. Use moves to add Secret items, then merge same levels. Locked vine items open only when merged with the same open level.</div>
+          <div class="secret-board secret-board-large">${boardHtml}</div>
           <div class="secret-actions">
             <button class="green-btn" onclick="secretSpawnItem(); refreshOpenSheet();">Use 1 Move</button>
             <button class="orange-btn" onclick="secretRecipe.selected=null; saveSecretRecipe(); refreshOpenSheet();">Cancel Select</button>
           </div>
-          <div class="secret-reward-note">Rewards start after Lv.6 merges. Lv.9+ also gives gems.</div>
+          <div class="secret-reward-note">Lv.6+ merges give coin + energy. Lv.9+ also gives gems. Locked items go up to Lv.9; Lv.10-12 must be created by the player.</div>
         </div>`;
+    }
+
+    function secretFindSpawnSlots() {
+      const bottomStart = (SECRET_ROWS - 1) * SECRET_COLS;
+      const bottom = [];
+      const any = [];
+      secretRecipe.board.forEach((cell, idx) => {
+        if (!cell) {
+          any.push(idx);
+          if (idx >= bottomStart) bottom.push(idx);
+        }
+      });
+      return bottom.length ? bottom : any;
     }
 
     function secretSpawnItem() {
       normalizeSecretRecipe();
       if (secretRecipe.moves <= 0) { setMsg("Serve orders to earn Secret Recipe moves."); playSound("error"); return; }
-      const empty = secretRecipe.board.map((x, i) => x ? -1 : i).filter(i => i >= 0);
-      if (!empty.length) { setMsg("Secret Recipe area is full. Merge items first."); playSound("error"); return; }
+      const empty = secretFindSpawnSlots();
+      if (!empty.length) { setMsg("Secret Recipe is full. Merge items first."); playSound("error"); return; }
       const idx = empty[Math.floor(Math.random() * empty.length)];
       secretRecipe.board[idx] = { level: 1, locked: false };
       secretRecipe.moves--;
@@ -6567,9 +6717,25 @@
     function secretCellClick(idx) {
       normalizeSecretRecipe();
       const cell = secretRecipe.board[idx];
-      if (!cell) { secretSpawnItem(); refreshOpenSheet(); return; }
+      if (!cell) {
+        if (secretRecipe.selected !== null && secretRecipe.selected !== undefined) {
+          const from = secretRecipe.selected;
+          const moving = secretRecipe.board[from];
+          if (moving && !moving.locked) {
+            secretRecipe.board[idx] = moving;
+            secretRecipe.board[from] = null;
+            secretRecipe.selected = idx;
+            saveSecretRecipe();
+            refreshOpenSheet();
+            return;
+          }
+        }
+        secretSpawnItem();
+        refreshOpenSheet();
+        return;
+      }
       if (secretRecipe.selected === null || secretRecipe.selected === undefined) {
-        if (cell.locked) { setMsg("Merge this vine item with the same open item to unlock it."); playSound("error"); return; }
+        if (cell.locked) { setMsg("Select an open same-level item, then tap this vine item."); playSound("error"); return; }
         secretRecipe.selected = idx;
         saveSecretRecipe();
         refreshOpenSheet();
@@ -6607,41 +6773,65 @@
       refreshOpenSheet();
     }
 
-    const __mmcOldRenderGiftPanel = renderGiftPanel;
-    renderGiftPanel = function() {
-      return __mmcOldRenderGiftPanel() + `
-        <div class="panel-card">
-          <h3>📖 Secret Recipe</h3>
-          <p>Permanent side progress. Earn moves from served orders and merge up to Level 12.</p>
-          <p><b>Moves:</b> 🎟️ ${secretRecipe.moves || 0} &nbsp; <b>Best:</b> Lv.${secretRecipe.maxReached || 1}</p>
-          <button class="purple-btn" onclick="openSheet('secret')">Open Secret Recipe</button>
-        </div>`;
-    };
-
-    const __mmcOldRefreshOpenSheet = refreshOpenSheet;
+    const __mmcPatch146RefreshOpenSheet = refreshOpenSheet;
     refreshOpenSheet = function() {
       const sheet = document.getElementById("sheet");
-      if (sheet.dataset.type === "secret") {
+      if (sheet && sheet.dataset.type === "secret") {
         document.getElementById("sheetTitle").textContent = "📖 Secret Recipe";
         document.getElementById("sheetContent").innerHTML = renderSecretRecipePanel();
         return;
       }
-      __mmcOldRefreshOpenSheet();
+      __mmcPatch146RefreshOpenSheet();
     };
 
-    const __mmcOldServeCustomer = serveCustomer;
+    const __mmcPatch146CreateCustomers = createCustomers;
+    createCustomers = function() {
+      const previousFirstId = customers[0] && customers[0].profile ? customers[0].profile.id : "";
+      customers.sort((a, b) => Number(isCustomerReady(b)) - Number(isCustomerReady(a)));
+      const newFirstId = customers[0] && customers[0].profile ? customers[0].profile.id : "";
+      customersEl.innerHTML = "";
+      customers.forEach((c, index) => {
+        const ready = isCustomerReady(c);
+        const moves = secretOrderMoveReward(c);
+        const card = document.createElement("div");
+        card.className = "customer-card" + (ready ? " ready" : "") + (c.orders.length > 1 ? " multi-order" : " single-order");
+        card.innerHTML = `
+          ${ready ? `<div class="ready-check">✓</div>` : ""}
+          <div class="customer-top">
+            <div class="portrait-ring"><img src="${c.profile.portrait}" alt="${c.profile.name}" draggable="false"></div>
+            <div class="customer-meta"><div class="customer-name">${c.profile.name}</div></div>
+          </div>
+          <div class="order-block">
+            <div class="order-emoji">${orderEmojiText(c.orders)}</div>
+            <div class="order-name">${orderNameText(c.orders)}</div>
+          </div>
+          <div class="reward reward-grid">
+            <span>🪙 ${getCustomerReward(c)}</span>
+            <span>⭐ +${getCustomerFameReward(c)}</span>
+            ${c.givesPart ? `<span>🔧 +1</span>` : `<span></span>`}
+            ${moves > 0 ? `<span class="secret-move-reward">🧩 +${moves}</span>` : `<span></span>`}
+          </div>
+          <button class="serve-btn" ${ready ? `onclick="serveCustomer(${index})"` : `disabled`}>Serve</button>
+        `;
+        customersEl.appendChild(card);
+      });
+      if (newFirstId && newFirstId !== previousFirstId && isCustomerReady(customers[0])) {
+        requestAnimationFrame(() => customersEl.scrollTo({ left: 0, behavior: "smooth" }));
+      }
+    };
+
+    const __mmcPatch146ServeCustomer = serveCustomer;
     serveCustomer = function(index) {
       const c = customers[index];
       const readyBefore = c && isCustomerReady(c);
       const secretMoves = readyBefore ? secretOrderMoveReward(c) : 0;
-      __mmcOldServeCustomer(index);
+      __mmcPatch146ServeCustomer(index);
       if (readyBefore && secretMoves > 0) {
         addSecretMoves(secretMoves);
-        setMsg("Served! Secret Recipe +" + secretMoves + " move" + (secretMoves > 1 ? "s" : "") + ".");
+        setMsg("Served! Secret Recipe +" + secretMoves + " 🧩 move" + (secretMoves > 1 ? "s" : "") + ".");
         if (document.getElementById("sheet").classList.contains("show")) refreshOpenSheet();
       }
     };
-
 
     document.addEventListener("dragstart", e => e.preventDefault());
 
