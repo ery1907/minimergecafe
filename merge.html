@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Mini Merge Cafe</title>
-  <!-- MINI_MERGE_UI_FIX_V3_PATCH_148 -->
+  <!-- MINI_MERGE_UI_FIX_V3_PATCH_151_SECRET_LOCK_CLEAR_FIX -->
 
   <style>
     * {
@@ -7529,13 +7529,37 @@
       return b;
     };
 
+    function ensureSecretClearedLocked() {
+      if (!secretRecipe || typeof secretRecipe !== "object") return [];
+      if (!Array.isArray(secretRecipe.clearedLocked)) secretRecipe.clearedLocked = [];
+      secretRecipe.clearedLocked = secretRecipe.clearedLocked
+        .map(Number)
+        .filter(i => Number.isInteger(i) && i >= 0 && i < SECRET_BOARD_SIZE);
+      return secretRecipe.clearedLocked;
+    }
+
+    function markSecretLockedCleared(idx) {
+      const cleared = ensureSecretClearedLocked();
+      if (!cleared.includes(idx)) cleared.push(idx);
+    }
+
+    function isSecretLockedCleared(idx) {
+      return ensureSecretClearedLocked().includes(idx);
+    }
+
     function applySecretLockedPattern() {
       if (!secretRecipe || !Array.isArray(secretRecipe.board)) return;
+      ensureSecretClearedLocked();
+
+      // PATCH 152 CRITICAL:
+      // Kapalı Secret Recipe kareleri sadece başlangıç engelidir.
+      // Oyun başladıktan sonra normalize/render sırasında eksik kapalı kareler ASLA tekrar doldurulmaz.
+      // Böylece açık Lv4 + kapalı Lv4 = açık Lv5 olduktan sonra Lv5 başka yere taşınırsa
+      // eski hedef kare boş kalır; kapalı Lv4 geri gelmez.
       for (let i = 0; i < SECRET_BOARD_SIZE; i++) {
         const current = secretRecipe.board[i];
-        const pattern = secretPatternCellAt(i);
-        if (!current || current.locked) {
-          secretRecipe.board[i] = pattern ? { level: pattern.level, locked: true } : null;
+        if (isSecretLockedCleared(i) && current && current.locked) {
+          secretRecipe.board[i] = null;
         }
       }
     }
@@ -7547,6 +7571,7 @@
 
       secretRecipe.moves = Math.max(0, Number(secretRecipe.moves) || 0);
       secretRecipe.maxReached = Math.max(1, Math.min(12, Number(secretRecipe.maxReached) || 1));
+      ensureSecretClearedLocked();
 
       if (!Array.isArray(secretRecipe.board) || secretRecipe.board.length !== SECRET_BOARD_SIZE) {
         secretRecipe.board = secretDefaultBoard();
@@ -8171,8 +8196,10 @@
         return;
       }
       const newLevel = Math.min(12, moving.level + 1);
-      // Important bug fix: the target square is replaced by the new open item.
-      // If the target was a locked vine item, the locked old level disappears completely.
+      const targetWasLocked = !!target.locked;
+      // Kapalı vine kare sadece hareket etmesin diye kilitlidir.
+      // Aynı level açık item ile birleşince kilit tamamen temizlenir ve kare artık normal boş/taşınabilir kare olur.
+      if (targetWasLocked) markSecretLockedCleared(to);
       secretRecipe.board[to] = { level: newLevel, locked: false };
       secretRecipe.board[from] = null;
       secretRecipe.selected = to;
