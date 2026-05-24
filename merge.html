@@ -4087,6 +4087,132 @@
       .shop-wallet-pill { font-size: 11px; padding: 7px 2px; }
     }
 
+
+
+    /* PATCH 150: machine repair / broke system */
+    .machine-broken {
+      filter: grayscale(.25) saturate(.8);
+      box-shadow: 0 0 0 3px rgba(230,57,70,.22), 0 6px 12px rgba(90,56,37,.20) !important;
+    }
+
+    .machine-repair-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      min-width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      color: #fff;
+      border: 2px solid #fff;
+      z-index: 9;
+      box-shadow: 0 3px 8px rgba(0,0,0,.18);
+      pointer-events: none;
+    }
+
+    .machine-repair-badge.broken { background: #e63946; }
+    .machine-repair-badge.soon { background: #ff9f1c; }
+
+    .repair-box {
+      background: linear-gradient(180deg,#fffaf4,#ffe8cf);
+      border: 2px solid #f1c27d;
+      border-radius: 22px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .repair-machine-img .info-machine-img {
+      width: 120px !important;
+      height: 90px !important;
+      margin: 0 auto 8px !important;
+    }
+
+    .repair-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #653719;
+      margin-bottom: 6px;
+    }
+
+    .repair-text {
+      font-size: 13px;
+      font-weight: 800;
+      color: #7a4c2b;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .repair-cost-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 110px;
+      background: #fff;
+      border: 2px solid #f1d3a5;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 900;
+      color: #6b4126;
+      margin-bottom: 10px;
+    }
+
+    .cable-game {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .cable-col {
+      background: rgba(255,255,255,.7);
+      border: 2px solid #f1d3a5;
+      border-radius: 18px;
+      padding: 8px;
+    }
+
+    .cable-col-title {
+      font-size: 11px;
+      font-weight: 900;
+      color: #8b5e34;
+      margin-bottom: 6px;
+    }
+
+    .cable-btn {
+      width: 100%;
+      height: 34px;
+      border-radius: 13px;
+      margin: 4px 0;
+      background: linear-gradient(180deg,#ffffff,#fff1d9);
+      border: 2px solid #f1c27d;
+      color: #5a3825;
+      font-size: 17px;
+      box-shadow: 0 3px 8px rgba(90,56,37,.08);
+    }
+
+    .cable-btn.selected {
+      outline: 3px solid #ffb703;
+      background: #fff8d9;
+    }
+
+    .cable-btn.done {
+      background: linear-gradient(180deg,#e9ffe1,#baf0a8);
+      border-color: #62ba4c;
+      opacity: .75;
+    }
+
+    .repair-status {
+      min-height: 18px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #6b4126;
+      margin-top: 4px;
+    }
+
   </style>
 </head>
 
@@ -7732,6 +7858,368 @@
       if (newFirstId && newFirstId !== previousFirstId && isCustomerReady(customers[0])) {
         requestAnimationFrame(() => customersEl.scrollTo({ left: 0, behavior: "smooth" }));
       }
+    };
+
+
+
+
+    /* PATCH 150: Machine Broke + Coin Repair + Cable Mini Game + Secret locked merge bug fix */
+    const MACHINE_REPAIR_LIMITS = { drink: 60, dessert: 60, bakery: 70, tea: 70, juice: 75, ice: 80 };
+    const MACHINE_REPAIR_COSTS = { drink: 120, dessert: 120, bakery: 180, tea: 200, juice: 240, ice: 280 };
+    let machineRepair = {
+      drink: { uses: 0, broken: false },
+      dessert: { uses: 0, broken: false },
+      bakery: { uses: 0, broken: false },
+      tea: { uses: 0, broken: false },
+      juice: { uses: 0, broken: false },
+      ice: { uses: 0, broken: false }
+    };
+    let repairGame = null;
+
+    function defaultMachineRepairState() {
+      return {
+        drink: { uses: 0, broken: false },
+        dessert: { uses: 0, broken: false },
+        bakery: { uses: 0, broken: false },
+        tea: { uses: 0, broken: false },
+        juice: { uses: 0, broken: false },
+        ice: { uses: 0, broken: false }
+      };
+    }
+
+    function ensureMachineRepairState() {
+      const base = defaultMachineRepairState();
+      Object.keys(base).forEach(type => {
+        const cur = machineRepair && machineRepair[type] ? machineRepair[type] : {};
+        const limit = MACHINE_REPAIR_LIMITS[type] || 60;
+        base[type] = {
+          uses: Math.max(0, Math.min(limit, Number(cur.uses) || 0)),
+          broken: !!cur.broken
+        };
+        if (base[type].uses >= limit) base[type].broken = true;
+      });
+      machineRepair = base;
+    }
+
+    function isMachineBroken(type) {
+      ensureMachineRepairState();
+      return !!(machineRepair[type] && machineRepair[type].broken);
+    }
+
+    function isMachineRepairSoon(type) {
+      ensureMachineRepairState();
+      const state = machineRepair[type];
+      const limit = MACHINE_REPAIR_LIMITS[type] || 60;
+      return !!state && !state.broken && state.uses >= limit - 10;
+    }
+
+    function machineUsesLeft(type) {
+      ensureMachineRepairState();
+      const state = machineRepair[type] || { uses: 0 };
+      const limit = MACHINE_REPAIR_LIMITS[type] || 60;
+      return Math.max(0, limit - state.uses);
+    }
+
+    function repairCost(type) {
+      return MACHINE_REPAIR_COSTS[type] || 150;
+    }
+
+    const __mmcV150SaveGame = saveGame;
+    saveGame = function() {
+      ensureMachineRepairState();
+      __mmcV150SaveGame();
+      try {
+        const data = JSON.parse(localStorage.getItem(SAVE_KEY) || "{}");
+        data.version = Math.max(Number(data.version) || 0, 7);
+        data.machineRepair = cloneSimple(machineRepair);
+        localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      } catch(e) {}
+    };
+
+    const __mmcV150LoadGame = loadGame;
+    loadGame = function() {
+      const ok = __mmcV150LoadGame();
+      if (ok) {
+        try {
+          const data = JSON.parse(localStorage.getItem(SAVE_KEY) || "{}");
+          if (data.machineRepair) machineRepair = data.machineRepair;
+        } catch(e) {}
+      }
+      ensureMachineRepairState();
+      return ok;
+    };
+
+    const __mmcV150StartNewGame = startNewGame;
+    startNewGame = function() {
+      __mmcV150StartNewGame();
+      machineRepair = defaultMachineRepairState();
+      ensureMachineRepairState();
+      saveGame();
+    };
+
+    const __mmcV150CreateBoard = createBoard;
+    createBoard = function() {
+      ensureMachineRepairState();
+      __mmcV150CreateBoard();
+      if (!boardEl) return;
+      Array.from(boardEl.children).forEach((cell, idx) => {
+        const data = board[idx];
+        if (!data || !data.machine) return;
+        const type = data.machine;
+        if (isMachineBroken(type)) {
+          cell.classList.add("machine-broken");
+          const badge = document.createElement("div");
+          badge.className = "machine-repair-badge broken";
+          badge.textContent = "⚠️";
+          cell.appendChild(badge);
+        } else if (isMachineRepairSoon(type)) {
+          const badge = document.createElement("div");
+          badge.className = "machine-repair-badge soon";
+          badge.textContent = "🔧";
+          cell.appendChild(badge);
+        }
+      });
+    };
+
+    const __mmcV150HandleBoardTap = handleBoardTap;
+    handleBoardTap = function(index) {
+      const data = board[index];
+      if (data && data.machine && isMachineBroken(data.machine)) {
+        selectedIndex = null;
+        createBoard();
+        openMachineRepair(data.machine);
+        return;
+      }
+      __mmcV150HandleBoardTap(index);
+    };
+
+    const __mmcV150GenerateItem = generateItem;
+    generateItem = function(type) {
+      ensureMachineRepairState();
+      if (isMachineBroken(type)) {
+        openMachineRepair(type);
+        return;
+      }
+
+      const beforeEnergy = energy;
+      const beforeEmpty = board.filter(x => x === null).length;
+      __mmcV150GenerateItem(type);
+
+      const produced = energy < beforeEnergy && board.filter(x => x === null).length < beforeEmpty;
+      if (!produced) return;
+
+      const state = machineRepair[type];
+      const limit = MACHINE_REPAIR_LIMITS[type] || 60;
+      state.uses = Math.min(limit, state.uses + 1);
+
+      if (state.uses >= limit) {
+        state.broken = true;
+        setMsg(machineDefs[type].name + " broke! Repair it with coins to produce again.");
+        showGameModal("⚠️", "Machine Broke!", machineDefs[type].name, `Repair cost: ${repairCost(type)} 🪙<br>Tap the machine to fix the cable.`);
+      } else if (state.uses === limit - 10) {
+        setMsg(machineDefs[type].name + " needs maintenance soon. " + machineUsesLeft(type) + " uses left.");
+      }
+      saveGame();
+      createBoard();
+    };
+
+    function openMachineRepair(type) {
+      ensureMachineRepairState();
+      const def = machineDefs[type];
+      if (!def) return;
+      const cost = repairCost(type);
+      const status = isMachineBroken(type) ? "This machine stopped producing. Pay coins, then connect the cables." : `${machineUsesLeft(type)} uses left before repair.`;
+      document.getElementById("modalIcon").textContent = isMachineBroken(type) ? "⚠️" : "🔧";
+      document.getElementById("modalTitle").textContent = isMachineBroken(type) ? "Repair Needed" : "Machine Status";
+      document.getElementById("modalName").innerHTML = def.name;
+      document.getElementById("modalReward").innerHTML = `
+        <div class="repair-box">
+          <div class="repair-machine-img">${machineImageHTML(type, "info-machine-img")}</div>
+          <div class="repair-title">${def.name}</div>
+          <div class="repair-text">${status}</div>
+          <div class="repair-cost-pill">🪙 ${cost}</div>
+          ${isMachineBroken(type) ? `<button class="orange-btn" onclick="startCableRepair('${type}')" ${coins < cost ? "disabled" : ""}>Pay & Fix Cable</button>` : `<button class="green-btn" onclick="closeGameModal()">Looks Good</button>`}
+          ${coins < cost && isMachineBroken(type) ? `<div class="repair-status">Not enough coins. Other machines still work.</div>` : `<div class="repair-status">${isMachineBroken(type) ? "Connect all matching cables to finish repair." : ""}</div>`}
+        </div>`;
+      document.getElementById("gameModal").classList.add("show");
+    }
+
+    function startCableRepair(type) {
+      const cost = repairCost(type);
+      if (!isMachineBroken(type)) { closeGameModal(); return; }
+      if (coins < cost) {
+        setMsg("Need " + cost + " coins to repair.");
+        playSound("error");
+        openMachineRepair(type);
+        return;
+      }
+      coins -= cost;
+      repairGame = {
+        type,
+        selected: null,
+        done: {},
+        left: ["red", "blue", "green", "yellow"],
+        right: shuffleRepairColors(["red", "blue", "green", "yellow"])
+      };
+      renderCableRepairGame();
+      updateAll();
+      saveGame();
+    }
+
+    function shuffleRepairColors(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function cableIcon(color) {
+      return { red: "🔴", blue: "🔵", green: "🟢", yellow: "🟡" }[color] || "⚪";
+    }
+
+    function renderCableRepairGame(msg = "Select a cable, then tap the matching socket.") {
+      if (!repairGame) return;
+      const type = repairGame.type;
+      const def = machineDefs[type];
+      const left = repairGame.left.map(color => `<button class="cable-btn ${repairGame.selected === color ? "selected" : ""} ${repairGame.done[color] ? "done" : ""}" onclick="repairPickCable('left','${color}')" ${repairGame.done[color] ? "disabled" : ""}>${cableIcon(color)}</button>`).join("");
+      const right = repairGame.right.map(color => `<button class="cable-btn ${repairGame.done[color] ? "done" : ""}" onclick="repairPickCable('right','${color}')" ${repairGame.done[color] ? "disabled" : ""}>${cableIcon(color)}</button>`).join("");
+      document.getElementById("modalIcon").textContent = "🔌";
+      document.getElementById("modalTitle").textContent = "Connect the Cable";
+      document.getElementById("modalName").innerHTML = def.name;
+      document.getElementById("modalReward").innerHTML = `
+        <div class="repair-box">
+          <div class="repair-text">Match all cables to restart the machine.</div>
+          <div class="cable-game">
+            <div class="cable-col"><div class="cable-col-title">Cables</div>${left}</div>
+            <div class="cable-col"><div class="cable-col-title">Sockets</div>${right}</div>
+          </div>
+          <div class="repair-status">${msg}</div>
+        </div>`;
+      document.getElementById("gameModal").classList.add("show");
+    }
+
+    function repairPickCable(side, color) {
+      if (!repairGame || repairGame.done[color]) return;
+      if (side === "left") {
+        repairGame.selected = color;
+        renderCableRepairGame("Now tap the matching socket.");
+        return;
+      }
+      if (!repairGame.selected) {
+        renderCableRepairGame("Choose a cable first.");
+        playSound("error");
+        return;
+      }
+      if (repairGame.selected !== color) {
+        repairGame.selected = null;
+        renderCableRepairGame("Wrong socket. Try again.");
+        playSound("error");
+        return;
+      }
+      repairGame.done[color] = true;
+      repairGame.selected = null;
+      playSound("upgrade");
+      const doneCount = Object.keys(repairGame.done).length;
+      if (doneCount >= 4) {
+        finishMachineRepair(repairGame.type);
+      } else {
+        renderCableRepairGame("Good! " + doneCount + "/4 connected.");
+      }
+    }
+
+    function finishMachineRepair(type) {
+      ensureMachineRepairState();
+      machineRepair[type] = { uses: 0, broken: false };
+      repairGame = null;
+      saveGame();
+      updateAll();
+      createBoard();
+      showGameModal("✅", "Machine Fixed!", machineDefs[type].name, "Cable connected. This machine can produce again.");
+      setMsg(machineDefs[type].name + " repaired!");
+    }
+
+    function secretMergeIntoTarget(from, to) {
+      normalizeSecretRecipe();
+      if (from === to) {
+        secretRecipe.selected = from;
+        saveSecretRecipe();
+        refreshSecretScreen();
+        return;
+      }
+      const moving = secretRecipe.board[from];
+      const target = secretRecipe.board[to];
+      if (!moving || moving.locked) {
+        refreshSecretScreen();
+        return;
+      }
+      if (!target) {
+        secretRecipe.board[to] = moving;
+        secretRecipe.board[from] = null;
+        secretRecipe.selected = to;
+        saveSecretRecipe();
+        refreshSecretScreen();
+        return;
+      }
+      if (moving.level !== target.level || moving.level >= 12 || (moving.locked && target.locked)) {
+        setMsg("Secret Recipe needs two same-level items. One can be locked.");
+        playSound("error");
+        secretRecipe.selected = null;
+        saveSecretRecipe();
+        refreshSecretScreen();
+        return;
+      }
+      const newLevel = Math.min(12, moving.level + 1);
+      // Important bug fix: the target square is replaced by the new open item.
+      // If the target was a locked vine item, the locked old level disappears completely.
+      secretRecipe.board[to] = { level: newLevel, locked: false };
+      secretRecipe.board[from] = null;
+      secretRecipe.selected = to;
+      secretRecipe.maxReached = Math.max(secretRecipe.maxReached, newLevel);
+      setMsg("Secret Recipe Lv." + newLevel + " created!");
+      playSound("merge");
+      grantSecretReward(newLevel);
+      saveSecretRecipe();
+      updateAll();
+      refreshSecretScreen();
+    }
+
+    secretDropItem = function(from, to) {
+      secretMergeIntoTarget(from, to);
+    };
+
+    secretCellClick = function(idx) {
+      normalizeSecretRecipe();
+      const cell = secretRecipe.board[idx];
+      if (!cell) {
+        if (secretRecipe.selected !== null && secretRecipe.selected !== undefined) {
+          secretMergeIntoTarget(secretRecipe.selected, idx);
+          return;
+        }
+        secretSpawnItem();
+        refreshSecretScreen();
+        return;
+      }
+      if (secretRecipe.selected === null || secretRecipe.selected === undefined) {
+        if (cell.locked) {
+          setMsg("Select an open same-level item, then tap this vine item.");
+          playSound("error");
+          return;
+        }
+        secretRecipe.selected = idx;
+        saveSecretRecipe();
+        refreshSecretScreen();
+        return;
+      }
+      const from = secretRecipe.selected;
+      if (from === idx) {
+        secretRecipe.selected = null;
+        saveSecretRecipe();
+        refreshSecretScreen();
+        return;
+      }
+      secretMergeIntoTarget(from, idx);
     };
 
 
