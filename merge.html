@@ -9019,7 +9019,7 @@
 
 
 
-    /* PATCH 167: Route tuning, order rewards, preloading, customer cards */
+    /* PATCH 169: Keep route tuning but restore original customer cards */
     const MMC_ROUTE_STORY_LINES = [
       "Your cafe feels a little more organized today.",
       "Customers notice the smoother service.",
@@ -9109,6 +9109,7 @@
       urls.forEach(u => { const img = new Image(); img.src = u; });
     }
 
+    /* Puzzle reward balance by item difficulty, not only double order count */
     function secretOrderMoveReward(c) {
       if (!c || !Array.isArray(c.orders) || !c.orders.length) return 0;
       const levels = c.orders.map(i => (items[i] && items[i].level) || 1);
@@ -9127,6 +9128,7 @@
       return 6;
     }
 
+    /* Recipe Memory: 5 sec preview, 3 mistakes, fail at 0 */
     function setupMemoryGame() {
       const ids = routeAvailableItemIds(8).slice(0, 8);
       routeGame.cards = shuffleArray(ids.concat(ids)).map((item, i) => ({ item, id: i, open: true, matched: false }));
@@ -9147,9 +9149,12 @@
       if (!c || c.open || c.matched) return;
       c.open = true;
       routeGame.selected.push(idx);
+
       if (routeGame.selected.length === 2) {
         const [a, b] = routeGame.selected;
-        const ca = routeGame.cards[a], cb = routeGame.cards[b];
+        const ca = routeGame.cards[a];
+        const cb = routeGame.cards[b];
+
         if (ca.item === cb.item) {
           ca.matched = true;
           cb.matched = true;
@@ -9158,10 +9163,12 @@
         } else {
           routeGame.mistakesLeft = Math.max(0, routeGame.mistakesLeft - 1);
           routeGame.selected = [];
+
           if (routeGame.mistakesLeft <= 0) {
             setTimeout(() => routeFail("No mistakes left."), 420);
             return renderRouteGame();
           }
+
           setTimeout(() => {
             if (!routeGame || routeGame.type !== "memory") return;
             ca.open = false;
@@ -9173,6 +9180,7 @@
       renderRouteGame();
     }
 
+    /* Coffee Rush: 4 seconds per order instead of one long global timer */
     function setupRushGame() {
       routeGame.score = 0;
       routeGame.goal = routeGame.step <= 20 ? 6 : routeGame.step <= 40 ? 8 : 10;
@@ -9224,6 +9232,7 @@
 
     function renderRouteGame() {
       if (!routeGame) return renderCafeRouteScreen();
+
       let body = "";
       if (routeGame.type === "memory") body = renderMemoryGame();
       if (routeGame.type === "rush") body = renderRushGame();
@@ -9231,8 +9240,9 @@
       if (routeGame.type === "sort") body = renderSortGame();
 
       const timeLabel = routeGame.type === "rush" ? `${routeGame.questionTimeLeft}s/order` : `${routeGame.timeLeft}s`;
-      ensureCafeRouteScreen().innerHTML =
-        `<div class="secret-screen-inner cafe-route-inner">
+
+      ensureCafeRouteScreen().innerHTML = `
+        <div class="secret-screen-inner cafe-route-inner">
           <div class="secret-full-top">
             <button class="secret-back-btn" onclick="routeCancelGame()">←</button>
             <div class="secret-full-title">${routeGameLabel(routeGame.type)}</div>
@@ -9267,6 +9277,7 @@
 
     function rushPick(id) {
       if (!routeGame || routeGame.type !== "rush") return;
+
       if (id === routeGame.rush.target) {
         routeGame.score++;
         playSound("merge");
@@ -9279,10 +9290,11 @@
       renderRouteGame();
     }
 
+    /* Better-looking cable game, still stable/simple */
     function renderCableGame() {
       return `
         <div class="route-game-card">
-          <div class="route-game-note">Drag or tap a cable, then connect it to the same color socket.</div>
+          <div class="route-game-note">Tap a cable, then connect it to the same color socket.</div>
           <div class="cable-play-area">
             <div class="cable-column">
               ${routeGame.cables.map((c,i)=>`
@@ -9302,6 +9314,7 @@
 
     function selectSocket(color) {
       if (routeGame.selectedCable === null || routeGame.selectedCable === undefined) return;
+
       const c = routeGame.cables[routeGame.selectedCable];
       if (c.color === color) {
         c.done = true;
@@ -9317,8 +9330,8 @@
     }
 
     function renderRouteComplete(step) {
-      ensureCafeRouteScreen().innerHTML =
-        `<div class="secret-screen-inner cafe-route-inner">
+      ensureCafeRouteScreen().innerHTML = `
+        <div class="secret-screen-inner cafe-route-inner">
           <div class="route-complete-card">
             <div class="route-complete-icon">${routeRewardType(step) === "big" ? "🎁" : routeRewardType(step) === "small" ? "✦" : "✓"}</div>
             <div class="rank-title">Step ${step} Completed!</div>
@@ -9330,356 +9343,98 @@
         </div>`;
     }
 
-    const mmcRenderShopPanelBefore167 = renderShopPanel;
+    /* Remove Storage / Cafe Route from Shop. They stay on home screen / storage panel. */
+    const mmcRenderShopPanelBefore169 = renderShopPanel;
     renderShopPanel = function() {
-      let html = mmcRenderShopPanelBefore167();
+      let html = mmcRenderShopPanelBefore169();
       html = html.replace(/<div class="shop-section">\s*<div class="shop-section-head"><div class="shop-section-title">Storage & Route[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/, "");
+      html = html.replace(/<div class="shop-section">\s*<div class="shop-section-head"><div class="shop-section-title">Storage Slots[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/, "");
       return html;
     };
 
-    const mmcCreateCustomersBefore167 = createCustomers;
-    createCustomers = function() {
-      const previousFirstId = customers[0] && customers[0].profile ? customers[0].profile.id : "";
-      customers.sort((a, b) => Number(isCustomerReady(b)) - Number(isCustomerReady(a)));
-      const newFirstId = customers[0] && customers[0].profile ? customers[0].profile.id : "";
-      customersEl.innerHTML = "";
-
-      customers.forEach((c, index) => {
-        const ready = isCustomerReady(c);
-        const moves = secretOrderMoveReward(c);
-        const rewardParts = [
-          `<span class="reward-row">🪙 ${getCustomerReward(c)}</span>`,
-          `<span class="reward-row">⭐ +${getCustomerFameReward(c)}</span>`
-        ];
-        if (c.givesPart) rewardParts.push(`<span class="reward-row">🔧 +1</span>`);
-        if (moves > 0) rewardParts.push(`<span class="reward-row secret-move-reward">🧩 +${moves}</span>`);
-
-        const card = document.createElement("div");
-        card.className = "customer-card customer-card-v167" + (ready ? " ready" : "") + (c.orders.length > 1 ? " multi-order" : " single-order");
-        card.innerHTML = `
-          ${ready ? `<div class="ready-check">✓</div>` : ""}
-          <div class="customer-v167-layout">
-            <div class="portrait-ring"><img src="${c.profile.portrait}" alt="${c.profile.name}" draggable="false"></div>
-            <div class="order-block">
-              <div class="customer-name">${c.profile.name}</div>
-              <div class="order-emoji">${orderEmojiText(c.orders)}</div>
-              <div class="order-name">${orderNameText(c.orders)}</div>
-            </div>
-            <div class="reward reward-grid reward-vertical">${rewardParts.join("")}</div>
-          </div>
-          <button class="serve-btn" ${ready ? `onclick="serveCustomer(${index})"` : `disabled`}>Serve</button>
-        `;
-        customersEl.appendChild(card);
-      });
-
-      if (newFirstId && newFirstId !== previousFirstId && isCustomerReady(customers[0])) {
-        requestAnimationFrame(() => customersEl.scrollTo({ left: 0, behavior: "smooth" }));
-      }
-    };
-
-    (function patch167Styles(){
+    (function patch169Styles(){
       const style = document.createElement("style");
       style.textContent = `
-        .customer-card-v167{width:245px!important;min-width:245px!important;padding:10px!important}
-        .customer-v167-layout{display:grid;grid-template-columns:54px 1fr 48px;gap:8px;align-items:center;min-height:92px}
-        .customer-card-v167 .portrait-ring{width:52px!important;height:52px!important;margin:0!important}
-        .customer-card-v167 .order-block{min-width:0;padding:0!important;margin:0!important;background:transparent!important;border:none!important}
-        .customer-card-v167 .customer-name{font-size:12px;font-weight:900;color:#5a3825;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-        .customer-card-v167 .order-emoji{font-size:22px!important;line-height:1.05!important;min-height:25px}
-        .customer-card-v167 .order-name{font-size:10px!important;line-height:1.1!important;min-height:22px}
-        .reward-vertical{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:center!important;gap:3px!important;margin:0!important}
-        .reward-vertical .reward-row{font-size:10px;font-weight:900;border-radius:8px;background:rgba(255,255,255,.72);padding:2px 3px;white-space:nowrap;text-align:center}
-        .customer-card-v167 .serve-btn{margin-top:7px}
-        .rush-timer-bar{height:12px;background:#f5cba0;border:2px solid #d69456;border-radius:999px;overflow:hidden;margin-bottom:10px}
-        .rush-timer-bar div{height:100%;background:linear-gradient(90deg,#4caf7a,#ffd166,#ff5a5f);transition:width .18s linear}
-        .cable-play-area{display:grid;grid-template-columns:70px 1fr 70px;gap:10px;align-items:center;min-height:260px}
-        .cable-column,.socket-column{display:flex;flex-direction:column;gap:14px}
-        .wire-cable,.wire-socket{height:48px;border-radius:999px;border:3px solid rgba(90,56,37,.25);position:relative;box-shadow:0 5px 10px rgba(90,56,37,.13)}
-        .wire-cable span{position:absolute;right:-42px;top:50%;width:48px;height:8px;border-radius:999px;background:currentColor;transform:translateY(-50%);box-shadow:0 2px 3px rgba(0,0,0,.18)}
-        .wire-cable.selected{outline:4px solid #ffb703}.wire-cable.done{opacity:.45}
-        .wire-lines{min-height:240px;display:flex;flex-direction:column;gap:12px;justify-content:center}
-        .wire-line{height:8px;border-radius:999px;box-shadow:0 2px 3px rgba(0,0,0,.14)}
-        .cable-red,.socket-red{background:#ff5a5f;color:#ff5a5f}.cable-blue,.socket-blue{background:#4da3ff;color:#4da3ff}.cable-green,.socket-green{background:#55c76a;color:#55c76a}.cable-yellow,.socket-yellow{background:#ffd166;color:#ffd166}
-        .route-story-box{margin:10px 0;padding:12px;border-radius:16px;background:#fff8ef;border:2px solid #f1d3a5;color:#6b4126;font-weight:800;line-height:1.35}
+        .rush-timer-bar{
+          height:12px;
+          background:#f5cba0;
+          border:2px solid #d69456;
+          border-radius:999px;
+          overflow:hidden;
+          margin-bottom:10px;
+        }
+        .rush-timer-bar div{
+          height:100%;
+          background:linear-gradient(90deg,#4caf7a,#ffd166,#ff5a5f);
+          transition:width .18s linear;
+        }
+        .cable-play-area{
+          display:grid;
+          grid-template-columns:70px 1fr 70px;
+          gap:10px;
+          align-items:center;
+          min-height:260px;
+        }
+        .cable-column,.socket-column{
+          display:flex;
+          flex-direction:column;
+          gap:14px;
+        }
+        .wire-cable,.wire-socket{
+          height:48px;
+          border-radius:999px;
+          border:3px solid rgba(90,56,37,.25);
+          position:relative;
+          box-shadow:0 5px 10px rgba(90,56,37,.13);
+        }
+        .wire-cable span{
+          position:absolute;
+          right:-42px;
+          top:50%;
+          width:48px;
+          height:8px;
+          border-radius:999px;
+          background:currentColor;
+          transform:translateY(-50%);
+          box-shadow:0 2px 3px rgba(0,0,0,.18);
+        }
+        .wire-cable.selected{
+          outline:4px solid #ffb703;
+        }
+        .wire-cable.done{
+          opacity:.45;
+        }
+        .wire-lines{
+          min-height:240px;
+          display:flex;
+          flex-direction:column;
+          gap:12px;
+          justify-content:center;
+        }
+        .wire-line{
+          height:8px;
+          border-radius:999px;
+          box-shadow:0 2px 3px rgba(0,0,0,.14);
+        }
+        .cable-red,.socket-red{background:#ff5a5f;color:#ff5a5f;}
+        .cable-blue,.socket-blue{background:#4da3ff;color:#4da3ff;}
+        .cable-green,.socket-green{background:#55c76a;color:#55c76a;}
+        .cable-yellow,.socket-yellow{background:#ffd166;color:#ffd166;}
+        .route-story-box{
+          margin:10px 0;
+          padding:12px;
+          border-radius:16px;
+          background:#fff8ef;
+          border:2px solid #f1d3a5;
+          color:#6b4126;
+          font-weight:800;
+          line-height:1.35;
+        }
       `;
       document.head.appendChild(style);
     })();
 
     setTimeout(mmcPreloadImages, 350);
-
-
-
-    /* PATCH 168: Fix customer card layout exactly */
-    function mmcRewardIconHTML(src, fallback, cls) {
-      return `<span class="mini-reward-icon ${cls || ""}" style="background-image:url('${src}')">${fallback}</span>`;
-    }
-
-    function mmcOrderImagesHTML(orderIds) {
-      return orderIds.map(id => `
-        <div class="order-item-bubble">
-          ${itemImageHTML(id, "order-item-img-v168")}
-        </div>
-      `).join("");
-    }
-
-    function mmcOrderNamesHTML(orderIds) {
-      return orderIds.map(id => items[id] ? items[id].name : "").join(" + ");
-    }
-
-    createCustomers = function() {
-      const previousFirstId = customers[0] && customers[0].profile ? customers[0].profile.id : "";
-      customers.sort((a, b) => Number(isCustomerReady(b)) - Number(isCustomerReady(a)));
-      const newFirstId = customers[0] && customers[0].profile ? customers[0].profile.id : "";
-      customersEl.innerHTML = "";
-
-      customers.forEach((c, index) => {
-        const ready = isCustomerReady(c);
-        const moves = secretOrderMoveReward(c);
-
-        const rewardRows = [
-          `<span class="reward-v168-row">${mmcRewardIconHTML("assets/items/game_icons/coin.png","🪙")} <b>${getCustomerReward(c)}</b></span>`,
-          `<span class="reward-v168-row">${mmcRewardIconHTML("assets/items/game_icons/fame_star.png","⭐")} <b>+${getCustomerFameReward(c)}</b></span>`
-        ];
-
-        if (c.givesPart) {
-          rewardRows.push(`<span class="reward-v168-row">${mmcRewardIconHTML("assets/items/game_icons/machine_upgrade_part.png","🔧")} <b>+1</b></span>`);
-        }
-
-        if (moves > 0) {
-          rewardRows.push(`<span class="reward-v168-row">${mmcRewardIconHTML("assets/items/game_icons/puzzle_move.png","🧩")} <b>+${moves}</b></span>`);
-        }
-
-        const card = document.createElement("div");
-        card.className = "customer-card customer-card-v168" + (ready ? " ready" : "") + (c.orders.length > 1 ? " multi-order" : " single-order");
-        card.innerHTML = `
-          ${ready ? `<div class="ready-check ready-check-v168">✓</div>` : ""}
-          <div class="customer-top-v168">
-            <div class="customer-person-v168">
-              <div class="portrait-ring portrait-v168">
-                <img src="${c.profile.portrait}" alt="${c.profile.name}" draggable="false">
-              </div>
-              <div class="customer-name customer-name-v168">${c.profile.name}</div>
-            </div>
-
-            <div class="reward-stack-v168">
-              ${rewardRows.join("")}
-            </div>
-          </div>
-
-          <div class="order-request-v168">
-            <div class="order-items-v168">${mmcOrderImagesHTML(c.orders)}</div>
-            <div class="order-name-v168">${mmcOrderNamesHTML(c.orders)}</div>
-          </div>
-
-          <button class="serve-btn serve-btn-v168" ${ready ? `onclick="serveCustomer(${index})"` : `disabled`}>Serve</button>
-        `;
-        customersEl.appendChild(card);
-      });
-
-      if (newFirstId && newFirstId !== previousFirstId && isCustomerReady(customers[0])) {
-        requestAnimationFrame(() => customersEl.scrollTo({ left: 0, behavior: "smooth" }));
-      }
-    };
-
-    (function patch168Styles(){
-      const style = document.createElement("style");
-      style.textContent = `
-        .customer-card-v168{
-          width:238px !important;
-          min-width:238px !important;
-          padding:12px 10px 10px !important;
-          border-radius:24px !important;
-          position:relative;
-          overflow:visible !important;
-          display:flex !important;
-          flex-direction:column !important;
-          gap:8px !important;
-        }
-
-        .customer-top-v168{
-          display:flex;
-          align-items:flex-start;
-          justify-content:space-between;
-          gap:10px;
-          min-height:66px;
-        }
-
-        .customer-person-v168{
-          width:76px;
-          min-width:76px;
-          display:flex;
-          flex-direction:column;
-          align-items:center;
-          justify-content:flex-start;
-        }
-
-        .portrait-v168{
-          width:58px !important;
-          height:58px !important;
-          margin:0 !important;
-          flex:0 0 auto;
-        }
-
-        .portrait-v168 img{
-          width:100% !important;
-          height:100% !important;
-          object-fit:cover !important;
-          object-position:center top !important;
-        }
-
-        .customer-name-v168{
-          width:100%;
-          margin-top:3px;
-          font-size:12px !important;
-          line-height:1.05 !important;
-          font-weight:900 !important;
-          color:#5a3825 !important;
-          text-align:center;
-          white-space:nowrap;
-          overflow:hidden;
-          text-overflow:ellipsis;
-        }
-
-        .reward-stack-v168{
-          flex:1;
-          display:flex;
-          flex-direction:column;
-          align-items:stretch;
-          gap:4px;
-          padding-top:1px;
-          min-width:0;
-        }
-
-        .reward-v168-row{
-          min-height:22px;
-          border-radius:999px;
-          border:1px solid rgba(241,194,125,.65);
-          background:rgba(255,255,255,.78);
-          box-shadow:0 2px 6px rgba(90,56,37,.06);
-          padding:2px 7px;
-          display:flex;
-          align-items:center;
-          justify-content:flex-start;
-          gap:5px;
-          color:#5a3825;
-          font-size:11px;
-          font-weight:900;
-          white-space:nowrap;
-        }
-
-        .mini-reward-icon{
-          width:16px;
-          height:16px;
-          display:inline-flex;
-          align-items:center;
-          justify-content:center;
-          flex:0 0 16px;
-          background-size:contain;
-          background-position:center;
-          background-repeat:no-repeat;
-          font-size:0;
-        }
-
-        .mini-reward-icon:empty{
-          font-size:0;
-        }
-
-        .order-request-v168{
-          width:100%;
-          min-height:76px;
-          border-radius:18px;
-          background:linear-gradient(180deg,rgba(255,248,239,.95),rgba(255,255,255,.74));
-          border:1px solid rgba(241,194,125,.58);
-          padding:7px 5px 6px;
-          display:flex;
-          flex-direction:column;
-          align-items:center;
-          justify-content:center;
-          gap:4px;
-        }
-
-        .order-items-v168{
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          gap:6px;
-          min-height:48px;
-        }
-
-        .order-item-bubble{
-          width:48px;
-          height:48px;
-          border-radius:14px;
-          background:white;
-          border:2px solid #f1c27d;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          box-shadow:0 4px 9px rgba(90,56,37,.09);
-          overflow:hidden;
-        }
-
-        .order-item-img-v168{
-          width:43px !important;
-          height:43px !important;
-          object-fit:contain !important;
-          display:block;
-        }
-
-        .order-name-v168{
-          width:100%;
-          min-height:13px;
-          font-size:10px !important;
-          line-height:1.05 !important;
-          font-weight:900;
-          color:#6b4126;
-          text-align:center;
-          white-space:nowrap;
-          overflow:hidden;
-          text-overflow:ellipsis;
-        }
-
-        .serve-btn-v168{
-          margin-top:1px !important;
-          height:30px !important;
-          border-radius:999px !important;
-        }
-
-        .ready-check-v168{
-          top:70px !important;
-          right:8px !important;
-          z-index:5 !important;
-        }
-
-        @media (max-width:420px){
-          .customer-card-v168{
-            width:220px !important;
-            min-width:220px !important;
-          }
-          .customer-person-v168{
-            width:70px;
-            min-width:70px;
-          }
-          .portrait-v168{
-            width:54px !important;
-            height:54px !important;
-          }
-          .order-item-bubble{
-            width:44px;
-            height:44px;
-          }
-          .order-item-img-v168{
-            width:39px !important;
-            height:39px !important;
-          }
-          .reward-v168-row{
-            font-size:10px;
-            padding:2px 6px;
-          }
-        }
-      `;
-      document.head.appendChild(style);
-    })();
 
 
     document.addEventListener("dragstart", e => e.preventDefault());
