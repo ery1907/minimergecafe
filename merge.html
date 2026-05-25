@@ -9408,6 +9408,280 @@
     setTimeout(mmcPreloadImages, 350);
 
 
+
+    /* PATCH 168: Fix customer card layout exactly */
+    function mmcRewardIconHTML(src, fallback, cls) {
+      return `<span class="mini-reward-icon ${cls || ""}" style="background-image:url('${src}')">${fallback}</span>`;
+    }
+
+    function mmcOrderImagesHTML(orderIds) {
+      return orderIds.map(id => `
+        <div class="order-item-bubble">
+          ${itemImageHTML(id, "order-item-img-v168")}
+        </div>
+      `).join("");
+    }
+
+    function mmcOrderNamesHTML(orderIds) {
+      return orderIds.map(id => items[id] ? items[id].name : "").join(" + ");
+    }
+
+    createCustomers = function() {
+      const previousFirstId = customers[0] && customers[0].profile ? customers[0].profile.id : "";
+      customers.sort((a, b) => Number(isCustomerReady(b)) - Number(isCustomerReady(a)));
+      const newFirstId = customers[0] && customers[0].profile ? customers[0].profile.id : "";
+      customersEl.innerHTML = "";
+
+      customers.forEach((c, index) => {
+        const ready = isCustomerReady(c);
+        const moves = secretOrderMoveReward(c);
+
+        const rewardRows = [
+          `<span class="reward-v168-row">${mmcRewardIconHTML("assets/items/game_icons/coin.png","🪙")} <b>${getCustomerReward(c)}</b></span>`,
+          `<span class="reward-v168-row">${mmcRewardIconHTML("assets/items/game_icons/fame_star.png","⭐")} <b>+${getCustomerFameReward(c)}</b></span>`
+        ];
+
+        if (c.givesPart) {
+          rewardRows.push(`<span class="reward-v168-row">${mmcRewardIconHTML("assets/items/game_icons/machine_upgrade_part.png","🔧")} <b>+1</b></span>`);
+        }
+
+        if (moves > 0) {
+          rewardRows.push(`<span class="reward-v168-row">${mmcRewardIconHTML("assets/items/game_icons/puzzle_move.png","🧩")} <b>+${moves}</b></span>`);
+        }
+
+        const card = document.createElement("div");
+        card.className = "customer-card customer-card-v168" + (ready ? " ready" : "") + (c.orders.length > 1 ? " multi-order" : " single-order");
+        card.innerHTML = `
+          ${ready ? `<div class="ready-check ready-check-v168">✓</div>` : ""}
+          <div class="customer-top-v168">
+            <div class="customer-person-v168">
+              <div class="portrait-ring portrait-v168">
+                <img src="${c.profile.portrait}" alt="${c.profile.name}" draggable="false">
+              </div>
+              <div class="customer-name customer-name-v168">${c.profile.name}</div>
+            </div>
+
+            <div class="reward-stack-v168">
+              ${rewardRows.join("")}
+            </div>
+          </div>
+
+          <div class="order-request-v168">
+            <div class="order-items-v168">${mmcOrderImagesHTML(c.orders)}</div>
+            <div class="order-name-v168">${mmcOrderNamesHTML(c.orders)}</div>
+          </div>
+
+          <button class="serve-btn serve-btn-v168" ${ready ? `onclick="serveCustomer(${index})"` : `disabled`}>Serve</button>
+        `;
+        customersEl.appendChild(card);
+      });
+
+      if (newFirstId && newFirstId !== previousFirstId && isCustomerReady(customers[0])) {
+        requestAnimationFrame(() => customersEl.scrollTo({ left: 0, behavior: "smooth" }));
+      }
+    };
+
+    (function patch168Styles(){
+      const style = document.createElement("style");
+      style.textContent = `
+        .customer-card-v168{
+          width:238px !important;
+          min-width:238px !important;
+          padding:12px 10px 10px !important;
+          border-radius:24px !important;
+          position:relative;
+          overflow:visible !important;
+          display:flex !important;
+          flex-direction:column !important;
+          gap:8px !important;
+        }
+
+        .customer-top-v168{
+          display:flex;
+          align-items:flex-start;
+          justify-content:space-between;
+          gap:10px;
+          min-height:66px;
+        }
+
+        .customer-person-v168{
+          width:76px;
+          min-width:76px;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          justify-content:flex-start;
+        }
+
+        .portrait-v168{
+          width:58px !important;
+          height:58px !important;
+          margin:0 !important;
+          flex:0 0 auto;
+        }
+
+        .portrait-v168 img{
+          width:100% !important;
+          height:100% !important;
+          object-fit:cover !important;
+          object-position:center top !important;
+        }
+
+        .customer-name-v168{
+          width:100%;
+          margin-top:3px;
+          font-size:12px !important;
+          line-height:1.05 !important;
+          font-weight:900 !important;
+          color:#5a3825 !important;
+          text-align:center;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+        }
+
+        .reward-stack-v168{
+          flex:1;
+          display:flex;
+          flex-direction:column;
+          align-items:stretch;
+          gap:4px;
+          padding-top:1px;
+          min-width:0;
+        }
+
+        .reward-v168-row{
+          min-height:22px;
+          border-radius:999px;
+          border:1px solid rgba(241,194,125,.65);
+          background:rgba(255,255,255,.78);
+          box-shadow:0 2px 6px rgba(90,56,37,.06);
+          padding:2px 7px;
+          display:flex;
+          align-items:center;
+          justify-content:flex-start;
+          gap:5px;
+          color:#5a3825;
+          font-size:11px;
+          font-weight:900;
+          white-space:nowrap;
+        }
+
+        .mini-reward-icon{
+          width:16px;
+          height:16px;
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          flex:0 0 16px;
+          background-size:contain;
+          background-position:center;
+          background-repeat:no-repeat;
+          font-size:0;
+        }
+
+        .mini-reward-icon:empty{
+          font-size:0;
+        }
+
+        .order-request-v168{
+          width:100%;
+          min-height:76px;
+          border-radius:18px;
+          background:linear-gradient(180deg,rgba(255,248,239,.95),rgba(255,255,255,.74));
+          border:1px solid rgba(241,194,125,.58);
+          padding:7px 5px 6px;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          justify-content:center;
+          gap:4px;
+        }
+
+        .order-items-v168{
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          gap:6px;
+          min-height:48px;
+        }
+
+        .order-item-bubble{
+          width:48px;
+          height:48px;
+          border-radius:14px;
+          background:white;
+          border:2px solid #f1c27d;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          box-shadow:0 4px 9px rgba(90,56,37,.09);
+          overflow:hidden;
+        }
+
+        .order-item-img-v168{
+          width:43px !important;
+          height:43px !important;
+          object-fit:contain !important;
+          display:block;
+        }
+
+        .order-name-v168{
+          width:100%;
+          min-height:13px;
+          font-size:10px !important;
+          line-height:1.05 !important;
+          font-weight:900;
+          color:#6b4126;
+          text-align:center;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+        }
+
+        .serve-btn-v168{
+          margin-top:1px !important;
+          height:30px !important;
+          border-radius:999px !important;
+        }
+
+        .ready-check-v168{
+          top:70px !important;
+          right:8px !important;
+          z-index:5 !important;
+        }
+
+        @media (max-width:420px){
+          .customer-card-v168{
+            width:220px !important;
+            min-width:220px !important;
+          }
+          .customer-person-v168{
+            width:70px;
+            min-width:70px;
+          }
+          .portrait-v168{
+            width:54px !important;
+            height:54px !important;
+          }
+          .order-item-bubble{
+            width:44px;
+            height:44px;
+          }
+          .order-item-img-v168{
+            width:39px !important;
+            height:39px !important;
+          }
+          .reward-v168-row{
+            font-size:10px;
+            padding:2px 6px;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    })();
+
+
     document.addEventListener("dragstart", e => e.preventDefault());
 
     const hadSave = loadGame();
